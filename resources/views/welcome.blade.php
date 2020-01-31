@@ -3,11 +3,11 @@
 @section('content')
 
 <div class="container"></div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row justify-content-center">
-                <h1>welcome page</h1>
-            </div>
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            @foreach($channels as $channel)
+                <p>{{ $channel }}</p>
+            @endforeach
         </div>
     </div>
 </div>

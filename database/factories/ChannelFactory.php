@@ -10,5 +10,7 @@ $factory->define(Channel::class, function (Faker $faker) {
     return [
         // 'name' => $faker->word,
         'name' => Str::random(10),
+        'title' => $faker->word,
+        'description' => $faker->sentence,
     ];
 });

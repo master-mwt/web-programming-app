@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
+use App\Role;
 use Illuminate\Http\Request;
 
-class ChannelController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,7 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        $channels = Channel::all();
-
-        return view('welcome', compact(
-            'channels',
-        ));
+        //
     }
 
     /**
@@ -45,10 +41,10 @@ class ChannelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Channel  $channel
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Channel $channel)
+    public function show(Role $role)
     {
         //
     }
@@ -56,10 +52,10 @@ class ChannelController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Channel  $channel
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Channel $channel)
+    public function edit(Role $role)
     {
         //
     }
@@ -68,10 +64,10 @@ class ChannelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Channel  $channel
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Channel $channel)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -79,10 +75,10 @@ class ChannelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Channel  $channel
+     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Channel $channel)
+    public function destroy(Role $role)
     {
         //
     }
