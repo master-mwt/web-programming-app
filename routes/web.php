@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'ChannelController@index');
+Route::get('/', 'UserChannelRoleController@index');
 
 Auth::routes();
 

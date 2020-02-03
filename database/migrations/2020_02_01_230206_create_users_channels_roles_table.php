@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserChannelRoleTable extends Migration
+class CreateUsersChannelsRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateUserChannelRoleTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_channel_role', function (Blueprint $table) {
+        Schema::create('users_channels_roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('channel_id')->unsigned();
             $table->bigInteger('role_id')->unsigned();
             $table->timestamps();
         });
-        Schema::table('user_channel_role', function (Blueprint $table) {
+        Schema::table('users_channels_roles', function (Blueprint $table) {
+            $table->unique(['user_id', 'channel_id']);
+
             $table->foreign('user_id')
                 ->references('id')->on('users');
             $table->foreign('channel_id')
@@ -37,6 +39,6 @@ class CreateUserChannelRoleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_channel_role');
+        Schema::dropIfExists('user_channel_roles');
     }
 }

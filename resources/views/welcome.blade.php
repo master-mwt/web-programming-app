@@ -5,8 +5,8 @@
 <div class="container"></div>
     <div class="row justify-content-center">
         <div class="col-md-12 text-center">
-            @foreach($channels as $channel)
-                <p>{{ $channel }}</p>
+            @foreach($users_channels_roles as $user_channel_role)
+                <p>{{ $user_channel_role }}</p>
             @endforeach
         </div>
     </div>

@@ -14,4 +14,12 @@ class Channel extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function users() {
+        return $this->hasMany('\App\User');
+    }
+
+    public function roles() {
+        return $this->hasMany('\App\Role');
+    }
 }
