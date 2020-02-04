@@ -11,6 +11,42 @@ class UserChannelRoleSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\UserChannelRole::class, 50)->create();
+        global $results;
+        $results = [];
+
+        factory(App\UserChannelRole::class, 10)->make()->each(function($user_channel_role) {
+            
+            dd($user_channel_role);
+            
+            global $results;
+
+            $block = [
+                'user_id' => $user_channel_role->user_id, 
+                'channel_id' => $user_channel_role->channel_id, 
+                'role_id' => $user_channel_role->role_id
+            ];
+
+            if(empty($results)) {
+                array_push($results, $block);
+            }
+
+            $guard = false;
+            foreach($results as $elem) {
+                if($elem !== $block && $guard == false) {
+                    continue;
+                } else {
+                    $guard = true;
+                    break;
+                }                
+            }
+
+            if($guard == false) {
+                array_push($results, $block);
+            }
+        });
+
+        foreach($results as $result) {
+            App\UserChannelRole::create($result);
+        }
     }
 }

@@ -21,7 +21,7 @@ class CreateUsersChannelsRolesTable extends Migration
             $table->timestamps();
         });
         Schema::table('users_channels_roles', function (Blueprint $table) {
-            $table->unique(['user_id', 'channel_id']);
+            $table->unique(['user_id', 'channel_id', 'role_id']);
 
             $table->foreign('user_id')
                 ->references('id')->on('users');
