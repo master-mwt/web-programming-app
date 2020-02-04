@@ -22,6 +22,7 @@ class CreateRolesCapabilitiesTable extends Migration
 
         Schema::table('roles_capabilities', function (Blueprint $table) {
             $table->unique(['role_id','capability_id']);
+            
             $table->foreign('role_id')
                 ->references('id')->on('roles');
             $table->foreign('capability_id')

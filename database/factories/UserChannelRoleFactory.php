@@ -8,13 +8,14 @@ use Faker\Generator as Faker;
 
 $factory->define(UserChannelRole::class, function (Faker $faker) {
 
-    $users = \App\User::all();
-    $channels = \App\Channel::all();
-    $roles = \App\Role::all();
+    $user = \App\User::all()->random(1)->first();
+    $channel = \App\Channel::all()->random(1)->first();
+    $role = \App\Role::all()->random(1)->first();
 
     return [
-        'user_id' => $users->random(1)->first()->id,
-        'channel_id' => $channels->random(1)->first()->id,
-        'role_id' => $roles->random(1)->first()->id,
+        // FKs
+        'user_id' => $user->id,
+        'channel_id' => $channel->id,
+        'role_id' => $role->id,
     ];
 });
