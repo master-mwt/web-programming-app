@@ -14,7 +14,7 @@ class Role extends Model
         return $this->hasMany('\App\Channel');
     }
 
-    public function capabilities() {
-        return $this->hasMany('\App\Capability');
+    public function services() {
+        return $this->hasMany('\App\Service');
     }
 }
