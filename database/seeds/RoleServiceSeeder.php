@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CapabilitySeeder extends Seeder
+class RoleServiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class CapabilitySeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Capability::class, 10)->create();
+        //
     }
 }

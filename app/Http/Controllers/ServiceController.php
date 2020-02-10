@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Capability;
+use App\Service;
 use Illuminate\Http\Request;
 
-class CapabilityController extends Controller
+class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CapabilityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Capability  $capability
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function show(Capability $capability)
+    public function show(Service $service)
     {
         //
     }
@@ -52,10 +52,10 @@ class CapabilityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Capability  $capability
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function edit(Capability $capability)
+    public function edit(Service $service)
     {
         //
     }
@@ -64,10 +64,10 @@ class CapabilityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Capability  $capability
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Capability $capability)
+    public function update(Request $request, Service $service)
     {
         //
     }
@@ -75,10 +75,10 @@ class CapabilityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Capability  $capability
+     * @param  \App\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Capability $capability)
+    public function destroy(Service $service)
     {
         //
     }
