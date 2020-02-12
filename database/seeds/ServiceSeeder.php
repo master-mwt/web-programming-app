@@ -31,6 +31,9 @@ class ServiceSeeder extends Seeder
 
             ['name' => 'access_to_log'],
             ['name' => 'access_to_backend'],
+
+            ['name' => 'silence_user_in_comment_section'],
+            ['name' => 'report_user_in_channel'],
         ];
 
         foreach($services as $service) {
