@@ -20,14 +20,14 @@ class ServiceSeeder extends Seeder
 
             ['name' => 'create_channel'],
             ['name' => 'delete_channel'],
-            ['name' => 'modify_channel_data'],
+            ['name' => 'mod_channel_data'],
 
             ['name' => 'ban_user_from_channel'],    // soft ban
             ['name' => 'ban_user_from_platform'],   // hard ban
 
             ['name' => 'create_user'],
             ['name' => 'delete_user'],
-            ['name' => 'modify_user_data'],
+            ['name' => 'mod_user_data'],
 
             ['name' => 'access_to_log'],
             ['name' => 'access_to_backend'],
