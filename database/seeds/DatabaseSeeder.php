@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserChannelRoleSeeder::class);
         $this->call(RoleServiceSeeder::class);
         $this->call(GroupServiceSeeder::class);
-
+        $this->call(PostTagSeeder::class);
     }
 }
