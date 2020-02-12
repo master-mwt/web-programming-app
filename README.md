@@ -16,3 +16,13 @@ description
 * `php artisan migrate`
 * `php artisan serve` (localhost:8000)
 * `php artisan serve --host IP --port PORT` (remote serve)
+
+## Autoclone Python script
+
+[using `curl`]
+
+* `curl` https://raw.githubusercontent.com/master-mwt/hub/master/web-programming/autoclone.py `> autoclone.py`
+
+[using `wget`]
+
+* `wget` https://raw.githubusercontent.com/master-mwt/hub/master/web-programming/autoclone.py
