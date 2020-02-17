@@ -19,10 +19,10 @@ description
 
 ## Autoclone Python script
 
-[using `curl`]
+(using **curl**)
 
 * `curl` https://raw.githubusercontent.com/master-mwt/hub/master/web-programming/autoclone.py `> autoclone.py`
 
-[using `wget`]
+(using **wget**)
 
 * `wget` https://raw.githubusercontent.com/master-mwt/hub/master/web-programming/autoclone.py
