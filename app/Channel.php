@@ -22,4 +22,8 @@ class Channel extends Model
     public function roles() {
         return $this->hasMany('\App\Role');
     }
+
+    public function posts() {
+        return $this->hasMany('\App\Post');
+    }
 }
