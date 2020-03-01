@@ -4,7 +4,7 @@
 
 description
 
-## Installation
+## Manual Installation
 
 * `git clone` https://github.com/master-mwt/web-programming-app.git
 * `cd web-programming-app`
@@ -17,7 +17,7 @@ description
 * `php artisan serve` (localhost:8000)
 * `php artisan serve --host IP --port PORT` (remote serve)
 
-## Autoclone Python script
+## Automatic Installation - Autoclone Python script
 
 (using **curl**)
 
