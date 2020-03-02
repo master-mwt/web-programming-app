@@ -4,10 +4,10 @@
 
 <div class="container"></div>
     <div class="row justify-content-center">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center infinite-scroll">
         @foreach($posts as $post)
-            <div class="card col-md-10 mx-auto d-flex flex-row px-0 pr-3">
-                <div class="col-md-1 bg-dark rounded-left mr-2 py-3 d-flex flex-column">
+            <div class="card col-lg-7 mx-auto d-flex flex-row px-0 pr-3">
+                <div class="bg-dark rounded-left mr-2 py-3 d-flex flex-column" style="flex: 0 0 50px">
                     <a href=""><i class="fas fa-arrow-up mb-1"></i></a>
                     <!-- <span class="mb-1">{{ $post->id}}</span> -->
                     <a href=""><i class="fas fa-arrow-down"></i></a>
@@ -23,8 +23,28 @@
                 </div>
             </div>
         @endforeach
+        {{ $posts->links() }}
         </div>
     </div>
 </div>
+
+<!-- JScroll func -->
+<script type="text/javascript">
+    $('ul.pagination').hide();
+    $(function() {
+        $('document').ready(function() {
+            $('.infinite-scroll').jscroll({
+                autoTrigger: true,
+                loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+                padding: 0,
+                nextSelector: '.pagination li.active + li a',
+                contentSelector: 'div.infinite-scroll',
+                callback: function() {
+                    $('ul.pagination').remove();
+                }
+            }); 
+        });
+    });
+</script>
 
 @endsection

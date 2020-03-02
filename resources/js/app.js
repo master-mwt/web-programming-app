@@ -1,2 +1,3 @@
 require('./bootstrap');
-require('./adminlte')
+require('./adminlte');
+require('jscroll');
