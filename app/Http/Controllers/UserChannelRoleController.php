@@ -14,11 +14,7 @@ class UserChannelRoleController extends Controller
      */
     public function index()
     {
-        $users_channels_roles = UserChannelRole::all();
-
-        return view('welcome', compact(
-            'users_channels_roles',
-        ));
+        //
     }
 
     /**
