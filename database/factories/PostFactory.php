@@ -11,6 +11,7 @@ $factory->define(Post::class, function (Faker $faker) {
     $channel = \App\Channel::all()->random(1)->first();
 
     return [
+        'title' => $faker->sentence,
         'content' => $faker->text,
         // FKs
         'user_id' => $user->id,

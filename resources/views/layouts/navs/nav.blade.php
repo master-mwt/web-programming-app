@@ -180,7 +180,22 @@
 <div class="modal fade" id="notification_modal" tabindex="-1" role="dialog" aria-labelledby="notification_modal_label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-body pb-0 px-3 pt-3">
+        <div class="modal-header p-2 justify-content-center">
+            <h5 class="m-0">15 Notifications</h5>
+        </div>
+        <div class="d-flex flex-column modal-body px-3">
+            <a href="#" class="my-2">
+                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <a href="#" class="my-2">
+                <i class="fas fa-users mr-2"></i> 8 friend requests
+                <span class="float-right text-muted text-sm">12 hours</span>
+            </a>
+            <a href="#" class="my-2">
+                <i class="fas fa-file mr-2"></i> 3 new reports
+                <span class="float-right text-muted text-sm">2 days</span>
+            </a>
         </div>
         <div class="modal-footer p-2">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>

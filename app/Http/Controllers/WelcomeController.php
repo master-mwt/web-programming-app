@@ -15,7 +15,7 @@ class WelcomeController extends Controller
     public function index()
     {
         //remember to call a complex query from (for example) the PostController that returns the post meta-object, with all the references (for example: User, Channel) already resolved
-        $posts = Post::all();
+        $posts = Post::latest()->paginate(10);
 
         return view('welcome', compact(
         'posts',
