@@ -16,3 +16,7 @@ Route::get('/', 'WelcomeController@index')->name('welcome');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//temp routes
+Route::get('/channel/{id}', 'WelcomeController@channel')->name('channel');
+

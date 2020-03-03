@@ -4,6 +4,20 @@
 
 <div class="container"></div>
     <div class="row justify-content-center">
+        <div class="col-md-12 text-center px-0">
+            <div class="card bg-dark col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 800px">
+                <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
+                    <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="50px" height="50px" class="rounded">
+                    <h2 class="m-0 ml-3">{{ $channel->name }}</h2>
+                    <button class="btn btn-sm btn-outline-success ml-auto">JOIN</button>
+                    <button class="btn btn-sm btn-outline-primary ml-2">LEAVE</button>
+                </div>
+                <div class="card-body text-left px-3 py-1">
+                    <p class="text-muted">{{ $channel->description }}</p>
+                </div>
+            </div>
+        </div>
+        
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
@@ -15,7 +29,7 @@
                 <div>
                     <div class="card-header text-left bg-transparent border-0 px-3">
                         <p class="m-0 mb-1">
-                            <a href="{{ route('channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
+                            <span class="text-muted">Posted by </span>
                             <a href="" class="text-decoration-none">{{ $post->user_id->name }}</a>
                         </p>
                         <h5 class="m-0">{{ $post->title }}</h5>
