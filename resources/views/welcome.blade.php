@@ -7,18 +7,18 @@
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
-                <div class="bg-dark rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px">
+                <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                    <span class="my-1">{{ $post->id }}</span>
+                    <span class="my-1 text-light">{{ $post->id }}</span>
                     <a href="" class=""><i class="fas fa-arrow-down"></i></a>
                 </div>
-                <div>
+                <div class="w-100">
                     <div class="card-header text-left bg-transparent border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
                             <a href="" class="text-decoration-none">{{ $post->user_id->name }}</a>
                         </p>
-                        <h5 class="m-0">{{ $post->title }}</h5>
+                        <h5 class="m-0"><a href="{{ route('post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
                     </div>
                     <div class="card-body text-left px-3 py-1">
                         <p>{{ $post->content }}</p>
