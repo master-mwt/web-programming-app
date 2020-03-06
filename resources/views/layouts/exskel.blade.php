@@ -20,6 +20,10 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+        <!-- EasyMDE markdown editor -->
+        <link rel="stylesheet" href="{{ URL::asset('css/easymde.min.css') }}">
+        <script src="{{ URL::asset('js/easymde.min.js') }}"></script>
     </head>
 
     <body class="hold-transition sidebar-mini">

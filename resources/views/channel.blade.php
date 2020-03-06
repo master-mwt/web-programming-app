@@ -17,6 +17,11 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12 px-0 my-3" style="max-width: 800px">
+            <textarea class="" id="easymde-area">
+            </textarea>
+        </div>
         
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
@@ -75,6 +80,15 @@
                 }
             }); 
         });
+    });
+</script>
+
+<script type="text/javascript">
+    new EasyMDE({
+        autoDownloadFontAwesome: false,
+        showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'heading-1', 'heading-2', 'heading-3', 'clean-block', 'horizontal-rule'],
+        element: document.getElementById('easymde-area'),
+        initialValue: '## Make a post ...'
     });
 </script>
 
