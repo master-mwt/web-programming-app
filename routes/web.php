@@ -20,4 +20,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 //temp routes
 Route::get('/channel/{id}', 'WelcomeController@channel')->name('channel');
 Route::get('/post/{id}', 'WelcomeController@post')->name('post');
-
+Route::get('/search', 'WelcomeController@search')->name('search');
