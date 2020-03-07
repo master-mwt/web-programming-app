@@ -18,10 +18,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 px-0 my-3" style="max-width: 800px">
-            <textarea class="" id="easymde-area">
-            </textarea>
-        </div>
+        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
         
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
@@ -83,12 +80,41 @@
     });
 </script>
 
+<div class="modal fade" id="easymde-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ml-auto" id="easymde-modal-label">make a post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea name="" id="easymde-area" cols="" rows=""></textarea>
+            </div>
+            <div class="modal-footer">
+                <!-- <button class="btn btn-primary" data-dismiss="modal">close</button> -->
+                <button class="btn btn-secondary">submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     new EasyMDE({
         autoDownloadFontAwesome: false,
-        showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'heading-1', 'heading-2', 'heading-3', 'clean-block', 'horizontal-rule'],
+        indentWithTabs: true,
+        lineWrapping: true,
+        minHeight: "400px",
+        //showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'heading-1', 'heading-2', 'heading-3', 'clean-block', 'horizontal-rule'],
+        showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'clean-block', 'horizontal-rule'],
         element: document.getElementById('easymde-area'),
-        initialValue: '## Make a post ...'
+        initialValue: '',
+        //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
+        //<img src="" width="" heigth=""> instead of ![](https://)
+        uploadImage: true,
+        imageMaxSize: "4000x4000x2",
+        imageAccept: "image/png, image/jpg",
     });
 </script>
 
