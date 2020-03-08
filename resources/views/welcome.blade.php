@@ -5,7 +5,7 @@
 <div class="container"></div>
     <div class="row justify-content-center">
         
-        <div class="col-lg-10 text-center px-0 mb-3" style="max-width: 800px">
+        <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
             <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
         </div>
         

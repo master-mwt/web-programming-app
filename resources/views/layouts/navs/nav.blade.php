@@ -13,12 +13,23 @@
     <!-- SEARCH FORM -->
     <form class="form-inline mx-3 d-inline w-100" role="form" method="get" action="{{ route('search') }}">
         <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="query">
+
             <div class="input-group-append">
-            <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
+                <select name="target" id="" class="form-control form-control-sm form-control-navbar" style="outline: none; box-shadow: none; background-color: #eee">
+                    <option value="posts">posts</option>
+                    <option value="channels">channels</option>
+                    <option value="users">users</option>
+                </select>
             </div>
+
+            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="query">
+
+            <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
         </div>
     </form>
 

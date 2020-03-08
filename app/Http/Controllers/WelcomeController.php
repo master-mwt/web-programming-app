@@ -7,6 +7,7 @@ use App\Channel;
 use App\User;
 use App\Reply;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Str;
 
 class WelcomeController extends Controller
@@ -70,15 +71,35 @@ class WelcomeController extends Controller
     public function search(Request $request)
     {   
         $query = $request->input('query');
-
-        $users = User::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
-        $channels = Channel::where('title', 'LIKE', '%'.$query.'%')->paginate(10); 
-        $posts = Post::where('title', 'LIKE', '%'.$query.'%')->paginate(10); 
+        $target = $request->input('target');
         
-        return view('search', compact(
-            'users',
-            'channels',
-            'posts'
-        ));
+        //paginate(10, ['*'], 'users_pages')
+
+        if($target === "users") {
+            $users = User::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
+
+            return view('search_res.users_res', [
+                'target' => $target,
+                'users' => $users->appends($request->except('page'))
+            ]);
+        }
+
+        if($target === "channels") {
+            $channels = Channel::where('title', 'LIKE', '%'.$query.'%')->paginate(10);
+
+            return view('search_res.channels_res', [
+                'target' => $target,
+                'channels' => $channels->appends($request->except('page'))
+            ]);
+        }
+
+        if($target === "posts") {
+            $posts = Post::where('title', 'LIKE', '%'.$query.'%')->paginate(10);
+
+            return view('search_res.posts_res', [
+                'target' => $target,
+                'posts' => $posts->appends($request->except('page'))
+            ]);
+        }
     }
 }
