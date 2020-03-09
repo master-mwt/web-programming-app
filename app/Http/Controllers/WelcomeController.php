@@ -75,31 +75,45 @@ class WelcomeController extends Controller
         
         //paginate(10, ['*'], 'users_pages')
 
-        if($target === "users") {
+        if($target === "users" && !is_null($query)) {
             $users = User::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
 
             return view('search_res.users_res', [
                 'target' => $target,
+                'query' => $query,
                 'users' => $users->appends($request->except('page'))
             ]);
         }
 
-        if($target === "channels") {
+        if($target === "channels" && !is_null($query)) {
             $channels = Channel::where('title', 'LIKE', '%'.$query.'%')->paginate(10);
 
             return view('search_res.channels_res', [
                 'target' => $target,
+                'query' => $query,
                 'channels' => $channels->appends($request->except('page'))
             ]);
         }
 
-        if($target === "posts") {
+        if($target === "posts" && !is_null($query)) {
             $posts = Post::where('title', 'LIKE', '%'.$query.'%')->paginate(10);
+
+            foreach($posts as $post) {
+                $post->channel_id = Channel::findOrFail($post->channel_id);
+                $post->user_id = User::findOrFail($post->user_id);
+            }
 
             return view('search_res.posts_res', [
                 'target' => $target,
+                'query' => $query,
                 'posts' => $posts->appends($request->except('page'))
             ]);
         }
+
+        $message = 'wrong query';
+        
+        return view('search_res.empty_res', compact(
+            'message'
+        ));
     }
 }

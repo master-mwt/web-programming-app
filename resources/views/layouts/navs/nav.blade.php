@@ -12,17 +12,18 @@
 
     <!-- SEARCH FORM -->
     <form class="form-inline mx-3 d-inline w-100" role="form" method="get" action="{{ route('search') }}">
+        @csrf
         <div class="input-group input-group-sm">
 
             <div class="input-group-append">
                 <select name="target" id="" class="form-control form-control-sm form-control-navbar" style="outline: none; box-shadow: none; background-color: #eee">
-                    <option value="posts">posts</option>
-                    <option value="channels">channels</option>
-                    <option value="users">users</option>
+                    <option value="posts" @if (!empty($target) && $target == 'posts') selected="selected" @endif>posts</option>
+                    <option value="channels" @if (!empty($target) && $target == 'channels') selected="selected" @endif>channels</option>
+                    <option value="users" @if (!empty($target) && $target == 'users') selected="selected" @endif>users</option>
                 </select>
             </div>
 
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="query">
+            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="query" value="@if (!empty($query)) {{$query}}@endif">
 
             <div class="input-group-append">
                 <button class="btn btn-navbar" type="submit">
@@ -36,22 +37,29 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
-        <!-- Messages modal trigger -->
-        <button type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#messages_modal"><i class="far fa-comments"></i></button>
+        @guest
+        @else
+            <!-- Messages modal trigger -->
+            <button type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#messages_modal"><i class="far fa-comments"></i></button>
 
-        <!-- Notification modal trigger -->
-        <button type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#notification_modal"><i class="far fa-bell"></i></button>
+            <!-- Notification modal trigger -->
+            <button type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#notification_modal"><i class="far fa-bell"></i></button>
+        @endguest
 
         <!-- Authentication Links -->
         @guest
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('login') }}">
-                {{ __('Login') }}</a>
+                <!-- {{ __('Login') }} -->
+                <i class="fas fa-sign-in-alt"></i>
+                </a>
             </li>
             @if (Route::has('register'))
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('register') }}">
-                    {{ __('Register') }}</a>
+                    <!-- {{ __('Register') }} -->
+                    <i class="fas fa-user-plus"></i>
+                    </a>
                 </li>
             @endif
         @else
@@ -59,7 +67,8 @@
                 <a class="nav-link" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
+                    <!-- {{ __('Logout') }} -->
+                    <i class="fas fa-sign-out-alt"></i>
                 </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

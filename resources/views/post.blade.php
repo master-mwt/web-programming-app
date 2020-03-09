@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="col-lg-12 text-center px-0 mb-3" style="max-width: 800px">
+        <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
             <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Comment</button>
         </div>
 
@@ -74,18 +74,19 @@
             <div class="card bg-dark col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px">
                     <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                    <span class="my-1">{{ $reply->id }}</span>
+                    <span class="my-1">1</span>
                     <a href="" class=""><i class="fas fa-arrow-down"></i></a>
                 </div>
                 <div class="w-100">
                     <div class="card-header text-left bg-transparent border-0 px-3 py-1">
                         <p class="m-0">
                             <span class="text-muted">Posted by </span>
-                            <a href="" class="text-decoration-none">{{ $reply->user_id->name }}</a>
+                            <a href="" class="text-decoration-none">
+                            $reply->user_id->name</a>
                         </p>
                     </div>
                     <div class="card-body text-left px-3 py-1">
-                        <p class="m-0">{{ $reply->content }}</p>
+                        <p class="m-0">$reply->content</p>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left bg-transparent" style="border-bottom-left-radius: 0px">
                         <a href="" class="text-decoration-none mr-2"><i class="fas fa-comment-alt mr-1"></i>Reply</a>
@@ -98,18 +99,19 @@
                     <div class="mt-2 card bg-dark col-lg-10 mx-auto d-flex flex-row px-0 border-0 shadow-none" style="max-width: 800px">
                         <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px">
                             <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                            <span class="my-1">{{ $reply->id }}</span>
+                            <span class="my-1">1</span>
                             <a href="" class=""><i class="fas fa-arrow-down"></i></a>
                         </div>
                         <div class="w-100">
                             <div class="card-header text-left bg-transparent border-0 px-3 py-1">
                                 <p class="m-0">
                                     <span class="text-muted">Posted by </span>
-                                    <a href="" class="text-decoration-none">{{ $reply->user_id->name }}</a>
+                                    <a href="" class="text-decoration-none">
+                                    $reply->user_id->name</a>
                                 </p>
                             </div>
                             <div class="card-body text-left px-3 py-1">
-                                <p class="m-0">{{ $reply->content }}</p>
+                                <p class="m-0">$reply->content</p>
                             </div>
                             <div class="card-footer border-0 p-1 px-3 text-left bg-transparent" style="border-bottom-left-radius: 0px">
                                 <a href="" class="text-decoration-none mr-2"><i class="fas fa-comment-alt mr-1"></i>Reply</a>

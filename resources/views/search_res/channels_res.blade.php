@@ -5,13 +5,16 @@
 <div class="container"></div>
     <div class="row justify-content-center">
 
-        <h1 class="text-center">CHANNELS</h1>
-
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($channels as $channel)
-            <p class="text-center">
-            <b>CHANNEL</b>
-            {{ $channel->title }}</p>
+            <div class="card bg-dark col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px">
+                <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
+                    <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="40px" height="40px" class="rounded">
+                    <h3 class="m-0 ml-3"><a class="text-decoration-none" href="{{ route('channel', $channel->id) }}">{{ $channel->name }}</a></h3>
+                    <button class="btn btn-sm btn-outline-success ml-auto">JOIN</button>
+                    <button class="btn btn-sm btn-outline-primary ml-2">LEAVE</button>
+                </div>
+            </div>
         @endforeach
         {{ $channels->links() }}
         </div>
