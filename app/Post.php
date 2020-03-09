@@ -21,4 +21,8 @@ class Post extends Model
     public function replies() {
         return $this->hasMany('\App\Reply');
     }
+
+    public function images() {
+        return $this->hasMany('\App\Image');
+    }
 }

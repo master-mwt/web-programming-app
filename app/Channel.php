@@ -26,4 +26,12 @@ class Channel extends Model
     public function posts() {
         return $this->hasMany('\App\Post');
     }
+
+    public function image() {
+        return $this->hasOne('\App\Image', 'image_id');
+    }
+
+    public function creator() {
+        return $this->hasOne('\App\User', 'creator_id');
+    }
 }

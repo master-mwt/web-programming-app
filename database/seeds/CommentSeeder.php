@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ReplySeeder extends Seeder
+class CommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class ReplySeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Reply::class, 50)->create();
+        factory(App\Comment::class, 50)->create();
     }
 }

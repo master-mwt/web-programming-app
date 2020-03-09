@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function posts() {
         return $this->hasMany('\App\Post');
     }
+
+    public function group() {
+        return $this->hasOne('\App\Group');
+    }
 }

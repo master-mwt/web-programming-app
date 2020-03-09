@@ -12,14 +12,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //entities
+        $this->call(GroupSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(ChannelSeeder::class);
         $this->call(PostSeeder::class);
         $this->call(ServiceSeeder::class);
-        $this->call(GroupSeeder::class);
         $this->call(TagSeeder::class);
         $this->call(ReplySeeder::class);
+        $this->call(CommentSeeder::class);
 
         //relations
         $this->call(UserChannelRoleSeeder::class);
