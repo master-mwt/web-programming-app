@@ -9,6 +9,7 @@ use App\Reply;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
+use App\DataTables\ChannelDataTable;
 
 class WelcomeController extends Controller
 {
@@ -116,4 +117,10 @@ class WelcomeController extends Controller
             'message'
         ));
     }
+
+    public function backendChannel(ChannelDataTable $dataTable)
+    {
+        return $dataTable->render('backend.channels');
+    }
+
 }

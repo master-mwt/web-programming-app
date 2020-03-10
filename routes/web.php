@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/channel/{id}', 'WelcomeController@channel')->name('channel');
 Route::get('/post/{id}', 'WelcomeController@post')->name('post');
 Route::get('/search', 'WelcomeController@search')->name('search');
+
+Route::get('/backend/channels', 'WelcomeController@backendChannel')->name('backend_channels');
