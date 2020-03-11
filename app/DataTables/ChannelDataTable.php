@@ -21,7 +21,21 @@ class ChannelDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'channel.action');
+            ->addColumn('action', function($query){
+                return 
+                '<div class="d-flex flex-column">
+                    <a href="{{ }}" class="btn btn-sm btn-success mb-2">edit</a>
+                    <a href="{{ }}" class="btn btn-sm btn-primary">delete</a>
+                </div>';
+            })
+            // ->addColumn('posts', function($query){
+            //     return '<a href="{{ }}" class="btn btn-sm btn-secondary btn-block">posts</a>';
+            // })
+            // ->addColumn('members', function($query){
+            //     return '<a href="{{ }}" class="btn btn-sm btn-secondary btn-block">members</a>';
+            // })
+            // ->rawColumns(['action','posts','members']);
+            ->rawColumns(['action']);
     }
 
     /**
@@ -49,12 +63,28 @@ class ChannelDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1, 'asc')
                     ->buttons(
+                        Button::make('pageLength'),
                         Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
-                    );
+                    )
+                    ->parameters([
+                        'initComplete' => "function() {
+                            this.api().columns('.filterable').every(function() {
+                                var column = this;
+                                var input = document.createElement(\"input\");
+                                input.id = 'column-filter';
+                                input.placeholder = 'filter';
+                                $(input).addClass('form-control form-control-sm bg-dark');
+                                $(input).appendTo($(column.footer()).empty()).on('keyup change clear', function() {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+                            });
+                        }",
+                        
+                    ]);
     }
 
     /**
@@ -68,13 +98,34 @@ class ChannelDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(100)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('description'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('id')
+                ->addClass('filterable'),
+            Column::make('name')
+                ->addClass('filterable'),
+            Column::make('description')
+                ->addClass('filterable'),
+            // Column::make('rules')
+            //     ->addClass('filterable'),
+            Column::make('image_id')
+                ->addClass('filterable'),
+            Column::make('creator_id')
+                ->addClass('filterable'),
+            Column::computed('created_at')
+                ->addClass('filterable'),
+            Column::computed('updated_at')
+                ->addClass('filterable'),
+            // Column::computed('posts')
+            //       ->exportable(false)
+            //       ->printable(false)
+            //       ->width(100)
+            //       ->addClass('text-center'),
+            // Column::computed('members')
+            //       ->exportable(false)
+            //       ->printable(false)
+            //       ->width(100)
+            //       ->addClass('text-center'),
         ];
     }
 

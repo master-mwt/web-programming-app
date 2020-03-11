@@ -1,10 +1,10 @@
 @extends('layouts.exskel')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            {{ $dataTable->table() }}
+            {{ $dataTable->table([], true) }}
         </div>
     </div>
 </div>
@@ -12,4 +12,11 @@
 
 @push('scripts')
     {{ $dataTable->scripts() }}
+    
+    <script>
+        $('document').ready(function(){
+            $('#channel-table_wrapper').addClass('table-responsive');
+            $('#channel-table').addClass('table-striped table-dark w-100');
+        })
+    </script>
 @endpush

@@ -56794,8 +56794,8 @@ __webpack_require__(/*! datatables.net-buttons-bs4 */ "./node_modules/datatables
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/resu/sites/master-mwt-ws/dttest/web-programming-app/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/resu/sites/master-mwt-ws/dttest/web-programming-app/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/resu/sites/master-mwt-ws/web-programming-app/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/resu/sites/master-mwt-ws/web-programming-app/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
