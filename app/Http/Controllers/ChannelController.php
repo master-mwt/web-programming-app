@@ -16,8 +16,8 @@ class ChannelController extends Controller
     {
         $channels = Channel::all();
 
-        return view('welcome', compact(
-            'channels',
+        return view('rest.channel.index', compact(
+            'channels'
         ));
     }
 
@@ -28,7 +28,7 @@ class ChannelController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.channel.create');
     }
 
     /**
@@ -39,7 +39,17 @@ class ChannelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'name' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'rules' => 'required',
+            'creator_id' => 'required',
+        ]);
+
+        $channel = Channel::create($data);
+
+        return redirect('/channels/' . $channel->id);
     }
 
     /**
@@ -50,7 +60,9 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        //
+        return view('rest.channel.show', compact(
+            'channel'
+        ));
     }
 
     /**
@@ -61,7 +73,9 @@ class ChannelController extends Controller
      */
     public function edit(Channel $channel)
     {
-        //
+        return view('rest.channel.edit', compact(
+            'channel'
+        ));
     }
 
     /**
@@ -73,7 +87,17 @@ class ChannelController extends Controller
      */
     public function update(Request $request, Channel $channel)
     {
-        //
+        $data = request()->validate([
+            'name' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'rules' => 'required',
+            'creator_id' => 'required',
+        ]);
+
+        $channel->update($data);
+
+        return redirect('/channels/' . $channel->id);
     }
 
     /**
@@ -84,6 +108,8 @@ class ChannelController extends Controller
      */
     public function destroy(Channel $channel)
     {
-        //
+        $channel->delete();
+        
+        return redirect('/channels');
     }
 }

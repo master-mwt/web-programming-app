@@ -11,9 +11,16 @@ class Channel extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-    ];
+    
+    // protected $fillable = [
+    //     'name',
+    //     'title',
+    //     'description',
+    //     'rules',
+    //     'creator_id',
+    // ];
+
+    protected $guarded = [];
 
     public function users() {
         return $this->hasMany('\App\User');

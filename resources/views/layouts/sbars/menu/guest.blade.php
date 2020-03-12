@@ -31,12 +31,12 @@
             </ul>
         </li>
 
-        <li class="nav-header">HEADER EX</li>
+        <li class="nav-header">REST EX</li>
 
         <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="/channels" class="nav-link">
             <i class="nav-icon fas fa-file"></i>
-            <p>Link</p>
+            <p>Channels</p>
             </a>
         </li>
 
