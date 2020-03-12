@@ -24,6 +24,9 @@
         <!-- EasyMDE markdown editor -->
         <link rel="stylesheet" href="{{ URL::asset('css/easymde.min.css') }}">
         <script src="{{ URL::asset('js/easymde.min.js') }}"></script>
+
+        <!-- Marked markdown parser -->
+        <script src="{{ URL::asset('js/marked.min.js') }}"></script>
     </head>
 
     <body class="hold-transition sidebar-mini">
