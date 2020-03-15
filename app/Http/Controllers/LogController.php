@@ -14,7 +14,9 @@ class LogController extends Controller
      */
     public function index()
     {
-        //
+        $logs = Log::all();
+
+        return response()->json($logs, 200);
     }
 
     /**
@@ -35,7 +37,11 @@ class LogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->validateData();
+
+        $log = Log::create($data);
+
+        return response()->json($log, 201);
     }
 
     /**
@@ -46,7 +52,7 @@ class LogController extends Controller
      */
     public function show(Log $log)
     {
-        //
+        return response()->json($log, 200);
     }
 
     /**
@@ -69,7 +75,11 @@ class LogController extends Controller
      */
     public function update(Request $request, Log $log)
     {
-        //
+        $data = $this->validateData();
+
+        $log->update($data);
+
+        return response()->json($log, 200);
     }
 
     /**
@@ -80,6 +90,15 @@ class LogController extends Controller
      */
     public function destroy(Log $log)
     {
-        //
+        $log->delete();
+        return response()->json(null, 204);
+    }
+
+
+    private function validateData()
+    {
+        return request()->validate([
+            'location' => 'required',
+        ]);
     }
 }

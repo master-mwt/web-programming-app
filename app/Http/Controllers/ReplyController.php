@@ -14,7 +14,9 @@ class ReplyController extends Controller
      */
     public function index()
     {
-        //
+        $replies = Reply::all();
+
+        return response()->json($replies, 200);
     }
 
     /**
@@ -35,7 +37,11 @@ class ReplyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->validateData();
+
+        $reply = Reply::create($data);
+
+        return response()->json($reply, 201);
     }
 
     /**
@@ -46,7 +52,7 @@ class ReplyController extends Controller
      */
     public function show(Reply $reply)
     {
-        //
+        return response()->json($reply, 200);
     }
 
     /**
@@ -69,7 +75,11 @@ class ReplyController extends Controller
      */
     public function update(Request $request, Reply $reply)
     {
-        //
+        $data = $this->validateData();
+
+        $reply->update($data);
+
+        return response()->json($reply, 200);
     }
 
     /**
@@ -80,6 +90,16 @@ class ReplyController extends Controller
      */
     public function destroy(Reply $reply)
     {
-        //
+        $reply->delete();
+        return response()->json(null, 204);
+    }
+
+
+    private function validateData()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
     }
 }

@@ -14,7 +14,9 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        $groups = Group::all();
+
+        return response()->json($groups, 200);
     }
 
     /**
@@ -35,7 +37,11 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->validateData();
+
+        $group = Group::create($data);
+
+        return response()->json($group, 201);
     }
 
     /**
@@ -46,7 +52,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        return response()->json($group, 200);
     }
 
     /**
@@ -69,7 +75,11 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $data = $this->validateData();
+
+        $group->update($data);
+
+        return response()->json($group, 200);
     }
 
     /**
@@ -80,6 +90,16 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        $group->delete();
+        return response()->json(null, 204);
+    }
+
+
+    private function validateData()
+    {
+        return request()->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
     }
 }

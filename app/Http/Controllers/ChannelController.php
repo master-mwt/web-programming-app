@@ -39,13 +39,7 @@ class ChannelController extends Controller
      */
     public function store(Request $request)
     {
-        $data = request()->validate([
-            'name' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'rules' => 'required',
-            'creator_id' => 'required',
-        ]);
+        $data = $this->validateData();
 
         $channel = Channel::create($data);
 
@@ -87,13 +81,7 @@ class ChannelController extends Controller
      */
     public function update(Request $request, Channel $channel)
     {
-        $data = request()->validate([
-            'name' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'rules' => 'required',
-            'creator_id' => 'required',
-        ]);
+        $data = $this->validateData();
 
         $channel->update($data);
 
@@ -109,7 +97,18 @@ class ChannelController extends Controller
     public function destroy(Channel $channel)
     {
         $channel->delete();
-        
+
         return redirect('/channels');
+    }
+
+
+    private function validateData()
+    {
+        return request()->validate([
+            'name' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'rules' => 'required',
+        ]);
     }
 }

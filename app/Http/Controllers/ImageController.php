@@ -14,7 +14,9 @@ class ImageController extends Controller
      */
     public function index()
     {
-        //
+        $images = Image::all();
+
+        return response()->json($images, 200);
     }
 
     /**
@@ -35,7 +37,11 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->validateData();
+
+        $image = Image::create($data);
+
+        return response()->json($image, 201);
     }
 
     /**
@@ -46,7 +52,7 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
-        //
+        return response()->json($image, 200);
     }
 
     /**
@@ -69,7 +75,11 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        //
+        $data = $this->validateData();
+
+        $image->update($data);
+
+        return response()->json($image, 200);
     }
 
     /**
@@ -80,6 +90,18 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        //
+        $image->delete();
+        return response()->json(null, 204);
+    }
+
+
+    private function validateData()
+    {
+        return request()->validate([
+            'type' => 'required',
+            'size' => 'required',
+            'location' => 'required',
+            'caption' => 'required',
+        ]);
     }
 }
