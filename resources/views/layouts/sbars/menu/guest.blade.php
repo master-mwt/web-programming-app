@@ -34,9 +34,9 @@
         <li class="nav-header">REST EX</li>
 
         <li class="nav-item">
-            <a href="/channels" class="nav-link">
+            <a href="#" class="nav-link">
             <i class="nav-icon fas fa-file"></i>
-            <p>Channels</p>
+            <p>Link</p>
             </a>
         </li>
 

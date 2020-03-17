@@ -24,8 +24,8 @@ class ChannelDataTable extends DataTable
             ->addColumn('action', function($query){
                 return 
                 '<div class="d-flex flex-column">
-                    <a href="{{ }}" class="btn btn-sm btn-success mb-2">edit</a>
-                    <a href="{{ }}" class="btn btn-sm btn-primary">delete</a>
+                    <a href="/channels/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
+                    <a href="/channels/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
                 </div>';
             })
             // ->addColumn('posts', function($query){
@@ -64,7 +64,7 @@ class ChannelDataTable extends DataTable
                     ->orderBy(1, 'asc')
                     ->buttons(
                         Button::make('pageLength'),
-                        Button::make('create'),
+                        Button::make('create')->action("window.location='".route('channels.create')."';"),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
