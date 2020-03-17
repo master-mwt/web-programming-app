@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Channel::class, function (Faker $faker) {
 
-    // $image = \App\Image::all()->random(1)->first();
+    $image = \App\Image::all()->random(1)->first();
     $creator = \App\User::all()->random(1)->first();
 
     return [
@@ -17,7 +17,7 @@ $factory->define(Channel::class, function (Faker $faker) {
         'description' => $faker->sentence,
         'rules' => $faker->text,
         // FKs
-        // 'image_id' => $image->id,
+        'image_id' => $image->id,
         'creator_id' => $creator->id,
     ];
 });

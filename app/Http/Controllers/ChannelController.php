@@ -109,6 +109,7 @@ class ChannelController extends Controller
             'title' => 'required',
             'description' => 'required',
             'rules' => 'required',
+            'creator_id' => 'required',
         ]);
     }
 }

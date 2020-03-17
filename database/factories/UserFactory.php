@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
 
     $groupLogged = \App\Group::where('name','logged')->first();
+    $image = \App\Image::all()->random(1)->first();
 
     return [
         'name' => $faker->name,
@@ -32,5 +33,6 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
         // FK
         'group_id' => $groupLogged->id,
+        'image_id' => $image->id,
     ];
 });
