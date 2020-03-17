@@ -11,13 +11,25 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index')->name('welcome');
+// pagewelcomecontroller routes
+Route::get('/', 'PageWelcomeController@index')->name('welcome');
+Route::get('/search', 'PageWelcomeController@search')->name('search');
 
+// pagehomecontroller routes [w/ auth middleware]
 Auth::routes();
+Route::get('/home', 'PageHomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+// pagechannelcontroller routes
+Route::get('/channel/{id}', 'PageChannelController@channel')->name('channel');
+
+// pagepostcontroller routes
+Route::get('/post/{id}', 'PagePostController@post')->name('post');
+
+// pagebackendcontroller routes
+Route::get('/backend/channels', 'PageBackendController@backendChannel')->name('backend_channels');
 
 // rest controllers
+
 // Route::get('/channels', 'ChannelController@index');
 // Route::get('/channels/create', 'ChannelController@create');
 // Route::post('/channels', 'ChannelController@store');
@@ -25,6 +37,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/channels/{channel}/edit', 'ChannelController@edit');
 // Route::patch('/channels/{channel}', 'ChannelController@update');
 // Route::delete('/channels/{channel}', 'ChannelController@destroy');
+Route::resource('/channels', 'ChannelController');
 
 Route::get('/comments', 'CommentController@index');
 Route::post('/comments', 'CommentController@store');
@@ -79,13 +92,3 @@ Route::post('/tags', 'TagController@store');
 Route::get('/tags/{tag}', 'TagController@show');
 Route::patch('/tags/{tag}', 'TagController@update');
 Route::delete('/tags/{tag}', 'TagController@destroy');
-
-Route::resource('/channels', 'ChannelController');
-
-// temp routes
-Route::get('/channel/{id}', 'WelcomeController@channel')->name('channel');
-Route::get('/post/{id}', 'WelcomeController@post')->name('post');
-Route::get('/search', 'WelcomeController@search')->name('search');
-
-// backend temp routes
-Route::get('/backend/channels', 'WelcomeController@backendChannel')->name('backend_channels');

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\DataTables\ChannelDataTable;
 
-class WelcomeController extends Controller
+class PageWelcomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,42 +30,6 @@ class WelcomeController extends Controller
 
         return view('welcome', compact(
         'posts',
-        ));
-    }
-
-    public function channel($id)
-    {
-        $channel = Channel::where('id', $id)->first();
-        $posts = Post::where('channel_id', $id)->paginate(5);
-        
-        foreach($posts as $post) {
-            //$post->channel_id = Channel::findOrFail($post->channel_id);
-            $post->user_id = User::findOrFail($post->user_id);
-        }
-
-        return view('channel', compact(
-            'channel',
-            'posts'
-        ));
-    }
-
-    public function post($id)
-    {
-        $post = Post::where('id', $id)->first();
-        
-        $post->channel_id = Channel::findOrFail($post->channel_id);
-        $post->user_id = User::findOrFail($post->user_id);
-
-        $replies = Reply::where('post_id', $id)->paginate(5);
-
-        foreach($replies as $reply) {
-            //$post->channel_id = Channel::findOrFail($post->channel_id);
-            $reply->user_id = User::findOrFail($reply->user_id);
-        }
-
-        return view('post', compact(
-            'post',
-            'replies'
         ));
     }
 
@@ -117,10 +81,4 @@ class WelcomeController extends Controller
             'message'
         ));
     }
-
-    public function backendChannel(ChannelDataTable $dataTable)
-    {
-        return $dataTable->render('backend.channels');
-    }
-
 }
