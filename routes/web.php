@@ -26,7 +26,9 @@ Route::get('/channel/{id}', 'PageChannelController@channel')->name('channel');
 Route::get('/post/{id}', 'PagePostController@post')->name('post');
 
 // pagebackendcontroller routes
-Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
+Route::group(['middleware' => ['admin']], function() {
+    Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
+});
 
 // rest controllers [MODEL]
 // Route::get('/channels', 'ChannelController@index');
