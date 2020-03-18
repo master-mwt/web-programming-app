@@ -98,7 +98,14 @@ class ChannelController extends Controller
     {
         $channel->delete();
 
-        return redirect('/channels');
+        if(auth()->user()->group_id == 1)
+        {
+            return redirect('/backend/channels');
+        }
+        else 
+        {
+            return redirect('/channels');
+        }
     }
 
 

@@ -2,8 +2,16 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                @if(Auth::check() && Auth::User()->group_id == 1)
+                    <div class="text-center">
+                        <a href="{{ route('backend.channels') }}" role="button" class="btn btn-dark mb-3">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            return to backend
+                        </a>
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">
                         <h3 class="text-center m-0">edit channel</h3>

@@ -23,10 +23,10 @@
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         <a href="{{ route('post', $post->id) }}" class="text-decoration-none mr-2"><i class="fas fa-comment-alt mr-1"></i>100 Comments</a>
-                        <a href="" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
-                        <a href="" class="text-decoration-none mr-2"><i class="fas fa-bookmark mr-1"></i>Save</a>
-                        <a href="" class="text-decoration-none mr-2"><i class="fas fa-ban mr-1"></i>Hide</a>
-                        <a href="" class="text-decoration-none"><i class="fas fa-flag mr-1"></i>Report</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-bookmark mr-1"></i>Save</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-ban mr-1"></i>Hide</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none"><i class="fas fa-flag mr-1"></i>Report</a>
                     </div>
                 </div>
             </div>

@@ -26,11 +26,7 @@
         </div>
         @endguest
 
-        @guest
-            @include('layouts.sbars.menu.guest')
-        @else
-            @include('layouts.sbars.menu.guest')
-        @endguest
+        @include('layouts.sbars.menu.menu')
 
     </div>
     <!-- /.sidebar -->

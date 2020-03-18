@@ -1,6 +1,8 @@
 <!-- Sidebar Menu -->
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- backend: visible only if logged&&administrator -->
+        @if(Auth::check() && Auth::User()->group_id == 1)
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
             <i class="nav-icon fas fa-tools"></i>
@@ -11,25 +13,14 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('backend_channels') }}" class="nav-link">
+                    <a href="{{ route('backend.channels') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Channels</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Link 2</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Link 3</p>
-                    </a>
-                </li>
             </ul>
         </li>
+        @endif
 
         <li class="nav-header">REST EX</li>
 

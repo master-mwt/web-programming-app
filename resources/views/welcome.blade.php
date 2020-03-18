@@ -5,9 +5,11 @@
 <div class="container"></div>
     <div class="row justify-content-center">
         
-        <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
-            <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
-        </div>
+        @auth
+            <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
+                <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
+            </div>
+        @endauth
         
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
@@ -30,10 +32,10 @@
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         <a href="{{ route('post', $post->id) }}" class="text-decoration-none mr-2"><i class="fas fa-comment-alt mr-1"></i>100 Comments</a>
-                        <a href="" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
-                        <a href="" class="text-decoration-none mr-2"><i class="fas fa-bookmark mr-1"></i>Save</a>
-                        <a href="" class="text-decoration-none mr-2"><i class="fas fa-ban mr-1"></i>Hide</a>
-                        <a href="" class="text-decoration-none "><i class="fas fa-flag mr-1"></i>Report</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-bookmark mr-1"></i>Save</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-ban mr-1"></i>Hide</a>
+                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none "><i class="fas fa-flag mr-1"></i>Report</a>
                     </div>
                 </div>
             </div>
@@ -74,25 +76,27 @@
     });
 </script>
 
-<div class="modal fade" id="easymde-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title ml-auto" id="easymde-modal-label">make a post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <textarea name="" id="easymde-area" cols="" rows=""></textarea>
-            </div>
-            <div class="modal-footer">
-                <!-- <button class="btn btn-primary" data-dismiss="modal">close</button> -->
-                <button class="btn btn-secondary">submit</button>
+@auth
+    <div class="modal fade" id="easymde-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title ml-auto" id="easymde-modal-label">make a post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea name="" id="easymde-area" cols="" rows=""></textarea>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button class="btn btn-primary" data-dismiss="modal">close</button> -->
+                    <button class="btn btn-secondary">submit</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endauth
 
 <script type="text/javascript">
     new EasyMDE({

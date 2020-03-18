@@ -26,7 +26,7 @@ Route::get('/channel/{id}', 'PageChannelController@channel')->name('channel');
 Route::get('/post/{id}', 'PagePostController@post')->name('post');
 
 // pagebackendcontroller routes
-Route::get('/backend/channels', 'PageBackendController@backendChannel')->name('backend_channels');
+Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
 
 // rest controllers [MODEL]
 // Route::get('/channels', 'ChannelController@index');
@@ -38,13 +38,16 @@ Route::get('/backend/channels', 'PageBackendController@backendChannel')->name('b
 // Route::delete('/channels/{channel}', 'ChannelController@destroy');
 
 // rest controllers
-Route::resource('/channels', 'ChannelController');
-Route::resource('/comments', 'CommentController');
-Route::resource('/groups', 'GroupController');
-Route::resource('/images', 'ImageController');
-Route::resource('/logs', 'LogController');
-Route::resource('/posts', 'PostController');
-Route::resource('/replies', 'ReplyController');
-Route::resource('/roles', 'RoleController');
-Route::resource('/services', 'ServiceController');
-Route::resource('/tags', 'TagController');
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('/channels', 'ChannelController');
+    Route::resource('/comments', 'CommentController');
+    Route::resource('/groups', 'GroupController');
+    Route::resource('/images', 'ImageController');
+    Route::resource('/logs', 'LogController');
+    Route::resource('/posts', 'PostController');
+    Route::resource('/replies', 'ReplyController');
+    Route::resource('/roles', 'RoleController');
+    Route::resource('/services', 'ServiceController');
+    Route::resource('/tags', 'TagController');
+});
+    

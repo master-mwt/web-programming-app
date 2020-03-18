@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class PageBackendController extends Controller
 {
-    public function backendChannel(ChannelDataTable $dataTable)
+    public function backendChannels(ChannelDataTable $dataTable)
     {
         return $dataTable->render('backend.channels');
     }
