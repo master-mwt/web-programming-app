@@ -12,7 +12,7 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Image::class, 5)->make()->each(function($image) {
+        factory(App\Image::class, 3)->make()->each(function($image) {
 
             $row = [
                 'type' => $image->type,
