@@ -16,7 +16,9 @@ class ReplyController extends Controller
     {
         $replies = Reply::all();
 
-        return response()->json($replies, 200);
+        return view('rest.reply.index', compact(
+            'replies'
+        ));
     }
 
     /**
@@ -26,7 +28,7 @@ class ReplyController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.reply.create');
     }
 
     /**
@@ -41,7 +43,7 @@ class ReplyController extends Controller
 
         $reply = Reply::create($data);
 
-        return response()->json($reply, 201);
+        return redirect('/replies/' . $reply->id);
     }
 
     /**
@@ -52,7 +54,9 @@ class ReplyController extends Controller
      */
     public function show(Reply $reply)
     {
-        return response()->json($reply, 200);
+        return view('rest.reply.show', compact(
+            'reply'
+        ));
     }
 
     /**
@@ -63,7 +67,9 @@ class ReplyController extends Controller
      */
     public function edit(Reply $reply)
     {
-        //
+        return view('rest.reply.edit', compact(
+            'reply'
+        ));
     }
 
     /**
@@ -79,7 +85,7 @@ class ReplyController extends Controller
 
         $reply->update($data);
 
-        return response()->json($reply, 200);
+        return redirect('/replies/' . $reply->id);
     }
 
     /**
@@ -91,7 +97,7 @@ class ReplyController extends Controller
     public function destroy(Reply $reply)
     {
         $reply->delete();
-        return response()->json(null, 204);
+        return redirect('/replies');
     }
 
 

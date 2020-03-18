@@ -16,7 +16,9 @@ class PostController extends Controller
     {
         $posts = Post::all();
 
-        return response()->json($posts, 200);
+        return view('rest.post.index', compact(
+            'posts'
+        ));
     }
 
     /**
@@ -26,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.post.create');
     }
 
     /**
@@ -41,7 +43,7 @@ class PostController extends Controller
 
         $post = Post::create($data);
 
-        return response()->json($post, 201);
+        return redirect('/posts/' . $post->id);
     }
 
     /**
@@ -52,7 +54,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return response()->json($post, 200);
+        return view('rest.post.show', compact(
+            'post'
+        ));
     }
 
     /**
@@ -63,7 +67,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('rest.post.edit', compact(
+            'post'
+        ));
     }
 
     /**
@@ -79,7 +85,7 @@ class PostController extends Controller
 
         $post->update($data);
 
-        return response()->json($post, 200);
+        return redirect('/posts/' . $post->id);
     }
 
     /**
@@ -91,7 +97,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return response()->json(null, 204);
+        return redirect('/posts');
     }
 
 

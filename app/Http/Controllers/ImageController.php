@@ -16,7 +16,9 @@ class ImageController extends Controller
     {
         $images = Image::all();
 
-        return response()->json($images, 200);
+        return view('rest.image.index', compact(
+            'images'
+        ));
     }
 
     /**
@@ -26,7 +28,7 @@ class ImageController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.image.create');
     }
 
     /**
@@ -41,7 +43,7 @@ class ImageController extends Controller
 
         $image = Image::create($data);
 
-        return response()->json($image, 201);
+        return redirect('/images/' . $image->id);
     }
 
     /**
@@ -52,7 +54,9 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
-        return response()->json($image, 200);
+        return view('rest.image.show', compact(
+            'image'
+        ));
     }
 
     /**
@@ -63,7 +67,9 @@ class ImageController extends Controller
      */
     public function edit(Image $image)
     {
-        //
+        return view('rest.image.edit', compact(
+            'image'
+        ));
     }
 
     /**
@@ -79,7 +85,7 @@ class ImageController extends Controller
 
         $image->update($data);
 
-        return response()->json($image, 200);
+        return redirect('/images/' . $image->id);
     }
 
     /**
@@ -91,7 +97,7 @@ class ImageController extends Controller
     public function destroy(Image $image)
     {
         $image->delete();
-        return response()->json(null, 204);
+        return redirect('/images');
     }
 
 

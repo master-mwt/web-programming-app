@@ -16,7 +16,9 @@ class GroupController extends Controller
     {
         $groups = Group::all();
 
-        return response()->json($groups, 200);
+        return view('rest.group.index', compact(
+            'groups'
+        ));
     }
 
     /**
@@ -26,7 +28,7 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.group.create');
     }
 
     /**
@@ -41,7 +43,7 @@ class GroupController extends Controller
 
         $group = Group::create($data);
 
-        return response()->json($group, 201);
+        return redirect('/groups/' . $group->id);
     }
 
     /**
@@ -52,7 +54,9 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        return response()->json($group, 200);
+        return view('rest.group.show', compact(
+            'group'
+        ));
     }
 
     /**
@@ -63,7 +67,9 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        return view('rest.group.edit', compact(
+            'group'
+        ));
     }
 
     /**
@@ -79,7 +85,7 @@ class GroupController extends Controller
 
         $group->update($data);
 
-        return response()->json($group, 200);
+        return redirect('/groups/' . $group->id);
     }
 
     /**
@@ -91,7 +97,7 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         $group->delete();
-        return response()->json(null, 204);
+        return redirect('/groups');
     }
 
 

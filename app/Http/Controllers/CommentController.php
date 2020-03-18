@@ -16,7 +16,9 @@ class CommentController extends Controller
     {
         $comments = Comment::all();
 
-        return response()->json($comments, 200);
+        return view('rest.comment.index', compact(
+            'comments'
+        ));
     }
 
     /**
@@ -26,7 +28,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.comment.create');
     }
 
     /**
@@ -41,7 +43,7 @@ class CommentController extends Controller
 
         $comment = Comment::create($data);
 
-        return response()->json($comment, 201);
+        return redirect('/comments/' . $comment->id);
     }
 
     /**
@@ -52,7 +54,9 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        return response()->json($comment, 200);
+        return view('rest.comment.show', compact(
+            'comment'
+        ));
     }
 
     /**
@@ -63,7 +67,9 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        //
+        return view('rest.comment.edit', compact(
+            'comment'
+        ));
     }
 
     /**
@@ -79,7 +85,7 @@ class CommentController extends Controller
 
         $comment->update($data);
 
-        return response()->json($comment, 200);
+        return redirect('/comments/' . $comment->id);
     }
 
     /**
@@ -91,7 +97,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
-        return response()->json(null, 204);
+        return redirect('/comments');
     }
 
 

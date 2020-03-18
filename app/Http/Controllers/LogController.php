@@ -16,7 +16,9 @@ class LogController extends Controller
     {
         $logs = Log::all();
 
-        return response()->json($logs, 200);
+        return view('rest.log.index', compact(
+            'logs'
+        ));
     }
 
     /**
@@ -26,7 +28,7 @@ class LogController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.log.create');
     }
 
     /**
@@ -41,7 +43,7 @@ class LogController extends Controller
 
         $log = Log::create($data);
 
-        return response()->json($log, 201);
+        return redirect('/logs/' . $log->id);
     }
 
     /**
@@ -52,7 +54,9 @@ class LogController extends Controller
      */
     public function show(Log $log)
     {
-        return response()->json($log, 200);
+        return view('rest.log.show', compact(
+            'log'
+        ));
     }
 
     /**
@@ -63,7 +67,9 @@ class LogController extends Controller
      */
     public function edit(Log $log)
     {
-        //
+        return view('rest.log.edit', compact(
+            'log'
+        ));
     }
 
     /**
@@ -79,7 +85,7 @@ class LogController extends Controller
 
         $log->update($data);
 
-        return response()->json($log, 200);
+        return redirect('/logs/' . $log->id);
     }
 
     /**
@@ -91,7 +97,7 @@ class LogController extends Controller
     public function destroy(Log $log)
     {
         $log->delete();
-        return response()->json(null, 204);
+        return redirect('/logs');
     }
 
 

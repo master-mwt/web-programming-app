@@ -16,7 +16,9 @@ class ServiceController extends Controller
     {
         $services = Service::all();
 
-        return response()->json($services, 200);
+        return view('rest.service.index', compact(
+            'services'
+        ));
     }
 
     /**
@@ -26,7 +28,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.service.create');
     }
 
     /**
@@ -41,7 +43,7 @@ class ServiceController extends Controller
 
         $service = Service::create($data);
 
-        return response()->json($service, 201);
+        return redirect('/services/' . $service->id);
     }
 
     /**
@@ -52,7 +54,9 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        return response()->json($service, 200);
+        return view('rest.service.show', compact(
+            'service'
+        ));
     }
 
     /**
@@ -63,7 +67,9 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        return view('rest.service.edit', compact(
+            'service'
+        ));
     }
 
     /**
@@ -79,7 +85,7 @@ class ServiceController extends Controller
 
         $service->update($data);
 
-        return response()->json($service, 200);
+        return redirect('/services/' . $service->id);
     }
 
     /**
@@ -91,7 +97,7 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         $service->delete();
-        return response()->json(null, 204);
+        return redirect('/services');
     }
 
 
