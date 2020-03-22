@@ -21,7 +21,7 @@
                         <h5 class="m-0"><a href="{{ route('post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
                     </div>
                     <div class="card-body text-left px-3 py-1">
-                        <p>{{ $post->content }}</p>
+                        <div class="markdown-content" data-markdown-content="{{ $post->content }}"></div>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
@@ -55,7 +55,7 @@
                         </p>
                     </div>
                     <div class="card-body text-left px-3 py-1">
-                        <p>{{ $reply->content }}</p>
+                        <div class="markdown-content" data-markdown-content="{{ $reply->content }}"></div>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         @auth
@@ -79,6 +79,10 @@
     $('ul.pagination').hide();
     $(function() {
         $('document').ready(function() {
+            $('.markdown-content').each(function(){
+                let markdown_content = $(this).data('markdown-content');
+                $(this).html(marked(markdown_content));
+            });
             $('.infinite-scroll').jscroll({
                 autoTrigger: true,
                 loadingHtml: '<div class="spinner-grow text-primary" role="status"><span class="sr-only">loading...</span></div>',
@@ -87,6 +91,14 @@
                 contentSelector: 'div.infinite-scroll',
                 callback: function() {
                     $('ul.pagination').remove();
+                    // Marked markdown parser func
+                    // maybe remove document ready
+                    $(document).ready(function(){
+                        $('.markdown-content').each(function(){
+                            let markdown_content = $(this).data('markdown-content');
+                            $(this).html(marked(markdown_content));
+                        });
+                    });
                 }
             }); 
         });
