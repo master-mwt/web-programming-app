@@ -5,19 +5,35 @@
 use App\Image;
 use Faker\Generator as Faker;
 
+static $files = false;
+
 $factory->define(Image::class, function (Faker $faker) {
 
-    // TODO: Filesystem structure
+    $rootDir = 'public/imgs/';
+    $imagePath = $rootDir . $faker->randomElement(getImages($rootDir));
+    $imageDetails = getimagesize($imagePath);
 
-    $dir = 'public/storage/images';
-    $width = 640;
-    $height = 480;
-    $imagePath = $faker->image($dir, $width, $height, null, true, false);
+    $width = $imageDetails[0];
+    $height = $imageDetails[1];
+    $type = $imageDetails['mime'];
 
     return [
-        'type' => "jpg",
+        'type' => $type,
         'size' => $width . "x" . $height,
         'location' => $imagePath,
         'caption' => $faker->sentence,
     ];
 });
+
+function getImages($dir){
+    global $files;
+
+    if(!$files){
+        // this will be executed only once
+        $scan = scandir($dir);
+        $length = count($scan);
+        $files = array_slice($scan, 2, $length-1, false);
+    }
+
+    return $files;
+}

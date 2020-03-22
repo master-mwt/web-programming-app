@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Image;
 
 class ImageSeeder extends Seeder
 {
@@ -12,19 +11,6 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Image::class, 3)->make()->each(function($image) {
-
-            $row = [
-                'type' => $image->type,
-                'size' => $image->size,
-                'location' => $image->location,
-                'caption' => $image->caption,
-            ];
-
-            if($image->location){
-                Image::create($row);
-            }
-
-        });
+        factory(App\Image::class, 30)->create();
     }
 }
