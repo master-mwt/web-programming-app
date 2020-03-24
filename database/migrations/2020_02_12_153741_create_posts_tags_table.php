@@ -24,9 +24,9 @@ class CreatePostsTagsTable extends Migration
             $table->unique(['post_id','tag_id']);
 
             $table->foreign('post_id')
-                ->references('id')->on('posts');
+                ->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('tag_id')
-                ->references('id')->on('tags');
+                ->references('id')->on('tags')->onDelete('cascade');
         });
     }
 

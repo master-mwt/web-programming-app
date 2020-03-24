@@ -26,7 +26,7 @@ class CreateUsersChannelsRolesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')->on('users');
             $table->foreign('channel_id')
-                ->references('id')->on('channels');
+                ->references('id')->on('channels')->onDelete('cascade');
             $table->foreign('role_id')
                 ->references('id')->on('roles');
         });
