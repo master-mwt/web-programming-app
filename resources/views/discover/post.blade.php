@@ -9,16 +9,16 @@
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                    <span class="my-1 text-light">{{ $post->id }}</span>
+                    <span class="my-1 text-light">{{ $post->upvote - $post->downvote }}</span>
                     <a href="" class=""><i class="fas fa-arrow-down"></i></a>
                 </div>
                 <div class="w-100">
                     <div class="card-header text-left bg-transparent border-0 px-3">
                         <p class="m-0 mb-1">
-                            <a href="{{ route('channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
+                            <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
                             <a href="" class="text-decoration-none">{{ $post->user_id->name }}</a>
                         </p>
-                        <h5 class="m-0"><a href="{{ route('post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
+                        <h5 class="m-0"><a href="{{ route('discover.post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
                     </div>
                     <div class="card-body text-left px-3 py-1">
                         <div class="markdown-content" data-markdown-content="{{ $post->content }}"></div>
@@ -41,10 +41,10 @@
 
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($replies as $reply)
-            <div class="card bg-dark col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                    <span class="my-1 text-light">{{ $reply->id }}</span>
+                    <span class="my-1 text-light">{{ $reply->upvote - $reply->downvote }}</span>
                     <a href="" class=""><i class="fas fa-arrow-down"></i></a>
                 </div>
                 <div class="w-100">
@@ -59,12 +59,44 @@
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         @auth
-                            <a href="" class="text-decoration-none mr-2" data-toggle="modal" data-target="#easymde-modal-comment"><i class="fas fa-comment-alt mr-1"></i>Reply</a>
+                            <a href="" class="text-decoration-none mr-2" data-toggle="modal" data-target="#easymde-modal-comment"><i class="fas fa-comment-alt mr-1"></i>Comment</a>
                         @endauth
                         <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
                         <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-bookmark mr-1"></i>Save</a>
                         <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none"><i class="fas fa-flag mr-1"></i>Report</a>
+                        
+                        @if(count($reply->comments) == 0)
+                        @else
+                        <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-flag mr-1"></i>See Comments</a>
+                        @endif
+                        
                     </div>
+                    @if(count($reply->comments) == 0)
+                    @else
+                    <div class="p-2 pt-4 collapse" id="comment-collapse-{{$reply->id}}">
+                        @forelse($reply->comments as $comment)
+                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+                                <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
+                                    <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
+                                    <span class="my-1 text-light">{{ $comment->upvote - $comment->downvote }}</span>
+                                    <a href="" class=""><i class="fas fa-arrow-down"></i></a>
+                                </div>
+                                <div class="w-100">
+                                    <div class="card-header text-left border-0 px-3">
+                                        <p class="m-0 mb-1">
+                                            <span class="text-muted">Posted by </span>
+                                            <a href="" class="text-decoration-none">{{ $comment->user_id->name }}</a>
+                                        </p>
+                                    </div>
+                                    <div class="card-body text-left px-3 py-1">
+                                        <div class="markdown-content" data-markdown-content="{{ $comment->content }}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                        @endforelse
+                    </div>
+                    @endif
                 </div>
             </div>
         @endforeach

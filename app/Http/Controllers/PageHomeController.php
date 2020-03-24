@@ -23,6 +23,41 @@ class PageHomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('dashboard.home');
+    }
+
+    public function settings()
+    {
+        return view('dashboard.settings');
+    }
+    
+    public function postOwned()
+    {
+        return view('dashboard.post.list');
+    }
+
+    public function postSaved()
+    {
+        return view('dashboard.post.list');
+    }
+
+    public function postHidden()
+    {
+        return view('dashboard.post.list');
+    }
+
+    public function postReported()
+    {
+        return view('dashboard.post.list');
+    }
+
+    public function channelOwned()
+    {
+        return view('dashboard.channel.list');
+    }
+
+    public function channelJoined()
+    {
+        return view('dashboard.channel.list');
     }
 }

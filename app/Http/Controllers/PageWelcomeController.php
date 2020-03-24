@@ -81,4 +81,19 @@ class PageWelcomeController extends Controller
             'message'
         ));
     }
+
+    public function help()
+    {
+        return view('info.help');
+    }
+    
+    public function about()
+    {
+        return view('info.about');
+    }
+
+    public function contact()
+    {
+        return view('info.contact');
+    }
 }

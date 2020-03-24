@@ -14,30 +14,34 @@
 // pagewelcomecontroller routes
 Route::get('/', 'PageWelcomeController@index')->name('welcome');
 Route::get('/search', 'PageWelcomeController@search')->name('search');
+Route::get('/help', 'PageWelcomeController@help')->name('help');
+Route::get('/about', 'PageWelcomeController@about')->name('about');
+Route::get('/contact', 'PageWelcomeController@contact')->name('contact');
 
 // pagehomecontroller routes [w/ auth middleware]
 Auth::routes();
 Route::get('/home', 'PageHomeController@index')->name('home');
+// home post subroutes
+Route::get('/home/post/owned', 'PageHomeController@postOwned')->name('home.post.owned');
+Route::get('/home/post/saved', 'PageHomeController@postSaved')->name('home.post.saved');
+Route::get('/home/post/hidden', 'PageHomeController@postHidden')->name('home.post.hidden');
+Route::get('/home/post/reported', 'PageHomeController@postReported')->name('home.post.reported');
+// home channel subroutes
+Route::get('/home/channel/owned', 'PageHomeController@channelOwned')->name('home.channel.owned');
+Route::get('/home/channel/joined', 'PageHomeController@channelJoined')->name('home.channel.joined');
+// user settings route
+Route::get('/home/settings', 'PageHomeController@settings')->name('home.settings');
 
 // pagechannelcontroller routes
-Route::get('/channel/{id}', 'PageChannelController@channel')->name('channel');
+Route::get('/discover/channel/{id}', 'PageChannelController@channel')->name('discover.channel');
 
 // pagepostcontroller routes
-Route::get('/post/{id}', 'PagePostController@post')->name('post');
+Route::get('/discover/post/{id}', 'PagePostController@post')->name('discover.post');
 
 // pagebackendcontroller routes
 Route::group(['middleware' => ['admin']], function() {
     Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
 });
-
-// rest controllers [MODEL]
-// Route::get('/channels', 'ChannelController@index');
-// Route::get('/channels/create', 'ChannelController@create');
-// Route::post('/channels', 'ChannelController@store');
-// Route::get('/channels/{channel}', 'ChannelController@show');
-// Route::get('/channels/{channel}/edit', 'ChannelController@edit');
-// Route::patch('/channels/{channel}', 'ChannelController@update');
-// Route::delete('/channels/{channel}', 'ChannelController@destroy');
 
 // rest controllers
 Route::group(['middleware' => ['auth']], function() {
@@ -53,3 +57,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('/tags', 'TagController');
 });
     
+// rest controllers [MODEL]
+// Route::get('/channels', 'ChannelController@index');
+// Route::get('/channels/create', 'ChannelController@create');
+// Route::post('/channels', 'ChannelController@store');
+// Route::get('/channels/{channel}', 'ChannelController@show');
+// Route::get('/channels/{channel}/edit', 'ChannelController@edit');
+// Route::patch('/channels/{channel}', 'ChannelController@update');
+// Route::delete('/channels/{channel}', 'ChannelController@destroy');

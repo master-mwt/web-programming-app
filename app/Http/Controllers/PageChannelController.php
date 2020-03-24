@@ -18,7 +18,7 @@ class PageChannelController extends Controller
             $post->user_id = User::findOrFail($post->user_id);
         }
 
-        return view('channel', compact(
+        return view('discover.channel', compact(
             'channel',
             'posts'
         ));
