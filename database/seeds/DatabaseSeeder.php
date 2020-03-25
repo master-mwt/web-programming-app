@@ -28,5 +28,10 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleServiceSeeder::class);
         $this->call(GroupServiceSeeder::class);
         $this->call(PostTagSeeder::class);
+        $this->call(UserPostDownvotedSeeder::class);
+        $this->call(UserPostHiddenSeeder::class);
+        $this->call(UserPostReportedSeeder::class);
+        $this->call(UserPostSavedSeeder::class);
+        $this->call(UserPostUpvotedSeeder::class);
     }
 }
