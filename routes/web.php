@@ -41,6 +41,10 @@ Route::get('/discover/post/{id}', 'PagePostController@post')->name('discover.pos
 // pagebackendcontroller routes
 Route::group(['middleware' => ['admin']], function() {
     Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
+    Route::get('/backend/tags', 'PageBackendController@backendTags')->name('backend.tags');
+    Route::get('/backend/posts', 'PageBackendController@backendPosts')->name('backend.posts');
+    Route::get('/backend/replies', 'PageBackendController@backendReplies')->name('backend.replies');
+    Route::get('/backend/comments', 'PageBackendController@backendComments')->name('backend.comments');
 });
 
 // rest controllers
@@ -56,7 +60,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('/services', 'ServiceController');
     Route::resource('/tags', 'TagController');
 });
-    
+
 // rest controllers [MODEL]
 // Route::get('/channels', 'ChannelController@index');
 // Route::get('/channels/create', 'ChannelController@create');

@@ -21,12 +21,36 @@
                     <p>Channels</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('backend.tags') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Tags</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('backend.posts') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Posts</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('backend.replies') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Replies</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('backend.comments') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Comments</p>
+                    </a>
+                </li>
             </ul>
         </li>
         @endif
 
         <li class="nav-header px-0 px-3">USER</li>
-        
+
         <li class="nav-item">
             <a href="{{ route('home') }}" class="nav-link">
             <i class="nav-icon fas fa-user-circle"></i>
