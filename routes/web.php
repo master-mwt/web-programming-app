@@ -26,6 +26,10 @@ Route::get('/home/post/owned', 'PageHomeController@postOwned')->name('home.post.
 Route::get('/home/post/saved', 'PageHomeController@postSaved')->name('home.post.saved');
 Route::get('/home/post/hidden', 'PageHomeController@postHidden')->name('home.post.hidden');
 Route::get('/home/post/reported', 'PageHomeController@postReported')->name('home.post.reported');
+// home replies subroutes
+Route::get('/home/reply/owned', 'PageHomeController@replyOwned')->name('home.reply.owned');
+// home comments subroutes
+Route::get('/home/comment/owned', 'PageHomeController@commentOwned')->name('home.comment.owned');
 // home channel subroutes
 Route::get('/home/channel/owned', 'PageHomeController@channelOwned')->name('home.channel.owned');
 Route::get('/home/channel/joined', 'PageHomeController@channelJoined')->name('home.channel.joined');

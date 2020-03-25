@@ -113,6 +113,40 @@
                     <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
+                        Replies
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('home.reply.owned') }}" class="nav-link">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>My Replies</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                        Comments
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('home.comment.owned') }}" class="nav-link">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>My Comments</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
                         Channels
                         <i class="right fas fa-angle-left"></i>
                     </p>
