@@ -45,6 +45,18 @@
                         <p>Comments</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('backend.users') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('backend.logs') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Logs</p>
+                    </a>
+                </li>
             </ul>
         </li>
         @endif

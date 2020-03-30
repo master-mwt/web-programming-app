@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\DataTables\ChannelDataTable;
 use App\DataTables\CommentDataTable;
+use App\DataTables\LogDataTable;
 use App\DataTables\PostDataTable;
 use App\DataTables\ReplyDataTable;
 use App\DataTables\TagDataTable;
+use App\DataTables\UserDataTable;
 use Illuminate\Http\Request;
 
 class PageBackendController extends Controller
@@ -34,5 +36,15 @@ class PageBackendController extends Controller
     public function backendComments(CommentDataTable $dataTable)
     {
         return $dataTable->render('backend.comments');
+    }
+
+    public function backendUsers(UserDataTable $dataTable)
+    {
+        return $dataTable->render('backend.users');
+    }
+
+    public function backendLogs(LogDataTable $dataTable)
+    {
+        return $dataTable->render('backend.logs');
     }
 }

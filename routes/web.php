@@ -49,6 +49,8 @@ Route::group(['middleware' => ['admin']], function() {
     Route::get('/backend/posts', 'PageBackendController@backendPosts')->name('backend.posts');
     Route::get('/backend/replies', 'PageBackendController@backendReplies')->name('backend.replies');
     Route::get('/backend/comments', 'PageBackendController@backendComments')->name('backend.comments');
+    Route::get('/backend/users', 'PageBackendController@backendUsers')->name('backend.users');
+    Route::get('/backend/logs', 'PageBackendController@backendLogs')->name('backend.logs');
 });
 
 // rest controllers
