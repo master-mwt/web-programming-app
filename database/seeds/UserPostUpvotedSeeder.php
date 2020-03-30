@@ -14,7 +14,7 @@ class UserPostUpvotedSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\UserPostUpvoted::class, 15)->make()->each(function($user_post_upvoted) {
+        factory(App\UserPostUpvoted::class, 100)->make()->each(function($user_post_upvoted) {
 
             global $results;
 

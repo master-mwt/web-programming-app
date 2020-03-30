@@ -7,6 +7,11 @@ use \App\Post;
 use \App\Channel;
 use \App\Comment;
 use \App\Reply;
+use \App\UserPostSaved;
+use \App\UserPostHidden;
+use \App\UserPostReported;
+use \App\UserChannelRole;
+use \App\Role;
 use Illuminate\Http\Request;
 
 class PageHomeController extends Controller
@@ -57,17 +62,62 @@ class PageHomeController extends Controller
 
     public function postSaved()
     {
-        return view('dashboard.post.list');
+        $user = Auth::User();
+        $myposts = UserPostSaved::where('user_id', $user->id)->paginate(10);
+
+        foreach($myposts as $post) {
+            $post->post_id = Post::findOrFail($post->post_id);
+            $post->user_id = $user;
+            //destructuring
+            $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
+            $post->title = $post->post_id->title;
+            $post->upvote = $post->post_id->upvote;
+            $post->downvote = $post->post_id->downvote;
+        }
+
+        return view('dashboard.post.list', compact(
+            'myposts'
+        ));
     }
 
     public function postHidden()
     {
-        return view('dashboard.post.list');
+        $user = Auth::User();
+        $myposts = UserPostHidden::where('user_id', $user->id)->paginate(10);
+
+        foreach($myposts as $post) {
+            $post->post_id = Post::findOrFail($post->post_id);
+            $post->user_id = $user;
+            //destructuring
+            $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
+            $post->title = $post->post_id->title;
+            $post->upvote = $post->post_id->upvote;
+            $post->downvote = $post->post_id->downvote;
+        }
+
+        return view('dashboard.post.list', compact(
+            'myposts'
+        ));
     }
 
     public function postReported()
     {
-        return view('dashboard.post.list');
+        $user = Auth::User();
+        $myposts = UserPostReported::where('user_id', $user->id)->paginate(10);
+
+        foreach($myposts as $post) {
+            $post->post_id = Post::findOrFail($post->post_id);
+            $post->user_id = $user;
+            //destructuring
+            $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
+            $post->title = $post->post_id->title;
+            $post->upvote = $post->post_id->upvote;
+            $post->downvote = $post->post_id->downvote;
+        }
+
+        return view('dashboard.post.list', compact(
+            'myposts'
+        ));
     }
 
     public function replyOwned()
@@ -82,11 +132,39 @@ class PageHomeController extends Controller
 
     public function channelOwned()
     {
-        return view('dashboard.channel.list');
+        $user = Auth::User();
+        $mychannels = UserChannelRole::where(['user_id' => $user->id, 'role_id' => 1])->paginate(10);
+
+        foreach($mychannels as $channel) {
+            $channel->channel_id = Channel::findOrFail($channel->channel_id);
+            $channel->user_id = $user;
+            $channel->role_id = Role::findOrFail($channel->role_id);
+            //destructuring
+            $channel->id = $channel->channel_id;
+            $channel->name = $channel->channel_id->name;
+        }
+
+        return view('dashboard.channel.list', compact(
+            'mychannels'
+        ));
     }
 
     public function channelJoined()
     {
-        return view('dashboard.channel.list');
+        $user = Auth::User();
+        $mychannels = UserChannelRole::where('user_id', $user->id)->whereIn('role_id', [2,3,4])->paginate(10);
+
+        foreach($mychannels as $channel) {
+            $channel->channel_id = Channel::findOrFail($channel->channel_id);
+            $channel->user_id = $user;
+            $channel->role_id = Role::findOrFail($channel->role_id);
+            //destructuring
+            $channel->id = $channel->channel_id;
+            $channel->name = $channel->channel_id->name;
+        }
+
+        return view('dashboard.channel.list', compact(
+            'mychannels'
+        ));
     }
 }

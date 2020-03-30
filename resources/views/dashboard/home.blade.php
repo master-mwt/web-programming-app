@@ -18,6 +18,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="float-right">
+                        <!-- connect edit button to user rest show/edit profile -->
                         <a role="button" href="{{ route('home.settings') }}" class="btn btn-success mr-1">edit profile</a>
                         <a role="button" href="{{ route('password.update') }}" class="btn btn-success">change password</a>
                     </div>

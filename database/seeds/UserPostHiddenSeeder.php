@@ -14,7 +14,7 @@ class UserPostHiddenSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\UserPostHidden::class, 15)->make()->each(function($user_post_hidden) {
+        factory(App\UserPostHidden::class, 50)->make()->each(function($user_post_hidden) {
 
             global $results;
 

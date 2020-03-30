@@ -14,7 +14,7 @@ class UserPostDownvotedSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\UserPostDownvoted::class, 15)->make()->each(function($user_post_downvoted) {
+        factory(App\UserPostDownvoted::class, 100)->make()->each(function($user_post_downvoted) {
 
             global $results;
 

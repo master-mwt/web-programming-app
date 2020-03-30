@@ -14,7 +14,7 @@ class PostTagSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\PostTag::class, 50)->make()->each(function($post_tag) {
+        factory(App\PostTag::class, 100)->make()->each(function($post_tag) {
 
             global $results;
 

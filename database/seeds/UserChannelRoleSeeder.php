@@ -14,7 +14,7 @@ class UserChannelRoleSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\UserChannelRole::class, 10)->make()->each(function($user_channel_role) {
+        factory(App\UserChannelRole::class, 100)->make()->each(function($user_channel_role) {
 
             global $results;
 
