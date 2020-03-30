@@ -21,7 +21,14 @@ class CommentDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'comment.action');
+            ->addColumn('action', function($query){
+                return 
+                '<div class="d-flex flex-column">
+                    <a href="/comments/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
+                    <a href="/comments/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
+                </div>';
+            })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -47,14 +54,30 @@ class CommentDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(1, 'asc')
                     ->buttons(
-                        Button::make('create'),
+                        Button::make('pageLength'),
+                        Button::make('create')->action("window.location='".route('comments.create')."';"),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
-                    );
+                    )
+                    ->parameters([
+                        'initComplete' => "function() {
+                            this.api().columns('.filterable').every(function() {
+                                var column = this;
+                                var input = document.createElement(\"input\");
+                                input.id = 'column-filter';
+                                input.placeholder = 'filter';
+                                $(input).addClass('form-control form-control-sm bg-dark');
+                                $(input).appendTo($(column.footer()).empty()).on('keyup change clear', function() {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+                            });
+                        }",
+                        
+                    ]);
     }
 
     /**
@@ -68,17 +91,23 @@ class CommentDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(100)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('title'),
-            Column::make('content'),
+            Column::make('id')
+                ->addClass('filterable'),
+            Column::make('title')
+                ->addClass('filterable'),
+            //Column::make('content'),
             Column::make('upvote'),
             Column::make('downvote'),
-            Column::make('user_id'),
-            Column::make('reply_id'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('user_id')
+                ->addClass('filterable'),
+            Column::make('reply_id')
+                ->addClass('filterable'),
+            Column::computed('created_at')
+                ->addClass('filterable'),
+            Column::computed('updated_at')
+                ->addClass('filterable'),
         ];
     }
 

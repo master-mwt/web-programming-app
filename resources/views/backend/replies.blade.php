@@ -13,10 +13,10 @@
 @push('scripts')
     {{ $dataTable->scripts() }}
 
-    {{--<script>
+    <script>
         $('document').ready(function(){
-            $('#channel-table_wrapper').addClass('table-responsive');
-            $('#channel-table').addClass('table-striped table-dark w-100');
+            $('#reply-table_wrapper').addClass('table-responsive');
+            $('#reply-table').addClass('table-striped table-dark w-100');
         })
-    </script>--}}
+    </script>
 @endpush

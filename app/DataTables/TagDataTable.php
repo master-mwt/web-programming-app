@@ -21,7 +21,14 @@ class TagDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'tag.action');
+            ->addColumn('action', function($query){
+                return 
+                '<div class="d-flex flex-column">
+                    <a href="/tags/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
+                    <a href="/tags/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
+                </div>';
+            })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -47,14 +54,31 @@ class TagDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(1, 'asc')
                     ->buttons(
+                        Button::make('pageLength'),
+                        Button::make('create')->action("window.location='".route('tags.create')."';"),
                         Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
-                    );
+                    )
+                    ->parameters([
+                        'initComplete' => "function() {
+                            this.api().columns('.filterable').every(function() {
+                                var column = this;
+                                var input = document.createElement(\"input\");
+                                input.id = 'column-filter';
+                                input.placeholder = 'filter';
+                                $(input).addClass('form-control form-control-sm bg-dark');
+                                $(input).appendTo($(column.footer()).empty()).on('keyup change clear', function() {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+                            });
+                        }",
+                        
+                    ]);
     }
 
     /**
@@ -68,12 +92,16 @@ class TagDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(100)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('id')
+                ->addClass('filterable'),
+            Column::make('name')
+                ->addClass('filterable'),
+            Column::computed('created_at')
+                ->addClass('filterable'),
+            Column::computed('updated_at')
+                ->addClass('filterable'),
         ];
     }
 
