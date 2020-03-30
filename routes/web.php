@@ -53,6 +53,7 @@ Route::group(['middleware' => ['admin']], function() {
 
 // rest controllers
 Route::group(['middleware' => ['auth']], function() {
+    Route::resource('/users', 'UserController');
     Route::resource('/channels', 'ChannelController');
     Route::resource('/comments', 'CommentController');
     Route::resource('/groups', 'GroupController');

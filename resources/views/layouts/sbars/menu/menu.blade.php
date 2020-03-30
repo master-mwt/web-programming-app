@@ -58,12 +58,14 @@
             </a>
         </li>
 
+        @if(Auth::check())
         <li class="nav-item">
-            <a href="{{ route('home.settings') }}" class="nav-link">
+            <a href="{{ route('users.edit', Auth::user()->id) }}" class="nav-link">
             <i class="nav-icon fas fa-cog"></i>
             <p>Settings</p>
             </a>
         </li>
+        @endif
 
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

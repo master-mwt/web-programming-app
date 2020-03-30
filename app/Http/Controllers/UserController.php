@@ -14,7 +14,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+
+        // return view('rest.user.index', compact(
+        //     'users'
+        // ));
+        return $users;
     }
 
     /**
@@ -24,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('rest.user.create');
     }
 
     /**
@@ -35,7 +40,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->validateDate();
+
+        $user = User::create($data);
+
+        return redirect('/users/' . $user->id);
     }
 
     /**
@@ -46,7 +55,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('rest.user.show', compact('user'));
     }
 
     /**
@@ -57,7 +66,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('rest.user.edit', compact('user'));
     }
 
     /**
@@ -69,7 +78,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $data = $this->validateData();
+
+        $user->update($data);
+
+        return redirect('/users/' . $user->id);
     }
 
     /**
@@ -80,6 +93,20 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        // TODO: is it okay to delete users ?
+    }
+
+
+    private function validateData()
+    {
+        return request()->validate([
+            'name' => 'required',
+            'surname' => 'required',
+            'username' => 'required',
+            'birth_date' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'group_id' => 'required',
+        ]);
     }
 }
