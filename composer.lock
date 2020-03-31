@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d37a178d2403e833ff0914ed60c2618b",
+    "content-hash": "7d5c80fd198350276de438901c08d14e",
     "packages": [
         {
             "name": "davidbadura/faker-markdown-generator",
@@ -2171,6 +2171,65 @@
                 "uuid"
             ],
             "time": "2019-12-17T08:18:51+00:00"
+        },
+        {
+            "name": "rap2hpoutre/laravel-log-viewer",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rap2hpoutre/laravel-log-viewer.git",
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-log-viewer/zipball/3506baaddbe5661fc4482b048db2ec5cfc5f9025",
+                "reference": "3506baaddbe5661fc4482b048db2ec5cfc5f9025",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "4.2.*|5.*|^6.0|^7.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.7.*",
+                "phpunit/phpunit": "^7"
+            },
+            "type": "laravel-package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Rap2hpoutre\\LaravelLogViewer\\LaravelLogViewerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/controllers"
+                ],
+                "psr-0": {
+                    "Rap2hpoutre\\LaravelLogViewer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "rap2hpoutre",
+                    "email": "raphaelht@gmail.com"
+                }
+            ],
+            "description": "A Laravel log reader",
+            "keywords": [
+                "laravel",
+                "log",
+                "log-reader",
+                "log-viewer",
+                "logging",
+                "lumen"
+            ],
+            "time": "2020-03-05T20:25:07+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

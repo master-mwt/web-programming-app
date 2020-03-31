@@ -48,7 +48,7 @@ Route::group(['middleware' => ['admin']], function() {
     Route::get('/backend/replies', 'PageBackendController@backendReplies')->name('backend.replies');
     Route::get('/backend/comments', 'PageBackendController@backendComments')->name('backend.comments');
     Route::get('/backend/users', 'PageBackendController@backendUsers')->name('backend.users');
-    Route::get('/backend/logs', 'PageBackendController@backendLogs')->name('backend.logs');
+    Route::get('/backend/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('backend.logs');
 });
 
 // rest controllers
@@ -58,7 +58,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('/comments', 'CommentController');
     Route::resource('/groups', 'GroupController');
     Route::resource('/images', 'ImageController');
-    Route::resource('/logs', 'LogController');
     Route::resource('/posts', 'PostController');
     Route::resource('/replies', 'ReplyController');
     Route::resource('/roles', 'RoleController');
