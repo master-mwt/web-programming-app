@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         
         <div class="col-md-12 text-center infinite-scroll px-0">
-        @foreach($mychannels as $channel)
+        @forelse($mychannels as $channel)
             <div class="card bg-dark col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px">
                 <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="40px" height="40px" class="rounded">
@@ -15,7 +15,9 @@
                     <button class="btn btn-sm btn-outline-primary ml-2">LEAVE</button> -->
                 </div>
             </div>
-        @endforeach
+        @empty
+            <h2>no results ...</h2>
+        @endforelse
         {{ $mychannels->links() }}
         </div>
 

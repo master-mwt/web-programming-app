@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use \App\User;
 use \App\Post;
 use \App\Channel;
 use \App\Comment;
@@ -122,7 +123,23 @@ class PageHomeController extends Controller
 
     public function replyOwned()
     {
-        return view('dashboard.reply.list');
+        $user = Auth::User();
+        $myreplies = Reply::where('user_id', $user->id)->paginate(10);
+        
+        foreach($myreplies as $reply) {
+            $reply->post_id = Post::findOrFail($reply->post_id);
+            $reply->user_id = $user;
+            //destructuring
+            $reply->channel_id = Channel::findOrFail($reply->post_id->channel_id);
+            $reply->comments = Comment::where('reply_id', $reply->id)->get();
+            foreach($reply->comments as $comment) {
+                $comment->user_id = User::findOrFail($comment->user_id);
+            }
+        }
+        
+        return view('dashboard.reply.list', compact(
+            'myreplies'
+        ));
     }
 
     public function commentOwned()

@@ -21,7 +21,14 @@ class LogDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'log.action');
+            ->addColumn('action', function($query){
+                return 
+                '<div class="d-flex flex-column">
+                    <a href="/logs/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
+                    <a href="/logs/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
+                </div>';
+            })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -47,8 +54,10 @@ class LogDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(1, 'asc')
                     ->buttons(
+                        Button::make('pageLength'),
+                        Button::make('create')->action("window.location='".route('logs.create')."';"),
                         Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
@@ -68,12 +77,16 @@ class LogDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(100)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('location'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('id')
+                ->addClass('filterable'),
+            Column::make('location')
+                ->addClass('filterable'),
+            Column::computed('created_at')
+                ->addClass('filterable'),
+            Column::computed('updated_at')
+                ->addClass('filterable'),
         ];
     }
 

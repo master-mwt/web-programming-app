@@ -21,7 +21,14 @@ class UserDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'user.action');
+            ->addColumn('action', function($query){
+                return 
+                '<div class="d-flex flex-column">
+                    <a href="/users/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
+                    <a href="/users/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
+                </div>';
+            })
+            ->rawColumns(['action']);
     }
 
     /**
@@ -47,14 +54,31 @@ class UserDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(1, 'asc')
                     ->buttons(
+                        Button::make('pageLength'),
+                        Button::make('create')->action("window.location='".route('users.create')."';"),
                         Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
-                    );
+                    )
+                    ->parameters([
+                        'initComplete' => "function() {
+                            this.api().columns('.filterable').every(function() {
+                                var column = this;
+                                var input = document.createElement(\"input\");
+                                input.id = 'column-filter';
+                                input.placeholder = 'filter';
+                                $(input).addClass('form-control form-control-sm bg-dark');
+                                $(input).appendTo($(column.footer()).empty()).on('keyup change clear', function() {
+                                    column.search($(this).val(), false, false, true).draw();
+                                });
+                            });
+                        }",
+                        
+                    ]);
     }
 
     /**
@@ -68,21 +92,32 @@ class UserDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(100)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('surname'),
-            Column::make('username'),
-            Column::make('birth_date'),
-            Column::make('email'),
-            Column::make('email_verified_at'),
+            Column::make('id')
+                ->addClass('filterable'),
+            Column::make('name')
+                ->addClass('filterable'),
+            Column::make('surname')
+                ->addClass('filterable'),
+            Column::make('username')
+                ->addClass('filterable'),
+            Column::make('birth_date')
+                ->addClass('filterable'),
+            Column::make('email')
+                ->addClass('filterable'),
+            Column::computed('email_verified_at')
+                ->addClass('filterable'),
             // Column::make('password'),
             // Column::make('remember_token'),
-            Column::make('group_id'),
-            Column::make('image_id'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('group_id')
+                ->addClass('filterable'),
+            Column::make('image_id')
+                ->addClass('filterable'),
+            Column::computed('created_at')
+                ->addClass('filterable'),
+            Column::computed('updated_at')
+                ->addClass('filterable'),
         ];
     }
 

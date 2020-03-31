@@ -33,8 +33,6 @@ Route::get('/home/comment/owned', 'PageHomeController@commentOwned')->name('home
 // home channel subroutes
 Route::get('/home/channel/owned', 'PageHomeController@channelOwned')->name('home.channel.owned');
 Route::get('/home/channel/joined', 'PageHomeController@channelJoined')->name('home.channel.joined');
-// user settings route
-Route::get('/home/settings', 'PageHomeController@settings')->name('home.settings');
 
 // pagechannelcontroller routes
 Route::get('/discover/channel/{id}', 'PageChannelController@channel')->name('discover.channel');
