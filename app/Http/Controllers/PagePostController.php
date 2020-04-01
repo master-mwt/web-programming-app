@@ -46,6 +46,10 @@ class PagePostController extends Controller
         $upvotedAlready = UserPostUpvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
 
         if($upvotedAlready){
+            $upvotedAlready->delete();
+            $post->upvote = $post->upvote - 1;
+            $post->save();
+
             return back();
         }
 
@@ -79,6 +83,10 @@ class PagePostController extends Controller
         $downvotedAlready = UserPostDownvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
 
         if($downvotedAlready){
+            $downvotedAlready->delete();
+            $post->downvote = $post->downvote - 1;
+            $post->save();
+
             return back();
         }
 
