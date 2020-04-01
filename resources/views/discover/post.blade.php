@@ -4,13 +4,13 @@
 
 <div class="container"></div>
     <div class="row justify-content-center">
-        
+
         <div class="col-md-12 text-center px-0">
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
-                    <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
+                    <a href="{{ route('post.upvote', $post) }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     <span class="my-1 text-light">{{ $post->upvote - $post->downvote }}</span>
-                    <a href="" class=""><i class="fas fa-arrow-down"></i></a>
+                    <a href="{{ route('post.downvote', $post) }}" class=""><i class="fas fa-arrow-down"></i></a>
                 </div>
                 <div class="w-100">
                     <div class="card-header text-left bg-transparent border-0 px-3">
@@ -64,12 +64,12 @@
                         <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
                         <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-bookmark mr-1"></i>Save</a>
                         <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none"><i class="fas fa-flag mr-1"></i>Report</a>
-                        
+
                         @if(count($reply->comments) == 0)
                         @else
                         <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-flag mr-1"></i>See Comments</a>
                         @endif
-                        
+
                     </div>
                     @if(count($reply->comments) == 0)
                     @else
@@ -102,7 +102,7 @@
         @endforeach
         {{ $replies->links() }}
         </div>
-        
+
     </div>
 </div>
 
@@ -132,7 +132,7 @@
                         });
                     });
                 }
-            }); 
+            });
         });
     });
 </script>

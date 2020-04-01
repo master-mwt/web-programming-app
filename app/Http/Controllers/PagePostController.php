@@ -7,14 +7,18 @@ use App\Channel;
 use App\Post;
 use App\Reply;
 use App\Comment;
+use App\UserPostDownvoted;
+use App\UserPostUpvoted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PagePostController extends Controller
 {
     public function post($id)
     {
         $post = Post::where('id', $id)->first();
-        
+
         $post->channel_id = Channel::findOrFail($post->channel_id);
         $post->user_id = User::findOrFail($post->user_id);
 
@@ -34,4 +38,71 @@ class PagePostController extends Controller
             'replies'
         ));
     }
+
+    public function upvote(Post $post)
+    {
+        $user_id = Auth::id();
+
+        $upvotedAlready = UserPostUpvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
+
+        if($upvotedAlready){
+            return back();
+        }
+
+        $downvotedAlready = UserPostDownvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
+
+        DB::beginTransaction();
+        try {
+
+            if($downvotedAlready){
+                $downvotedAlready->delete();
+                $post->downvote = $post->downvote - 1;
+            }
+
+            $post->upvote = $post->upvote + 1;
+            $post->save();
+            UserPostUpvoted::create(['user_id' => $user_id, 'post_id' => $post->id]);
+
+            DB::commit();
+        } catch(\Exception $e) {
+            abort(500, 'An error occurred');
+            DB::rollBack();
+        }
+
+        return back();
+    }
+
+    public function downvote(Post $post)
+    {
+        $user_id = Auth::id();
+
+        $downvotedAlready = UserPostDownvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
+
+        if($downvotedAlready){
+            return back();
+        }
+
+        $upvotedAlready = UserPostUpvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
+
+        DB::beginTransaction();
+        try {
+
+            if($upvotedAlready){
+                $upvotedAlready->delete();
+                $post->upvote = $post->upvote - 1;
+            }
+
+            $post->downvote = $post->downvote + 1;
+            $post->save();
+            UserPostDownvoted::create(['user_id' => $user_id, 'post_id' => $post->id]);
+
+            DB::commit();
+        } catch(\Exception $e) {
+            abort(500, 'An error occurred');
+            DB::rollBack();
+        }
+
+        return back();
+    }
+
 }

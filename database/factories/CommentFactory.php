@@ -15,8 +15,8 @@ $factory->define(Comment::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
         'content' => $faker->text,
-        'upvote' => $faker->numberBetween(0,50),
-        'downvote' => $faker->numberBetween(0,50),
+        'upvote' => 0,
+        'downvote' => 0,
         // FKs
         'user_id' => $user->id,
         'reply_id' => $reply->id,

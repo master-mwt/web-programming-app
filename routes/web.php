@@ -73,3 +73,8 @@ Route::group(['middleware' => ['admin']], function() {
 // Route::get('/channels/{channel}/edit', 'ChannelController@edit');
 // Route::patch('/channels/{channel}', 'ChannelController@update');
 // Route::delete('/channels/{channel}', 'ChannelController@destroy');
+
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/posts/{post}/upvote', 'PagePostController@upvote')->name('post.upvote');
+    Route::get('/posts/{post}/downvote', 'PagePostController@downvote')->name('post.downvote');
+});

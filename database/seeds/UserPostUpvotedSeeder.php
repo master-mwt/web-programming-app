@@ -14,7 +14,7 @@ class UserPostUpvotedSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\UserPostUpvoted::class, 100)->make()->each(function($user_post_upvoted) {
+        factory(App\UserPostUpvoted::class, 300)->make()->each(function($user_post_upvoted) {
 
             global $results;
 
@@ -43,6 +43,10 @@ class UserPostUpvotedSeeder extends Seeder
         });
 
         foreach($results as $result) {
+            $post = App\Post::find($result['post_id']);
+            $post->upvote = $post->upvote + 1;
+            $post->save();
+
             App\UserPostUpvoted::create($result);
         }
     }
