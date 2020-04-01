@@ -14,12 +14,13 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        $channels = Channel::all();
+        // $channels = Channel::all();
 
         // return view('rest.channel.index', compact(
         //     'channels'
         // ));
-        return $channels;
+        // return $channels;
+        abort(404);
     }
 
     /**

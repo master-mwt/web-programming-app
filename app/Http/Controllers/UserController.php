@@ -14,12 +14,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        //$ users = User::all();
 
         // return view('rest.user.index', compact(
         //     'users'
         // ));
-        return $users;
+        // return $users;
+        abort(404);
     }
 
     /**
@@ -29,7 +30,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('rest.user.create');
+        // return view('rest.user.create');
+        abort(404);
     }
 
     /**
@@ -94,6 +96,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         // TODO: is it okay to delete users ?
+        abort(404);
     }
 
 
@@ -105,7 +108,7 @@ class UserController extends Controller
             'username' => 'required',
             'birth_date' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            //'password' => 'required',
             'group_id' => 'required',
         ]);
     }

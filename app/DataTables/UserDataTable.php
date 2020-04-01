@@ -57,8 +57,7 @@ class UserDataTable extends DataTable
                     ->orderBy(1, 'asc')
                     ->buttons(
                         Button::make('pageLength'),
-                        Button::make('create')->action("window.location='".route('users.create')."';"),
-                        Button::make('create'),
+                        //Button::make('create')->action("window.location='".route('users.create')."';"),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),

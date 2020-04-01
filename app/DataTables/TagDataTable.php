@@ -58,7 +58,6 @@ class TagDataTable extends DataTable
                     ->buttons(
                         Button::make('pageLength'),
                         Button::make('create')->action("window.location='".route('tags.create')."';"),
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),

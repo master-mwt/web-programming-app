@@ -37,7 +37,7 @@
                         Log file >50M, please download it.
                     </div>
                 @else
-                    <table id="table-log" class="table table-striped"
+                    <table id="table-log" class="table table-striped table-dark"
                            data-ordering-index="{{ $standardFormat ? 2 : 0 }}">
                         <thead>
                         <tr>
@@ -65,7 +65,7 @@
                                 <td class="text">
                                     @if ($log['stack'])
                                         <button type="button"
-                                                class="float-right expand btn btn-outline-dark btn-sm mb-2 ml-2"
+                                                class="float-right expand btn btn-outline-light btn-sm mb-2 ml-2"
                                                 data-display="stack{{{$key}}}">
                                             <span class="fa fa-search"></span>
                                         </button>

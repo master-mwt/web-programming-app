@@ -50,7 +50,7 @@
                                 <div class="row">
                                     <div class="form-group col">
                                         <label for="creator_id">creator_id</label>
-                                        <input type="text" id="creator_id" class="form-control" autocomplete="off" value="{{ old('creator_id') }}" name="creator_id">
+                                        <input type="text" id="creator_id" class="form-control" autocomplete="off" value="{{ Auth::User()->id }}" name="creator_id" disabled>
                                         @error('creator_id') <span class="text-primary">{{ $message }}</span> @enderror
                                     </div>
                                 </div>

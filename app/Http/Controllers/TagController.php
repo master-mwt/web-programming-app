@@ -14,11 +14,13 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
+        // $tags = Tag::all();
 
-        return view('rest.tag.index', compact(
-            'tags'
-        ));
+        // return view('rest.tag.index', compact(
+        //     'tags'
+        // ));
+        // return $tags;
+        abort(404);
     }
 
     /**
@@ -97,7 +99,15 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         $tag->delete();
-        return redirect('/tags');
+        
+        if(auth()->user()->group_id == 1)
+        {
+            return redirect('/backend/tags');
+        }
+        else 
+        {
+            return redirect('/tags');
+        }
     }
 
 

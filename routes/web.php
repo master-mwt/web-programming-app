@@ -51,8 +51,8 @@ Route::group(['middleware' => ['admin']], function() {
     Route::get('/backend/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('backend.logs');
 });
 
-// rest controllers
-Route::group(['middleware' => ['auth']], function() {
+// rest controllers [? auth or admin middlware ?]
+Route::group(['middleware' => ['admin']], function() {
     Route::resource('/users', 'UserController');
     Route::resource('/channels', 'ChannelController');
     Route::resource('/comments', 'CommentController');
