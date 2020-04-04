@@ -8,6 +8,9 @@ use App\Post;
 use App\Reply;
 use App\Comment;
 use App\UserPostDownvoted;
+use App\UserPostHidden;
+use App\UserPostReported;
+use App\UserPostSaved;
 use App\UserPostUpvoted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,6 +112,57 @@ class PagePostController extends Controller
             abort(500, 'An error occurred');
             DB::rollBack();
         }
+
+        return back();
+    }
+
+    public function save(Post $post)
+    {
+        $user_id = Auth::id();
+
+        $savedAlready = UserPostSaved::where('user_id', $user_id)->where('post_id', $post->id)->first();
+
+        if($savedAlready){
+            $savedAlready->delete();
+
+            return back();
+        }
+
+        UserPostSaved::create(['user_id' => $user_id, 'post_id' => $post->id]);
+
+        return back();
+    }
+
+    public function hide(Post $post)
+    {
+        $user_id = Auth::id();
+
+        $hiddenAlready = UserPostHidden::where('user_id', $user_id)->where('post_id', $post->id)->first();
+
+        if($hiddenAlready){
+            $hiddenAlready->delete();
+
+            return back();
+        }
+
+        UserPostHidden::create(['user_id' => $user_id, 'post_id' => $post->id]);
+
+        return back();
+    }
+
+    public function report(Post $post)
+    {
+        $user_id = Auth::id();
+
+        $reportedAlready = UserPostReported::where('user_id', $user_id)->where('post_id', $post->id)->first();
+
+        if($reportedAlready){
+            $reportedAlready->delete();
+
+            return back();
+        }
+
+        UserPostReported::create(['user_id' => $user_id, 'post_id' => $post->id]);
 
         return back();
     }
