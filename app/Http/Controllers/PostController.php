@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -40,6 +41,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $this->validateData();
+
+        /* DEBUG */
+        $data['user_id'] = Auth::id();
+        $data['channel_id'] = 1;
+        /* / DEBUG */
 
         $post = Post::create($data);
 

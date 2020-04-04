@@ -4,13 +4,13 @@
 
 <div class="container"></div>
     <div class="row justify-content-center">
-        
+
         @auth
             <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
             </div>
         @endauth
-        
+
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
@@ -71,31 +71,49 @@
                         });
                     });
                 }
-            }); 
+            });
         });
     });
 </script>
 
 @auth
-    <div class="modal fade" id="easymde-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-label" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title ml-auto" id="easymde-modal-label">make a post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <textarea name="" id="easymde-area" cols="" rows=""></textarea>
-                </div>
-                <div class="modal-footer">
-                    <!-- <button class="btn btn-primary" data-dismiss="modal">close</button> -->
-                    <button class="btn btn-secondary">submit</button>
+    <form method="POST" action="{{ route('post.store') }}">
+        @csrf
+
+        <div class="modal fade" id="easymde-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ml-auto" id="easymde-modal-label">make a post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- MODAL CONTENT -->
+                        <!-- TODO: VALIDATION AND ERROR CONTROL -->
+                        <div class="form-group text-center">
+                            <label for="title">TITLE</label>
+                            <input name="title" type="text" class="form-control" id="title">
+                        </div>
+
+                        <div class="text-center">
+                            <label for="content">CONTENT</label>
+                        </div>
+
+                        <textarea name="content" id="easymde-area" cols="" rows=""></textarea>
+                        <!-- / MODAL CONTENT -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button class="btn btn-primary" data-dismiss="modal">close</button> -->
+                        <button class="btn btn-secondary">submit</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 @endauth
 
 <script type="text/javascript">

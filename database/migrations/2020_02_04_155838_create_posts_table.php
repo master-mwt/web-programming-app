@@ -17,8 +17,8 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('content');
-            $table->bigInteger('upvote')->unsigned();
-            $table->bigInteger('downvote')->unsigned();
+            $table->bigInteger('upvote')->unsigned()->default(0);
+            $table->bigInteger('downvote')->unsigned()->default(0);
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('channel_id')->unsigned();
             $table->timestamps();

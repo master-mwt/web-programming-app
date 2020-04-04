@@ -80,4 +80,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/posts/{post}/save', 'PagePostController@save')->name('post.save');
     Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
     Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
+    Route::post('/posts', 'PostController@store')->name('post.store');
 });
