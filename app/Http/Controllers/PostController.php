@@ -42,10 +42,8 @@ class PostController extends Controller
     {
         $data = $this->validateData();
 
-        /* DEBUG */
-        $data['user_id'] = Auth::id();
-        $data['channel_id'] = 1;
-        /* / DEBUG */
+        $data['user_id'] = Auth::User()->id;
+        $data['channel_id'] = $request->input('channel_id');
 
         $post = Post::create($data);
 

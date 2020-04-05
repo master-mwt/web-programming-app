@@ -18,7 +18,7 @@
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
                             <span class="text-primary">{{ $post->user_id->name }}</span>
                         </p>
-                        <h5 class="m-0"><a href="{{ route('discover.post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
+                        <h5 class="m-0"><a href="{{ route('discover.post', $post->post_id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         <a href="{{ route('discover.post', $post->id) }}" class="text-decoration-none mr-2"><i class="fas fa-comment-alt mr-1"></i>100 Comments</a>
