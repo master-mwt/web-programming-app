@@ -8,9 +8,9 @@
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($myreplies as $reply)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
-                <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
+                <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
                     <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                    <span class="my-1 text-light">{{ $reply->upvote - $reply->downvote }}</span>
+                    <span class="my-1 text-dark text-bold">{{ $reply->upvote - $reply->downvote }}</span>
                     <a href="" class=""><i class="fas fa-arrow-down"></i></a>
                 </div>
                 <div class="w-100">
