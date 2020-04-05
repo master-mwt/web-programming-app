@@ -15,12 +15,10 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
             $table->text('content');
-            $table->bigInteger('upvote')->unsigned();
-            $table->bigInteger('downvote')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('reply_id')->unsigned();
+            $table->bigInteger('channel_id')->unsigned();
             $table->timestamps();
         });
 
@@ -29,6 +27,8 @@ class CreateCommentsTable extends Migration
                 ->references('id')->on('users');
             $table->foreign('reply_id')
                 ->references('id')->on('replies')->onDelete('cascade');
+            $table->foreign('channel_id')
+                ->references('id')->on('channels')->onDelete('cascade');
         });
     }
 

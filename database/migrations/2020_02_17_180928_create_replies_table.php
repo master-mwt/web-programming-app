@@ -15,12 +15,12 @@ class CreateRepliesTable extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
             $table->text('content');
             $table->bigInteger('upvote')->unsigned();
             $table->bigInteger('downvote')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('post_id')->unsigned();
+            $table->bigInteger('channel_id')->unsigned();
             $table->timestamps();
         });
 
@@ -29,6 +29,8 @@ class CreateRepliesTable extends Migration
                 ->references('id')->on('users');
             $table->foreign('post_id')
                 ->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('channel_id')
+                ->references('id')->on('channels')->onDelete('cascade');
         });
     }
 

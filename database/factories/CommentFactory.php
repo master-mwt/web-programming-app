@@ -13,12 +13,10 @@ $factory->define(Comment::class, function (Faker $faker) {
     $reply = \App\Reply::all()->random(1)->first();
 
     return [
-        'title' => $faker->sentence,
         'content' => $faker->text,
-        'upvote' => 0,
-        'downvote' => 0,
         // FKs
         'user_id' => $user->id,
         'reply_id' => $reply->id,
+        'channel_id' => $reply->channel_id,
     ];
 });

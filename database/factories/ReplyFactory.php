@@ -13,12 +13,12 @@ $factory->define(Reply::class, function (Faker $faker) {
     $post = \App\Post::all()->random(1)->first();
 
     return [
-        'title' => $faker->sentence,
         'content' => $faker->markdown(),
         'upvote' => 0,
         'downvote' => 0,
         // FKs
         'user_id' => $user->id,
         'post_id' => $post->id,
+        'channel_id' => $post->channel_id,
     ];
 });

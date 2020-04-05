@@ -104,7 +104,6 @@ class ReplyController extends Controller
     private function validateData()
     {
         return request()->validate([
-            'title' => 'required',
             'content' => 'required',
         ]);
     }

@@ -22,7 +22,7 @@ class CommentDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function($query){
-                return 
+                return
                 '<div class="d-flex flex-column">
                     <a href="/comments/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
                     <a href="/comments/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
@@ -76,7 +76,7 @@ class CommentDataTable extends DataTable
                                 });
                             });
                         }",
-                        
+
                     ]);
     }
 
@@ -95,14 +95,12 @@ class CommentDataTable extends DataTable
                   ->addClass('text-center'),
             Column::make('id')
                 ->addClass('filterable'),
-            Column::make('title')
-                ->addClass('filterable'),
             //Column::make('content'),
-            Column::make('upvote'),
-            Column::make('downvote'),
             Column::make('user_id')
                 ->addClass('filterable'),
             Column::make('reply_id')
+                ->addClass('filterable'),
+            Column::make('channel_id')
                 ->addClass('filterable'),
             Column::computed('created_at')
                 ->addClass('filterable'),
