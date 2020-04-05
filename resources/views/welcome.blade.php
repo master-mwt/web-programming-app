@@ -39,8 +39,11 @@
                     </div>
                     <div class="card-body text-left px-3 py-1">
                         <div class="markdown-content" data-markdown-content="{{ $post->content }}"></div>
+                        @foreach($post->tags as $tag)
+                            <span class="badge badge-pill" style="font-size: 11px; background-color: #ddd">{{$tag->tag_id->name}}</span>
+                        @endforeach
                     </div>
-                    <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
+                    <div class="card-footer border-0 p-1 px-3 text-left mt-1" style="border-bottom-left-radius: 0px">
                         <!-- <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a> -->
                         @if($post->saved == 'Save')
                             <a href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>

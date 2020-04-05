@@ -35,6 +35,11 @@ class PageWelcomeController extends Controller
             $post->channel_id = Channel::findOrFail($post->channel_id);
             $post->user_id = User::findOrFail($post->user_id);
             
+            $post->tags = PostTag::where('post_id',$post->id)->get();
+            foreach($post->tags as $tag) {
+                $tag->tag_id = Tag::findOrFail($tag->tag_id);
+            }
+            
             if(Auth::check())
             {
                 is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())

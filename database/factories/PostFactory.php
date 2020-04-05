@@ -12,7 +12,7 @@ $factory->define(Post::class, function (Faker $faker) {
     $user = \App\User::all()->random(1)->first();
     $channel = \App\Channel::all()->random(1)->first();
 
-    $markdownText = $faker->markdownH3()."\n".$faker->markdownCode(100)."\n".$faker->markdownInlineBold()."<br/>".$faker->markdownInlineItalic()."<br/>".$faker->markdownInlineLink()."\n".$faker->markdownBulletedList()."\n".$faker->markdownNumberedList();
+    $markdownText = $faker->markdownH3()."\n".$faker->markdownCode(100)."\n".$faker->markdownInlineBold()."<br/>".$faker->markdownInlineItalic()."<br/>".$faker->markdownInlineLink()."\n".$faker->markdownBulletedList()."\n".$faker->markdownNumberedList()."\n\n".$faker->markdownBlockqoute();
     
     return [
         'title' => $faker->sentence,

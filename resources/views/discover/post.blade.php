@@ -110,14 +110,9 @@
                     </div>
                     @if(count($reply->comments) == 0)
                     @else
-                    <div class="p-2 pt-4 collapse" id="comment-collapse-{{$reply->id}}">
+                    <div class="p-2 pt-2 collapse" id="comment-collapse-{{$reply->id}}">
                         @forelse($reply->comments as $comment)
-                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
-                                <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
-                                    <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                                    <span class="my-1 text-light">{{ $comment->upvote - $comment->downvote }}</span>
-                                    <a href="" class=""><i class="fas fa-arrow-down"></i></a>
-                                </div>
+                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0" style="max-width: 800px">
                                 <div class="w-100">
                                     <div class="card-header text-left border-0 px-3">
                                         <p class="m-0 mb-1">
