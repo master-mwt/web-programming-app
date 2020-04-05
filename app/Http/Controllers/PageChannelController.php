@@ -6,6 +6,8 @@ use Auth;
 use App\User;
 use App\Channel;
 use App\Post;
+use App\PostTag;
+use App\Tag;
 use App\UserPostDownvoted;
 use App\UserPostHidden;
 use App\UserPostReported;
@@ -23,25 +25,33 @@ class PageChannelController extends Controller
         foreach($posts as $post) {
             $post->user_id = User::findOrFail($post->user_id);
 
-            is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
-            ? $post->upvoted = 'Upvote'
-            : $post->upvoted = 'Unupvote';
+            $post->tags = PostTag::where('post_id',$post->id)->get();
+            foreach($post->tags as $tag) {
+                $tag->tag_id = Tag::findOrFail($tag->tag_id);
+            }
 
-            is_null(UserPostDownvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
-            ? $post->downvoted = 'Downvote'
-            : $post->downvoted = 'Undownvote';
+            if(Auth::check())
+            {
+                is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
+                ? $post->upvoted = 'Upvote'
+                : $post->upvoted = 'Unupvote';
 
-            is_null(UserPostSaved::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
-            ? $post->saved = 'Save'
-            : $post->saved = 'Unsave';
+                is_null(UserPostDownvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
+                ? $post->downvoted = 'Downvote'
+                : $post->downvoted = 'Undownvote';
 
-            is_null(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
-            ? $post->hidden = 'Hide'
-            : $post->hidden = 'Unhide';
+                is_null(UserPostSaved::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
+                ? $post->saved = 'Save'
+                : $post->saved = 'Unsave';
 
-            is_null(UserPostReported::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
-            ? $post->reported = 'Report'
-            : $post->reported = 'Unreport';
+                is_null(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
+                ? $post->hidden = 'Hide'
+                : $post->hidden = 'Unhide';
+
+                is_null(UserPostReported::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
+                ? $post->reported = 'Report'
+                : $post->reported = 'Unreport';
+            }
         }
 
         return view('discover.channel', compact(

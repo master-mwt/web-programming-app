@@ -14,7 +14,7 @@ class UserPostReportedSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\UserPostReported::class, 100)->make()->each(function($user_post_reported) {
+        factory(App\UserPostReported::class, 300)->make()->each(function($user_post_reported) {
 
             global $results;
 

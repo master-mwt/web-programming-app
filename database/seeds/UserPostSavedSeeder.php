@@ -14,7 +14,7 @@ class UserPostSavedSeeder extends Seeder
         global $results;
         $results = [];
 
-        factory(App\UserPostSaved::class, 100)->make()->each(function($user_post_saved) {
+        factory(App\UserPostSaved::class, 300)->make()->each(function($user_post_saved) {
 
             global $results;
 
