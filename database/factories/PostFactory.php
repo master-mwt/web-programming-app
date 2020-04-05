@@ -12,9 +12,11 @@ $factory->define(Post::class, function (Faker $faker) {
     $user = \App\User::all()->random(1)->first();
     $channel = \App\Channel::all()->random(1)->first();
 
+    $markdownText = $faker->markdownH3()."\n".$faker->markdownCode(100)."\n".$faker->markdownInlineBold()."<br/>".$faker->markdownInlineItalic()."<br/>".$faker->markdownInlineLink()."\n".$faker->markdownBulletedList()."\n".$faker->markdownNumberedList();
+    
     return [
         'title' => $faker->sentence,
-        'content' => $faker->markdown(),
+        'content' => $markdownText,
         'upvote' => 0,
         'downvote' => 0,
         // FKs
