@@ -11,37 +11,65 @@
 |
 */
 
-// pagewelcomecontroller routes
+
+//////////////////////////////////////////////////////////////
+// GUEST USER ROUTES (AUTHORIZATION) [+AUTH & ADMIN+]
+//////////////////////////////////////////////////////////////
+
+//************************************************************
+// PAGEHOMECONTROLLER ROUTES
+//************************************************************
 Route::get('/', 'PageWelcomeController@index')->name('welcome');
 Route::get('/search', 'PageWelcomeController@search')->name('search');
 Route::get('/help', 'PageWelcomeController@help')->name('help');
 Route::get('/about', 'PageWelcomeController@about')->name('about');
 Route::get('/contact', 'PageWelcomeController@contact')->name('contact');
 
-// pagehomecontroller routes [w/ auth middleware]
+//************************************************************
+// PAGEHOMECONTROLLER ROUTES [w/ AUTH MIDDLEWARE]
+//************************************************************
 Auth::routes();
 Route::get('/home', 'PageHomeController@index')->name('home');
-// home post subroutes
+//************************************************************
+// PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:POST]
+//************************************************************
 Route::get('/home/post/owned', 'PageHomeController@postOwned')->name('home.post.owned');
 Route::get('/home/post/saved', 'PageHomeController@postSaved')->name('home.post.saved');
 Route::get('/home/post/hidden', 'PageHomeController@postHidden')->name('home.post.hidden');
 Route::get('/home/post/reported', 'PageHomeController@postReported')->name('home.post.reported');
-// home replies subroutes
+//************************************************************
+// PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:REPLY]
+//************************************************************
 Route::get('/home/reply/owned', 'PageHomeController@replyOwned')->name('home.reply.owned');
-// home comments subroutes
+//************************************************************
+// PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:COMMENT]
+//************************************************************
 Route::get('/home/comment/owned', 'PageHomeController@commentOwned')->name('home.comment.owned');
-// home channel subroutes
+//************************************************************
+// PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:CHANNEL]
+//************************************************************
 Route::get('/home/channel/owned', 'PageHomeController@channelOwned')->name('home.channel.owned');
 Route::get('/home/channel/joined', 'PageHomeController@channelJoined')->name('home.channel.joined');
 
-// pagechannelcontroller routes
+//************************************************************
+// PAGECHANNELCONTROLLER ROUTES
+//************************************************************
 Route::get('/discover/channel/{id}', 'PageChannelController@channel')->name('discover.channel');
 
-// pagepostcontroller routes
+//************************************************************
+// PAGEPOSTCONTROLLER ROUTES
+//************************************************************
 Route::get('/discover/post/{id}', 'PagePostController@post')->name('discover.post');
 
-// pagebackendcontroller routes
+
+//////////////////////////////////////////////////////////////
+// ADMIN USER ROUTES (AUTHORIZATION)
+//////////////////////////////////////////////////////////////
+
 Route::group(['middleware' => ['admin']], function() {
+    //************************************************************
+    // ADMIN:BACKEND ROUTES
+    //************************************************************
     Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
     Route::get('/backend/tags', 'PageBackendController@backendTags')->name('backend.tags');
     Route::get('/backend/posts', 'PageBackendController@backendPosts')->name('backend.posts');
@@ -49,10 +77,9 @@ Route::group(['middleware' => ['admin']], function() {
     Route::get('/backend/comments', 'PageBackendController@backendComments')->name('backend.comments');
     Route::get('/backend/users', 'PageBackendController@backendUsers')->name('backend.users');
     Route::get('/backend/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('backend.logs');
-});
-
-// rest controllers [? auth or admin middlware ?]
-Route::group(['middleware' => ['admin']], function() {
+    //************************************************************
+    // ADMIN:REST ROUTES
+    //************************************************************
     Route::resource('/users', 'UserController');
     Route::resource('/channels', 'ChannelController');
     Route::resource('/comments', 'CommentController');
@@ -65,7 +92,31 @@ Route::group(['middleware' => ['admin']], function() {
     Route::resource('/tags', 'TagController');
 });
 
-// rest controllers [MODEL]
+
+//////////////////////////////////////////////////////////////
+// AUTH USER ROUTES (AUTHORIZATION)
+//////////////////////////////////////////////////////////////
+
+Route::group(['middleware' => ['auth']], function() {
+    //************************************************************
+    // AUTH:ACTIONS ROUTES
+    //************************************************************
+    Route::get('/posts/{post}/upvote', 'PagePostController@upvote')->name('post.upvote');
+    Route::get('/posts/{post}/downvote', 'PagePostController@downvote')->name('post.downvote');
+    Route::get('/posts/{post}/save', 'PagePostController@save')->name('post.save');
+    Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
+    Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
+    //************************************************************
+    // AUTH:REST ROUTES
+    //************************************************************
+    Route::post('/posts', 'PostController@store')->name('post.store');
+});
+
+
+//////////////////////////////////////////////////////////////
+// REST MODEL ROUTES (ex. channel)
+//////////////////////////////////////////////////////////////
+
 // Route::get('/channels', 'ChannelController@index');
 // Route::get('/channels/create', 'ChannelController@create');
 // Route::post('/channels', 'ChannelController@store');
@@ -73,12 +124,3 @@ Route::group(['middleware' => ['admin']], function() {
 // Route::get('/channels/{channel}/edit', 'ChannelController@edit');
 // Route::patch('/channels/{channel}', 'ChannelController@update');
 // Route::delete('/channels/{channel}', 'ChannelController@destroy');
-
-Route::group(['middleware' => ['auth']], function() {
-    Route::get('/posts/{post}/upvote', 'PagePostController@upvote')->name('post.upvote');
-    Route::get('/posts/{post}/downvote', 'PagePostController@downvote')->name('post.downvote');
-    Route::get('/posts/{post}/save', 'PagePostController@save')->name('post.save');
-    Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
-    Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
-    Route::post('/posts', 'PostController@store')->name('post.store');
-});
