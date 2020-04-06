@@ -12,24 +12,36 @@ class ServiceSeeder extends Seeder
     public function run()
     {
         $services = [
+            //POST
             ['name' => 'create_post'],
             ['name' => 'delete_post'],
+            
+            //REPLY
+            ['name' => 'create_reply'],
+            ['name' => 'delete_reply'],
 
+            //COMMENT
             ['name' => 'create_comment'],
             ['name' => 'delete_comment'],
 
+            //CHANNEL
             ['name' => 'create_channel'],
             ['name' => 'delete_channel'],
             ['name' => 'mod_channel_data'],
 
+            //BAN FROM CHANNEL
             ['name' => 'ban_user_from_channel'],    // soft ban
+            //BAN FROM PLATFORM
             ['name' => 'ban_user_from_platform'],   // hard ban
 
+            //USER
             ['name' => 'create_user'],
             ['name' => 'delete_user'],
             ['name' => 'mod_user_data'],
 
+            //BACKEND LOGS
             ['name' => 'access_to_log'],
+            //BACKEND
             ['name' => 'access_to_backend'],
 
             ['name' => 'silence_user_in_comment_section'],

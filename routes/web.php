@@ -67,16 +67,7 @@ Route::get('/discover/post/{id}', 'PagePostController@post')->name('discover.pos
 //////////////////////////////////////////////////////////////
 
 Route::group(['middleware' => ['admin']], function() {
-    //************************************************************
-    // ADMIN:BACKEND ROUTES
-    //************************************************************
-    Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
-    Route::get('/backend/tags', 'PageBackendController@backendTags')->name('backend.tags');
-    Route::get('/backend/posts', 'PageBackendController@backendPosts')->name('backend.posts');
-    Route::get('/backend/replies', 'PageBackendController@backendReplies')->name('backend.replies');
-    Route::get('/backend/comments', 'PageBackendController@backendComments')->name('backend.comments');
-    Route::get('/backend/users', 'PageBackendController@backendUsers')->name('backend.users');
-    Route::get('/backend/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('backend.logs');
+    
     //************************************************************
     // ADMIN:REST ROUTES
     //************************************************************
@@ -92,6 +83,24 @@ Route::group(['middleware' => ['admin']], function() {
     Route::resource('/tags', 'TagController');
 });
 
+Route::group(['middleware' => ['access_to_backend']], function() {
+    //************************************************************
+    // ADMIN:BACKEND ROUTES
+    //************************************************************
+    Route::get('/backend/channels', 'PageBackendController@backendChannels')->name('backend.channels');
+    Route::get('/backend/tags', 'PageBackendController@backendTags')->name('backend.tags');
+    Route::get('/backend/posts', 'PageBackendController@backendPosts')->name('backend.posts');
+    Route::get('/backend/replies', 'PageBackendController@backendReplies')->name('backend.replies');
+    Route::get('/backend/comments', 'PageBackendController@backendComments')->name('backend.comments');
+    Route::get('/backend/users', 'PageBackendController@backendUsers')->name('backend.users');
+});
+
+Route::group(['middleware' => ['access_to_log']], function() {
+    //************************************************************
+    // ADMIN:BACKEND ROUTES
+    //************************************************************
+    Route::get('/backend/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('backend.logs');
+});
 
 //////////////////////////////////////////////////////////////
 // AUTH USER ROUTES (AUTHORIZATION)
