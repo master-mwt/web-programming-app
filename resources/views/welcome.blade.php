@@ -164,5 +164,4 @@
         imageAccept: "image/png, image/jpg",
     });
 </script>
-<script type="text/javascript" src="{{URL::asset('js/post_ajax.js')}}"></script>
 @endsection

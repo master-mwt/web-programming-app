@@ -4,8 +4,10 @@
 
 let loginpath = window.location.protocol + "//" + window.location.host + "/login";
 
-// upvote handler
+// TODO: Handle errors !!!!!!!
+
 $(document).ready(function() {
+    // upvote handler
     $(document).on('click', '.upvote', function(e){
         e.preventDefault();
         let href = $(this).attr('href');
@@ -33,8 +35,7 @@ $(document).ready(function() {
 
             },
             error: function(XMLHTTPRequest, textStatus, errorThrown){
-                // handle error
-                // TODO: Handle error ?
+                alert('error');
             },
         });
     });
@@ -66,7 +67,7 @@ $(document).ready(function() {
 
             },
             error: function(XMLHTTPRequest, textStatus, errorThrown){
-                // handle error
+                alert('error');
             },
         });
     });
@@ -99,7 +100,7 @@ $(document).ready(function() {
 
             },
             error: function(XMLHTTPRequest, textStatus, errorThrown){
-                // handle error
+                alert('error');
             },
         });
     });
@@ -132,7 +133,7 @@ $(document).ready(function() {
 
             },
             error: function(XMLHTTPRequest, textStatus, errorThrown){
-                // handle error
+                alert('error');
             },
         });
     });
@@ -165,7 +166,7 @@ $(document).ready(function() {
 
             },
             error: function(XMLHTTPRequest, textStatus, errorThrown){
-                // handle error
+                alert('error');
             },
         });
     });

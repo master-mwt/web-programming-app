@@ -23,27 +23,27 @@
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
             </div>
         @endauth
-        
+
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     @if($post->upvoted == 'Upvote')
-                        <a href="{{ route('post.upvote', $post) }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
+                        <a id="post-{{ $post->id }}-upvote" href="{{ route('post.upvote', $post) }}" class="upvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @elseif($post->upvoted == 'Unupvote')
-                        <a href="{{ route('post.upvote', $post) }}" class="text-warning"><i class="fas fa-arrow-up mb-1"></i></a>
+                        <a id="post-{{ $post->id }}-upvote" href="{{ route('post.upvote', $post) }}" class="text-warning upvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     @endif
                     @if($post->upvoted == 'Unupvote' or $post->downvoted == 'Undownvote')
-                        <span class="my-1 text-warning">{{ $post->upvote - $post->downvote }}</span>
+                        <span id="post-{{ $post->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->upvote - $post->downvote }}</span>
                     @else
-                        <span class="my-1 text-light">{{ $post->upvote - $post->downvote }}</span>
+                        <span id="post-{{ $post->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->upvote - $post->downvote }}</span>
                     @endif
                     @if($post->downvoted == 'Downvote')
-                        <a href="{{ route('post.downvote', $post) }}" class=""><i class="fas fa-arrow-down"></i></a>
+                        <a id="post-{{ $post->id }}-downvote" href="{{ route('post.downvote', $post) }}" class="downvote"><i class="fas fa-arrow-down"></i></a>
                     @elseif($post->downvoted == 'Undownvote')
-                        <a href="{{ route('post.downvote', $post) }}" class="text-warning"><i class="fas fa-arrow-down"></i></a>
+                        <a id="post-{{ $post->id }}-downvote" href="{{ route('post.downvote', $post) }}" class="text-warning downvote"><i class="fas fa-arrow-down"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
                     @endif
@@ -63,27 +63,27 @@
                         @endforeach
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left mt-1" style="border-bottom-left-radius: 0px">
-                        <!-- <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a> -->
+                    <!-- <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a> -->
                         @if($post->saved == 'Save')
-                            <a href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
+                            <a id="post-{{ $post->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2 save"><i id="post-{{ $post->id }}-save-icon" class="far fa-bookmark mr-1"></i>Save</a>
                         @elseif($post->saved == 'Unsave')
-                            <a href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2 text-danger"><i class="fas fa-bookmark mr-1"></i>Unsave</a>
+                            <a id="post-{{ $post->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2 text-danger save"><i id="post-{{ $post->id }}-save-icon" class="fas fa-bookmark mr-1"></i>Unsave</a>
                         @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
+                            <a id="post-{{ $post->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2 save"><i id="post-{{ $post->id }}-save-icon" class="far fa-bookmark mr-1"></i>Save</a>
                         @endif
                         @if($post->hidden == 'Hide')
-                            <a href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
+                            <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
                         @elseif($post->hidden == 'Unhide')
-                            <a href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 text-danger"><i class="fas fa-eye-slash mr-1"></i>Unhide</a>
+                            <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 text-danger hide"><i id="post-{{ $post->id }}-hide-icon" class="fas fa-eye-slash mr-1"></i>Unhide</a>
                         @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
+                            <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
                         @if($post->reported == 'Report')
-                            <a href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none"><i class="far fa-flag mr-1"></i>Report</a>
+                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
                         @elseif($post->reported == 'Unreport')
-                            <a href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none text-danger"><i class="fas fa-flag mr-1"></i>Unreport</a>
-                        @else    
-                            <a href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none"><i class="far fa-flag mr-1"></i>Report</a>
+                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none text-danger report"><i id="post-{{ $post->id }}-report-icon" class="fas fa-flag mr-1"></i>Unreport</a>
+                        @else
+                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
                         @endif
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                         });
                     });
                 }
-            }); 
+            });
         });
     });
 </script>
