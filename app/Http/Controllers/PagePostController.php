@@ -26,12 +26,12 @@ class PagePostController extends Controller
 
         $post->channel_id = Channel::findOrFail($post->channel_id);
         $post->user_id = User::findOrFail($post->user_id);
-        
+
         $post->tags = PostTag::where('post_id',$post->id)->get();
         foreach($post->tags as $tag) {
             $tag->tag_id = Tag::findOrFail($tag->tag_id);
         }
-        
+
         if(Auth::check())
         {
             is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
@@ -75,6 +75,7 @@ class PagePostController extends Controller
     public function upvote(Post $post)
     {
         $user_id = Auth::id();
+        $data = [];
 
         $upvotedAlready = UserPostUpvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
 
@@ -83,7 +84,9 @@ class PagePostController extends Controller
             $post->upvote = $post->upvote - 1;
             $post->save();
 
-            return back();
+            $data['vote'] = $post->upvote - $post->downvote;
+            $data['upvotedAlready'] = true;
+            return response()->json($data, 200);
         }
 
         $downvotedAlready = UserPostDownvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
@@ -94,6 +97,8 @@ class PagePostController extends Controller
             if($downvotedAlready){
                 $downvotedAlready->delete();
                 $post->downvote = $post->downvote - 1;
+
+                $data['downvotedAlready'] = true;
             }
 
             $post->upvote = $post->upvote + 1;
@@ -102,16 +107,19 @@ class PagePostController extends Controller
 
             DB::commit();
         } catch(\Exception $e) {
-            abort(500, 'An error occurred');
             DB::rollBack();
+
+            return response()->json(["message" => 'An error occurred'], 500);
         }
 
-        return back();
+        $data['vote'] = $post->upvote - $post->downvote;
+        return response($data, 200);
     }
 
     public function downvote(Post $post)
     {
         $user_id = Auth::id();
+        $data = [];
 
         $downvotedAlready = UserPostDownvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
 
@@ -120,7 +128,9 @@ class PagePostController extends Controller
             $post->downvote = $post->downvote - 1;
             $post->save();
 
-            return back();
+            $data['vote'] = $post->upvote - $post->downvote;
+            $data['downvotedAlready'] = true;
+            return response()->json($data, 200);
         }
 
         $upvotedAlready = UserPostUpvoted::where('user_id', $user_id)->where('post_id', $post->id)->first();
@@ -131,6 +141,8 @@ class PagePostController extends Controller
             if($upvotedAlready){
                 $upvotedAlready->delete();
                 $post->upvote = $post->upvote - 1;
+
+                $data['upvotedAlready'] = true;
             }
 
             $post->downvote = $post->downvote + 1;
@@ -139,11 +151,13 @@ class PagePostController extends Controller
 
             DB::commit();
         } catch(\Exception $e) {
-            abort(500, 'An error occurred');
             DB::rollBack();
+
+            return response()->json(["message" => 'An error occurred'], 500);
         }
 
-        return back();
+        $data['vote'] = $post->upvote - $post->downvote;
+        return response($data, 200);
     }
 
     public function save(Post $post)
@@ -155,12 +169,12 @@ class PagePostController extends Controller
         if($savedAlready){
             $savedAlready->delete();
 
-            return back();
+            return response()->json(null, 200);
         }
 
         UserPostSaved::create(['user_id' => $user_id, 'post_id' => $post->id]);
 
-        return back();
+        return response()->json(null, 200);
     }
 
     public function hide(Post $post)
@@ -172,12 +186,12 @@ class PagePostController extends Controller
         if($hiddenAlready){
             $hiddenAlready->delete();
 
-            return back();
+            return response()->json(null, 200);
         }
 
         UserPostHidden::create(['user_id' => $user_id, 'post_id' => $post->id]);
 
-        return back();
+        return response()->json(null, 200);
     }
 
     public function report(Post $post)
@@ -189,12 +203,12 @@ class PagePostController extends Controller
         if($reportedAlready){
             $reportedAlready->delete();
 
-            return back();
+            return response()->json(null, 200);
         }
 
         UserPostReported::create(['user_id' => $user_id, 'post_id' => $post->id]);
 
-        return back();
+        return response()->json(null, 200);
     }
 
 }
