@@ -56725,6 +56725,8 @@ __webpack_require__(/*! ./adminlte */ "./resources/js/adminlte.js");
 
 __webpack_require__(/*! jscroll */ "./node_modules/jscroll/jquery.jscroll.js");
 
+__webpack_require__(/*! ./post_ajax */ "./resources/js/post_ajax.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -56773,6 +56775,163 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js");
 
 __webpack_require__(/*! datatables.net-buttons-bs4 */ "./node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.js");
+
+/***/ }),
+
+/***/ "./resources/js/post_ajax.js":
+/*!***********************************!*\
+  !*** ./resources/js/post_ajax.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//
+// POST AJAX FUNCTIONS
+//
+var loginpath = window.location.protocol + "//" + window.location.host + "/login"; // upvote handler
+
+$(document).ready(function () {
+  $(document).on('click', '.upvote', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var post_id = hrefarray[hrefarray.length - 2];
+    $.ajax({
+      method: "GET",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var sVotenumber = $('#post-' + post_id + '-votenumber');
+        sVotenumber.text(data.vote);
+
+        if (data.upvotedAlready) {
+          $('#post-' + post_id + '-upvote').toggleClass('text-warning');
+          $('#post-' + post_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        } else if (data.downvotedAlready) {
+          $('#post-' + post_id + '-upvote').toggleClass('text-warning');
+          $('#post-' + post_id + '-downvote').toggleClass('text-warning');
+        } else {
+          $('#post-' + post_id + '-upvote').toggleClass('text-warning');
+          $('#post-' + post_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        }
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+        // TODO: Handle error ?
+      }
+    });
+  }); // downvote handler
+
+  $(document).on('click', '.downvote', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var post_id = hrefarray[hrefarray.length - 2];
+    $.ajax({
+      method: "GET",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var sVotenumber = $('#post-' + post_id + '-votenumber');
+        sVotenumber.text(data.vote);
+
+        if (data.downvotedAlready) {
+          $('#post-' + post_id + '-downvote').toggleClass('text-warning');
+          $('#post-' + post_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        } else if (data.upvotedAlready) {
+          $('#post-' + post_id + '-downvote').toggleClass('text-warning');
+          $('#post-' + post_id + '-upvote').toggleClass('text-warning');
+        } else {
+          $('#post-' + post_id + '-downvote').toggleClass('text-warning');
+          $('#post-' + post_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        }
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      }
+    });
+  }); // save handler
+
+  $(document).on('click', '.save', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var post_id = hrefarray[hrefarray.length - 2];
+
+    if (href.trim() === loginpath) {
+      window.location.href = loginpath;
+      return;
+    }
+
+    $.ajax({
+      method: "GET",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var sSavePost = $('#post-' + post_id + '-save');
+        sSavePost.toggleClass('text-danger');
+        $('#post-' + post_id + '-save-icon').toggleClass('far').toggleClass('fas');
+        var saveText = sSavePost.text();
+        var children = sSavePost.children();
+        sSavePost.text(saveText === 'Save' ? 'Unsave' : 'Save');
+        sSavePost.prepend(children);
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      }
+    });
+  }); // hide handler
+
+  $(document).on('click', '.hide', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var post_id = hrefarray[hrefarray.length - 2];
+
+    if (href.trim() === loginpath) {
+      window.location.href = loginpath;
+      return;
+    }
+
+    $.ajax({
+      method: "GET",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var sHidePost = $('#post-' + post_id + '-hide');
+        sHidePost.toggleClass('text-danger');
+        $('#post-' + post_id + '-hide-icon').toggleClass('far').toggleClass('fas');
+        var hideText = sHidePost.text();
+        var children = sHidePost.children();
+        sHidePost.text(hideText === 'Hide' ? 'Unhide' : 'Hide');
+        sHidePost.prepend(children);
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      }
+    });
+  }); // report handler
+
+  $(document).on('click', '.report', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var post_id = hrefarray[hrefarray.length - 2];
+
+    if (href.trim() === loginpath) {
+      window.location.href = loginpath;
+      return;
+    }
+
+    $.ajax({
+      method: "GET",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var sReportPost = $('#post-' + post_id + '-report');
+        sReportPost.toggleClass('text-danger');
+        $('#post-' + post_id + '-report-icon').toggleClass('far').toggleClass('fas');
+        var reportText = sReportPost.text();
+        var children = sReportPost.children();
+        sReportPost.text(reportText === 'Report' ? 'Unreport' : 'Report');
+        sReportPost.prepend(children);
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      }
+    });
+  });
+});
 
 /***/ }),
 
