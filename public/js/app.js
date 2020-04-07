@@ -56788,9 +56788,10 @@ __webpack_require__(/*! datatables.net-buttons-bs4 */ "./node_modules/datatables
 //
 // POST AJAX FUNCTIONS
 //
-var loginpath = window.location.protocol + "//" + window.location.host + "/login"; // upvote handler
+var loginpath = window.location.protocol + "//" + window.location.host + "/login"; // TODO: Handle errors !!!!!!!
 
 $(document).ready(function () {
+  // upvote handler
   $(document).on('click', '.upvote', function (e) {
     e.preventDefault();
     var href = $(this).attr('href');
@@ -56814,8 +56815,8 @@ $(document).ready(function () {
           $('#post-' + post_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
         }
       },
-      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
-        // TODO: Handle error ?
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        alert('error');
       }
     });
   }); // downvote handler
@@ -56843,7 +56844,8 @@ $(document).ready(function () {
           $('#post-' + post_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
         }
       },
-      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        alert('error');
       }
     });
   }); // save handler
@@ -56871,7 +56873,8 @@ $(document).ready(function () {
         sSavePost.text(saveText === 'Save' ? 'Unsave' : 'Save');
         sSavePost.prepend(children);
       },
-      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        alert('error');
       }
     });
   }); // hide handler
@@ -56899,7 +56902,8 @@ $(document).ready(function () {
         sHidePost.text(hideText === 'Hide' ? 'Unhide' : 'Hide');
         sHidePost.prepend(children);
       },
-      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        alert('error');
       }
     });
   }); // report handler
@@ -56927,7 +56931,8 @@ $(document).ready(function () {
         sReportPost.text(reportText === 'Report' ? 'Unreport' : 'Report');
         sReportPost.prepend(children);
       },
-      error: function error(XMLHTTPRequest, textStatus, errorThrown) {// handle error
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        alert('error');
       }
     });
   });
