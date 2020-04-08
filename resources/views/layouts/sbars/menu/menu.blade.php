@@ -112,6 +112,18 @@
                             <p>Reported Posts</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('home.post.upvoted') }}" class="nav-link">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>Upvoted Posts</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('home.post.downvoted') }}" class="nav-link">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>Downvoted Posts</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

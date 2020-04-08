@@ -237,6 +237,102 @@ class PageHomeController extends Controller
         ));
     }
 
+    public function postUpvoted()
+    {
+        $user = Auth::User();
+        $myposts = UserPostUpvoted::where('user_id', $user->id)->paginate(10);
+
+        foreach($myposts as $post) {
+            $post->post_id = Post::findOrFail($post->post_id);
+            $post->user_id = $user;
+            //destructuring
+            $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
+            $post->title = $post->post_id->title;
+            $post->upvote = $post->post_id->upvote;
+            $post->downvote = $post->post_id->downvote;
+
+            $post->tags = PostTag::where('post_id',$post->post_id->id)->get();
+            foreach($post->tags as $tag) {
+                $tag->tag_id = Tag::findOrFail($tag->tag_id);
+            }
+
+            if(Auth::check())
+            {
+                is_null(UserPostUpvoted::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->upvoted = 'Upvote'
+                : $post->upvoted = 'Unupvote';
+
+                is_null(UserPostDownvoted::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->downvoted = 'Downvote'
+                : $post->downvoted = 'Undownvote';
+
+                is_null(UserPostSaved::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->saved = 'Save'
+                : $post->saved = 'Unsave';
+
+                is_null(UserPostHidden::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->hidden = 'Hide'
+                : $post->hidden = 'Unhide';
+
+                is_null(UserPostReported::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->reported = 'Report'
+                : $post->reported = 'Unreport';
+            }
+        }
+
+        return view('dashboard.post.altlist', compact(
+            'myposts'
+        ));
+    }
+
+    public function postDownvoted()
+    {
+        $user = Auth::User();
+        $myposts = UserPostDownvoted::where('user_id', $user->id)->paginate(10);
+
+        foreach($myposts as $post) {
+            $post->post_id = Post::findOrFail($post->post_id);
+            $post->user_id = $user;
+            //destructuring
+            $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
+            $post->title = $post->post_id->title;
+            $post->upvote = $post->post_id->upvote;
+            $post->downvote = $post->post_id->downvote;
+
+            $post->tags = PostTag::where('post_id',$post->post_id->id)->get();
+            foreach($post->tags as $tag) {
+                $tag->tag_id = Tag::findOrFail($tag->tag_id);
+            }
+
+            if(Auth::check())
+            {
+                is_null(UserPostUpvoted::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->upvoted = 'Upvote'
+                : $post->upvoted = 'Unupvote';
+
+                is_null(UserPostDownvoted::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->downvoted = 'Downvote'
+                : $post->downvoted = 'Undownvote';
+
+                is_null(UserPostSaved::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->saved = 'Save'
+                : $post->saved = 'Unsave';
+
+                is_null(UserPostHidden::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->hidden = 'Hide'
+                : $post->hidden = 'Unhide';
+
+                is_null(UserPostReported::where(['user_id' => $user->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->reported = 'Report'
+                : $post->reported = 'Unreport';
+            }
+        }
+
+        return view('dashboard.post.altlist', compact(
+            'myposts'
+        ));
+    }
+
     public function replyOwned()
     {
         $user = Auth::User();

@@ -37,6 +37,8 @@ Route::get('/home/post/owned', 'PageHomeController@postOwned')->name('home.post.
 Route::get('/home/post/saved', 'PageHomeController@postSaved')->name('home.post.saved');
 Route::get('/home/post/hidden', 'PageHomeController@postHidden')->name('home.post.hidden');
 Route::get('/home/post/reported', 'PageHomeController@postReported')->name('home.post.reported');
+Route::get('/home/post/upvoted', 'PageHomeController@postUpvoted')->name('home.post.upvoted');
+Route::get('/home/post/downvoted', 'PageHomeController@postDownvoted')->name('home.post.downvoted');
 //************************************************************
 // PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:REPLY]
 //************************************************************
