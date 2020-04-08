@@ -47,7 +47,7 @@ class PostController extends Controller
 
         $post = Post::create($data);
 
-        return redirect('/posts/' . $post->id);
+        return redirect('/discover/post/' . $post->id);
     }
 
     /**

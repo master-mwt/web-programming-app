@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Comment;
 use Illuminate\Http\Request;
 
@@ -41,9 +42,16 @@ class CommentController extends Controller
     {
         $data = $this->validateData();
 
+        $data['user_id'] = Auth::User()->id;
+        $data['channel_id'] = $request->input('channel_id');
+        $data['reply_id'] = $request->input('reply_id');
+        
         $comment = Comment::create($data);
+        
+        $comment->post_id = $request->input('post_id');
 
-        return redirect('/comments/' . $comment->id);
+        //return redirect('/comments/' . $comment->id);
+        return redirect('/discover/post/' . $comment->post_id);
     }
 
     /**

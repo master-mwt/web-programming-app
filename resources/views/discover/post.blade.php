@@ -99,16 +99,30 @@
                         <div class="markdown-content" data-markdown-content="{{ $reply->content }}"></div>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
-                        @auth
+                        <form action="/comments" method="post">
+                        @csrf
+                            <div class="d-flex flex-column py-2 pt-3">
+                                {{ Form::hidden('channel_id', $post->channel_id->id) }}
+                                {{ Form::hidden('reply_id', $reply->id) }}
+                                {{ Form::hidden('post_id', $post->id) }}
+                                <textarea name="content" id="area-comment" cols="" rows="3" class="border-0 w-100 rounded-top p-2 m-0" placeholder="Write your message here ..." style="background-color: #ddd"></textarea>
+
+                                <div class="rounded-bottom p-1 m-0" style="background-color: #ccc;">
+                                    <button class="btn btn-sm btn-success btn-block">Make a Comment</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- @auth
                             <a href="" class="text-decoration-none mr-2" data-toggle="modal" data-target="#modal-comment"><i class="fas fa-comment-alt mr-2"></i>Make a Comment</a>
-                        @endauth
+                        @endauth -->
 
                         @if(count($reply->comments) == 0)
                         @else
                         <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Comments</a>
                         @endif
-
                     </div>
+
                     @if(count($reply->comments) == 0)
                     @else
                     <div class="pl-2 pr-2 pt-2 collapse" id="comment-collapse-{{$reply->id}}">
@@ -171,46 +185,57 @@
 </script>
 
 @auth
-    <div class="modal fade" id="easymde-modal-reply" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-reply-label" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title ml-auto" id="easymde-modal-reply-label">make a reply</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <textarea name="" id="easymde-area-reply" cols="" rows=""></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary">submit</button>
+    <form action="/replies" method="post">
+        @csrf
+
+        <div class="modal fade" id="easymde-modal-reply" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-reply-label" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ml-auto" id="easymde-modal-reply-label">make a reply</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ Form::hidden('channel_id', $post->channel_id->id) }}
+                        {{ Form::hidden('post_id', $post->id) }}
+                        <textarea name="content" id="easymde-area-reply" cols="" rows=""></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">submit</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 @endauth
 
-@auth
-    <div class="modal fade" id="modal-comment" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal-comment-label" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title ml-auto" id="modal-comment-label">make a comment</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <textarea name="" id="area-comment" cols="" rows="10" class="w-100 rounded p-2 m-0" placeholder="Write your comment here..."></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary">submit</button>
+<!-- @auth
+    <form action="/replies" method="post">
+        @csrf
+
+        <div class="modal fade" id="modal-comment" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal-comment-label" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ml-auto" id="modal-comment-label">make a comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ Form::hidden('channel_id', $post->channel_id->id) }}
+                        <textarea name="content" id="area-comment" cols="" rows="10" class="w-100 rounded p-2 m-0" placeholder="Write your comment here..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">submit</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endauth
+    </form>
+@endauth -->
 
 <script type="text/javascript">
 

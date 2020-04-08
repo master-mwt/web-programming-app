@@ -15,7 +15,7 @@
         @csrf
         <div class="input-group input-group-sm">
 
-            <div class="input-group-append">
+            <div class="input-group-append mr-2">
                 <select name="target" id="" class="form-control form-control-sm form-control-navbar" style="outline: none; box-shadow: none; background-color: #eee">
                     <option value="posts" @if (!empty($target) && $target == 'posts') selected="selected" @endif>posts</option>
                     <option value="channels" @if (!empty($target) && $target == 'channels') selected="selected" @endif>channels</option>
@@ -23,7 +23,7 @@
                 </select>
             </div>
 
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" name="query" value="@if (!empty($query)) {{$query}}@endif">
+            <input class="form-control form-control-navbar rounded" type="search" placeholder="Search" aria-label="Search" name="query" value="@if (!empty($query)) {{$query}}@endif">
 
             <div class="input-group-append">
                 <button class="btn btn-navbar" type="submit">

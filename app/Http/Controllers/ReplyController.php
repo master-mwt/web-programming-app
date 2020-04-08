@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Reply;
 use Illuminate\Http\Request;
 
@@ -41,9 +42,14 @@ class ReplyController extends Controller
     {
         $data = $this->validateData();
 
+        $data['user_id'] = Auth::User()->id;
+        $data['channel_id'] = $request->input('channel_id');
+        $data['post_id'] = $request->input('post_id');
+
         $reply = Reply::create($data);
 
-        return redirect('/replies/' . $reply->id);
+        //return redirect('/replies/' . $reply->id);
+        return redirect('/discover/post/' . $reply->post_id);
     }
 
     /**
