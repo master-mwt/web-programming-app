@@ -56727,6 +56727,8 @@ __webpack_require__(/*! jscroll */ "./node_modules/jscroll/jquery.jscroll.js");
 
 __webpack_require__(/*! ./post_ajax */ "./resources/js/post_ajax.js");
 
+__webpack_require__(/*! ./reply_ajax */ "./resources/js/reply_ajax.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -56930,6 +56932,80 @@ $(document).ready(function () {
         var children = sReportPost.children();
         sReportPost.text(reportText === 'Report' ? 'Unreport' : 'Report');
         sReportPost.prepend(children);
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        alert('error');
+      }
+    });
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/reply_ajax.js":
+/*!************************************!*\
+  !*** ./resources/js/reply_ajax.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//
+// REPLY AJAX FUNCTIONS
+//
+// TODO: Handle errors !!!!!!!
+$(document).ready(function () {
+  // upvote handler
+  $(document).on('click', '.replyupvote', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var reply_id = hrefarray[hrefarray.length - 2];
+    $.ajax({
+      method: "GET",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var sVotenumber = $('#reply-' + reply_id + '-votenumber');
+        sVotenumber.text(data.vote);
+
+        if (data.upvotedAlready) {
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        } else if (data.downvotedAlready) {
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
+        } else {
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        }
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        alert('error');
+      }
+    });
+  }); // downvote handler
+
+  $(document).on('click', '.replydownvote', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var reply_id = hrefarray[hrefarray.length - 2];
+    $.ajax({
+      method: "GET",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var sVotenumber = $('#reply-' + reply_id + '-votenumber');
+        sVotenumber.text(data.vote);
+
+        if (data.downvotedAlready) {
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        } else if (data.upvotedAlready) {
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
+        } else {
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+        }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
         alert('error');

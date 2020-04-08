@@ -356,7 +356,20 @@ class PageHomeController extends Controller
 
     public function commentOwned()
     {
-        return view('dashboard.comment.list');
+        $user = Auth::User();
+        $mycomments = Comment::where('user_id', $user->id)->paginate(10);
+        
+        foreach($mycomments as $comment) {
+            $comment->reply_id = Reply::findOrFail($comment->reply_id);
+            $comment->user_id = $user;
+            //destructuring
+            $comment->reply_id->post_id = Post::findOrFail($comment->reply_id->post_id);
+            $comment->channel_id = Channel::findOrFail($comment->reply_id->channel_id);
+        }
+        
+        return view('dashboard.comment.list', compact(
+            'mycomments'
+        ));
     }
 
     public function channelOwned()

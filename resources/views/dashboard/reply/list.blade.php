@@ -15,6 +15,7 @@
                 <div class="w-100">
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
+                            <a href="{{ route('discover.channel', $reply->channel_id->id) }}" class="text-decoration-none"><b>{{ $reply->channel_id->name }} &#183</b></a>
                             <span class="text-muted">Posted by </span>
                             <span class="text-primary">{{ $reply->user_id->name }}</span>
                         </p>
@@ -24,19 +25,19 @@
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         
-                        <a href="{{route('discover.post', $reply->post_id->id)}}" class="text-decoration-none"><i class="fas fa-link mr-1"></i>See the Original Post</a>
+                        <a href="{{route('discover.post', $reply->post_id->id)}}" class="text-decoration-none"><i class="fas fa-link mr-2"></i>See the Original Post</a>
                         
                         @if(count($reply->comments) == 0)
                         @else
-                        <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-flag mr-1"></i>See Comments</a>
+                        <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Comments</a>
                         @endif
                         
                     </div>
                     @if(count($reply->comments) == 0)
                     @else
-                    <div class="p-2 pt-2 collapse" id="comment-collapse-{{$reply->id}}">
+                    <div class="pl-2 pr-2 pt-2 collapse" id="comment-collapse-{{$reply->id}}">
                         @forelse($reply->comments as $comment)
-                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0" style="max-width: 800px">
+                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0 mb-2" style="max-width: 800px">
                                 <div class="w-100">
                                     <div class="card-header text-left border-0 px-3">
                                         <p class="m-0 mb-1">
@@ -45,7 +46,7 @@
                                         </p>
                                     </div>
                                     <div class="card-body text-left px-3 py-1">
-                                        <div>{{ $comment->content }}</div>
+                                        <p>{{ $comment->content }}</p>
                                     </div>
                                 </div>
                             </div>

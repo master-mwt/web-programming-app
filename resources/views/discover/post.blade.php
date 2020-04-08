@@ -74,6 +74,10 @@
             <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal-reply">Make a Reply</button>
             </div>
+        @else
+            <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
+                <a role="button" href="{{ route('login') }}" class="btn btn-success btn-block text-light">Make a Reply</a>
+            </div>
         @endauth
 
         <div class="col-md-12 text-center infinite-scroll px-0">
@@ -96,23 +100,20 @@
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                         @auth
-                            <a href="" class="text-decoration-none mr-2" data-toggle="modal" data-target="#easymde-modal-comment"><i class="fas fa-comment-alt mr-1"></i>Comment</a>
+                            <a href="" class="text-decoration-none mr-2" data-toggle="modal" data-target="#modal-comment"><i class="fas fa-comment-alt mr-2"></i>Make a Comment</a>
                         @endauth
-                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a>
-                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-bookmark mr-1"></i>Save</a>
-                        <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none"><i class="fas fa-flag mr-1"></i>Report</a>
 
                         @if(count($reply->comments) == 0)
                         @else
-                        <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-flag mr-1"></i>See Comments</a>
+                        <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Comments</a>
                         @endif
 
                     </div>
                     @if(count($reply->comments) == 0)
                     @else
-                    <div class="p-2 pt-2 collapse" id="comment-collapse-{{$reply->id}}">
+                    <div class="pl-2 pr-2 pt-2 collapse" id="comment-collapse-{{$reply->id}}">
                         @forelse($reply->comments as $comment)
-                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0" style="max-width: 800px">
+                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0 mb-2" style="max-width: 800px">
                                 <div class="w-100">
                                     <div class="card-header text-left border-0 px-3">
                                         <p class="m-0 mb-1">
@@ -191,17 +192,17 @@
 @endauth
 
 @auth
-    <div class="modal fade" id="easymde-modal-comment" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-comment-label" aria-hidden="true">
+    <div class="modal fade" id="modal-comment" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="modal-comment-label" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title ml-auto" id="easymde-modal-comment-label">make a comment</h5>
+                    <h5 class="modal-title ml-auto" id="modal-comment-label">make a comment</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea name="" id="easymde-area-comment" cols="" rows=""></textarea>
+                    <textarea name="" id="area-comment" cols="" rows="10" class="w-100 rounded p-2 m-0" placeholder="Write your comment here..."></textarea>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary">submit</button>
@@ -230,22 +231,6 @@
         imageAccept: "image/png, image/jpg",
     });
 
-    //easymde-area-comment [easymde-modal-comment]
-    new EasyMDE({
-        autoDownloadFontAwesome: false,
-        indentWithTabs: true,
-        lineWrapping: true,
-        minHeight: "400px",
-        //showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'heading-1', 'heading-2', 'heading-3', 'clean-block', 'horizontal-rule'],
-        showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'clean-block', 'horizontal-rule'],
-        element: document.getElementById('easymde-area-comment'),
-        initialValue: '',
-        //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
-        //<img src="" width="" heigth=""> instead of ![](https://)
-        uploadImage: true,
-        imageMaxSize: "4000x4000x2",
-        imageAccept: "image/png, image/jpg",
-    });
 </script>
 
 @endsection
