@@ -33,5 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserPostReportedSeeder::class);
         $this->call(UserPostSavedSeeder::class);
         $this->call(UserPostUpvotedSeeder::class);
+        $this->call(UserReplyDownvotedSeeder::class);
+        $this->call(UserReplyUpvotedSeeder::class);
     }
 }

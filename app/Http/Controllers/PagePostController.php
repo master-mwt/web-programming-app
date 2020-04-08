@@ -14,6 +14,8 @@ use App\UserPostHidden;
 use App\UserPostReported;
 use App\UserPostSaved;
 use App\UserPostUpvoted;
+use App\UserReplyDownvoted;
+use App\UserReplyUpvoted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -211,4 +213,91 @@ class PagePostController extends Controller
         return response()->json(null, 200);
     }
 
+    public function replyUpvote(Reply $reply)
+    {
+        $user_id = Auth::id();
+        $data = [];
+
+        $upvotedAlready = UserReplyUpvoted::where('user_id', $user_id)->where('reply_id', $reply->id)->first();
+
+        if($upvotedAlready){
+            $upvotedAlready->delete();
+            $reply->upvote = $reply->upvote - 1;
+            $reply->save();
+
+            $data['vote'] = $reply->upvote - $reply->downvote;
+            $data['upvotedAlready'] = true;
+            return response()->json($data, 200);
+        }
+
+        $downvotedAlready = UserReplyDownvoted::where('user_id', $user_id)->where('reply_id', $reply->id)->first();
+
+        DB::beginTransaction();
+        try {
+
+            if($downvotedAlready){
+                $downvotedAlready->delete();
+                $reply->downvote = $reply->downvote - 1;
+
+                $data['downvotedAlready'] = true;
+            }
+
+            $reply->upvote = $reply->upvote + 1;
+            $reply->save();
+            UserReplyUpvoted::create(['user_id' => $user_id, 'reply_id' => $reply->id]);
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+
+            return response()->json(["message" => 'An error occurred'], 500);
+        }
+
+        $data['vote'] = $reply->upvote - $reply->downvote;
+        return response($data, 200);
+    }
+
+    public function replyDownvote(Reply $reply)
+    {
+        $user_id = Auth::id();
+        $data = [];
+
+        $downvotedAlready = UserReplyDownvoted::where('user_id', $user_id)->where('reply_id', $reply->id)->first();
+
+        if($downvotedAlready){
+            $downvotedAlready->delete();
+            $reply->downvote = $reply->downvote - 1;
+            $reply->save();
+
+            $data['vote'] = $reply->upvote - $reply->downvote;
+            $data['downvotedAlready'] = true;
+            return response()->json($data, 200);
+        }
+
+        $upvotedAlready = UserReplyUpvoted::where('user_id', $user_id)->where('reply_id', $reply->id)->first();
+
+        DB::beginTransaction();
+        try {
+
+            if($upvotedAlready){
+                $upvotedAlready->delete();
+                $reply->upvote = $reply->upvote - 1;
+
+                $data['upvotedAlready'] = true;
+            }
+
+            $reply->downvote = $reply->downvote + 1;
+            $reply->save();
+            UserReplyDownvoted::create(['user_id' => $user_id, 'reply_id' => $reply->id]);
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+
+            return response()->json(["message" => 'An error occurred'], 500);
+        }
+
+        $data['vote'] = $reply->upvote - $reply->downvote;
+        return response($data, 200);
+    }
 }

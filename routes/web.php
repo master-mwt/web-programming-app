@@ -69,7 +69,7 @@ Route::get('/discover/post/{id}', 'PagePostController@post')->name('discover.pos
 //////////////////////////////////////////////////////////////
 
 Route::group(['middleware' => ['admin']], function() {
-    
+
     //************************************************************
     // ADMIN:REST ROUTES
     //************************************************************
@@ -117,6 +117,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/posts/{post}/save', 'PagePostController@save')->name('post.save');
     Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
     Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
+    Route::get('/replies/{reply}/upvote', 'PagePostController@replyUpvote')->name('reply.upvote');
+    Route::get('/replies/{reply}/downvote', 'PagePostController@replyDownvote')->name('reply.downvote');
     //************************************************************
     // AUTH:REST ROUTES
     //************************************************************
