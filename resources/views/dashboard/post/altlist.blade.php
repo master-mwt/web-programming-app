@@ -28,7 +28,7 @@
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
                     @endif
                 </div>
-                <div class="w-100">
+                <div class="col p-0 d-flex flex-column overflow-auto">
                     <div class="card-header text-left bg-transparent border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>

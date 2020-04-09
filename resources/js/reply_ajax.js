@@ -21,14 +21,14 @@ $(document).ready(function() {
                 sVotenumber.text(data.vote);
 
                 if(data.upvotedAlready){
-                    $('#reply-' + reply_id + '-upvote').toggleClass('text-success');
-                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-success').toggleClass('text-dark');
+                    $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
+                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
                 } else if(data.downvotedAlready){
-                    $('#reply-' + reply_id + '-upvote').toggleClass('text-success');
-                    $('#reply-' + reply_id + '-downvote').toggleClass('text-success');
+                    $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
+                    $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
                 } else {
-                    $('#reply-' + reply_id + '-upvote').toggleClass('text-success');
-                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-success').toggleClass('text-dark');
+                    $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
+                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
                 }
 
             },
@@ -53,14 +53,14 @@ $(document).ready(function() {
                 sVotenumber.text(data.vote);
 
                 if(data.downvotedAlready){
-                    $('#reply-' + reply_id + '-downvote').toggleClass('text-success');
-                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-success').toggleClass('text-dark');
+                    $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
+                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
                 } else if(data.upvotedAlready){
-                    $('#reply-' + reply_id + '-downvote').toggleClass('text-success');
-                    $('#reply-' + reply_id + '-upvote').toggleClass('text-success');
+                    $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
+                    $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
                 } else {
-                    $('#reply-' + reply_id + '-downvote').toggleClass('text-success');
-                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-success').toggleClass('text-dark');
+                    $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
+                    $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
                 }
 
             },

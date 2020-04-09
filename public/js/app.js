@@ -56968,14 +56968,14 @@ $(document).ready(function () {
         sVotenumber.text(data.vote);
 
         if (data.upvotedAlready) {
-          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
-          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
         } else if (data.downvotedAlready) {
-          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
-          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
         } else {
-          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
-          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
@@ -56997,14 +56997,14 @@ $(document).ready(function () {
         sVotenumber.text(data.vote);
 
         if (data.downvotedAlready) {
-          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
-          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
         } else if (data.upvotedAlready) {
-          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
-          $('#reply-' + reply_id + '-upvote').toggleClass('text-warning');
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
+          $('#reply-' + reply_id + '-upvote').toggleClass('text-danger');
         } else {
-          $('#reply-' + reply_id + '-downvote').toggleClass('text-warning');
-          $('#reply-' + reply_id + '-votenumber').toggleClass('text-warning').toggleClass('text-light');
+          $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
+          $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {

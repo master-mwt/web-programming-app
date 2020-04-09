@@ -366,6 +366,9 @@ class PageHomeController extends Controller
         ));
     }
 
+    public function replyUpvoted() {}
+    public function replyDownvoted() {}
+
     public function commentOwned()
     {
         $user = Auth::User();

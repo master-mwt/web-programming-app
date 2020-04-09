@@ -28,7 +28,7 @@
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
                     @endif
                 </div>
-                <div class="w-100">
+                <div class="col p-0 d-flex flex-column overflow-auto">
                     <div class="card-header text-left bg-transparent border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
@@ -87,24 +87,24 @@
                     @if($reply->upvoted == 'Upvote')
                         <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @elseif($reply->upvoted == 'Unupvote')
-                        <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="text-success replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                        <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="text-danger replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     @endif
                     @if($reply->upvoted == 'Unupvote' or $reply->downvoted == 'Undownvote')
-                        <span id="reply-{{ $reply->id }}-votenumber" class="my-1 text-success text-bold votenumber">{{ $reply->upvote - $reply->downvote }}</span>
+                        <span id="reply-{{ $reply->id }}-votenumber" class="my-1 text-danger text-bold votenumber">{{ $reply->upvote - $reply->downvote }}</span>
                     @else
                         <span id="reply-{{ $reply->id }}-votenumber" class="my-1 text-dark text-bold votenumber">{{ $reply->upvote - $reply->downvote }}</span>
                     @endif
                     @if($reply->downvoted == 'Downvote')
                         <a id="reply-{{ $reply->id }}-downvote" href="{{ route('reply.downvote', $reply) }}" class="replydownvote"><i class="fas fa-arrow-down"></i></a>
                     @elseif($reply->downvoted == 'Undownvote')
-                        <a id="reply-{{ $reply->id }}-downvote" href="{{ route('reply.downvote', $reply) }}" class="text-success replydownvote"><i class="fas fa-arrow-down"></i></a>
+                        <a id="reply-{{ $reply->id }}-downvote" href="{{ route('reply.downvote', $reply) }}" class="text-danger replydownvote"><i class="fas fa-arrow-down"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
                     @endif
                 </div>
-                <div class="w-100">
+                <div class="col p-0 d-flex flex-column overflow-auto">
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <span class="text-muted">Posted by </span>

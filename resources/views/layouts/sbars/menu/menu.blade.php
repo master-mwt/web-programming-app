@@ -141,6 +141,18 @@
                             <p>My Replies</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('home.reply.upvoted') }}" class="nav-link">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>Upvoted Replies</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('home.reply.downvoted') }}" class="nav-link">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>Downvoted Replies</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

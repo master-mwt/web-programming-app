@@ -43,6 +43,8 @@ Route::get('/home/post/downvoted', 'PageHomeController@postDownvoted')->name('ho
 // PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:REPLY]
 //************************************************************
 Route::get('/home/reply/owned', 'PageHomeController@replyOwned')->name('home.reply.owned');
+Route::get('/home/reply/upvoted', 'PageHomeController@replyUpvoted')->name('home.reply.upvoted');
+Route::get('/home/reply/downvoted', 'PageHomeController@replyDownvoted')->name('home.reply.downvoted');
 //************************************************************
 // PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:COMMENT]
 //************************************************************

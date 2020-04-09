@@ -12,7 +12,7 @@
                     <span class="my-1 text-dark text-bold">{{ $comment->reply_id->upvote - $comment->reply_id->downvote }}</span>
                     <a href="" class=""><i class="fas fa-arrow-down"></i></a>
                 </div>
-                <div class="w-100">
+                <div class="col p-0 d-flex flex-column overflow-auto">
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $comment->channel_id->id) }}" class="text-decoration-none"><b>{{ $comment->channel_id->name }} &#183</b></a>
