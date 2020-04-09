@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\UserReplyDownvoted;
-use App\UserReplyUpvoted;
 use Illuminate\Support\Facades\Auth;
 use \App\User;
 use \App\Post;
@@ -19,6 +17,8 @@ use \App\UserPostUpvoted;
 use \App\UserPostDownvoted;
 use \App\UserChannelRole;
 use \App\Role;
+use App\UserReplyDownvoted;
+use App\UserReplyUpvoted;
 use Illuminate\Http\Request;
 
 class PageHomeController extends Controller
@@ -102,6 +102,7 @@ class PageHomeController extends Controller
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
+            $post->post_id->user_id = User::findOrFail($post->post_id->user_id);
             $post->user_id = $user;
             //destructuring
             $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
@@ -150,6 +151,7 @@ class PageHomeController extends Controller
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
+            $post->post_id->user_id = User::findOrFail($post->post_id->user_id);
             $post->user_id = $user;
             //destructuring
             $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
@@ -198,6 +200,7 @@ class PageHomeController extends Controller
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
+            $post->post_id->user_id = User::findOrFail($post->post_id->user_id);
             $post->user_id = $user;
             //destructuring
             $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
@@ -246,6 +249,7 @@ class PageHomeController extends Controller
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
+            $post->post_id->user_id = User::findOrFail($post->post_id->user_id);
             $post->user_id = $user;
             //destructuring
             $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
@@ -294,6 +298,7 @@ class PageHomeController extends Controller
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
+            $post->post_id->user_id = User::findOrFail($post->post_id->user_id);
             $post->user_id = $user;
             //destructuring
             $post->channel_id = Channel::findOrFail($post->post_id->channel_id);
@@ -352,12 +357,12 @@ class PageHomeController extends Controller
 
             if(Auth::check()){
                 is_null(UserReplyUpvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->id])->first())
-                    ? $reply->upvoted = 'Upvote'
-                    : $reply->upvoted = 'Unupvote';
+                ? $reply->upvoted = 'Upvote'
+                : $reply->upvoted = 'Unupvote';
 
                 is_null(UserReplyDownvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->id])->first())
-                    ? $reply->downvoted = 'Downvote'
-                    : $reply->downvoted = 'Undownvote';
+                ? $reply->downvoted = 'Downvote'
+                : $reply->downvoted = 'Undownvote';
             }
         }
 
@@ -366,8 +371,71 @@ class PageHomeController extends Controller
         ));
     }
 
-    public function replyUpvoted() {}
-    public function replyDownvoted() {}
+    public function replyUpvoted()
+    {
+        $user = Auth::User();
+        $myreplies = UserReplyUpvoted::where('user_id', $user->id)->paginate(10);
+
+        foreach($myreplies as $reply) {
+            $reply->reply_id = Reply::findOrFail($reply->reply_id);
+            $reply->reply_id->user_id = User::findOrFail($reply->reply_id->user_id);
+            $reply->user_id = $user;
+            //destructuring
+            $reply->channel_id = Channel::findOrFail($reply->reply_id->channel_id);
+            $reply->post_id = Post::findOrFail($reply->reply_id->post_id);
+            $reply->comments = Comment::where('reply_id', $reply->reply_id->id)->get();
+            foreach($reply->comments as $comment) {
+                $comment->user_id = User::findOrFail($comment->user_id);
+            }
+
+            if(Auth::check()){
+                is_null(UserReplyUpvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->reply_id->id])->first())
+                ? $reply->upvoted = 'Upvote'
+                : $reply->upvoted = 'Unupvote';
+
+                is_null(UserReplyDownvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->reply_id->id])->first())
+                ? $reply->downvoted = 'Downvote'
+                : $reply->downvoted = 'Undownvote';
+            }
+        }
+
+        return view('dashboard.reply.altlist', compact(
+            'myreplies'
+        ));
+    }
+
+    public function replyDownvoted()
+    {
+        $user = Auth::User();
+        $myreplies = UserReplyDownvoted::where('user_id', $user->id)->paginate(10);
+
+        foreach($myreplies as $reply) {
+            $reply->reply_id = Reply::findOrFail($reply->reply_id);
+            $reply->reply_id->user_id = User::findOrFail($reply->reply_id->user_id);
+            $reply->user_id = $user;
+            //destructuring
+            $reply->channel_id = Channel::findOrFail($reply->reply_id->channel_id);
+            $reply->post_id = Post::findOrFail($reply->reply_id->post_id);
+            $reply->comments = Comment::where('reply_id', $reply->reply_id->id)->get();
+            foreach($reply->comments as $comment) {
+                $comment->user_id = User::findOrFail($comment->user_id);
+            }
+
+            if(Auth::check()){
+                is_null(UserReplyUpvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->reply_id->id])->first())
+                ? $reply->upvoted = 'Upvote'
+                : $reply->upvoted = 'Unupvote';
+
+                is_null(UserReplyDownvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->reply_id->id])->first())
+                ? $reply->downvoted = 'Downvote'
+                : $reply->downvoted = 'Undownvote';
+            }
+        }
+
+        return view('dashboard.reply.altlist', compact(
+            'myreplies'
+        ));
+    }
 
     public function commentOwned()
     {

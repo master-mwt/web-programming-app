@@ -9,21 +9,21 @@
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
                     @if($reply->upvoted == 'Upvote')
-                        <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                        <a id="reply-{{ $reply->reply_id->id }}-upvote" href="{{ route('reply.upvote', $reply->reply_id) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @elseif($reply->upvoted == 'Unupvote')
-                        <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="text-danger replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                        <a id="reply-{{ $reply->reply_id->id }}-upvote" href="{{ route('reply.upvote', $reply->reply_id) }}" class="text-danger replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     @endif
                     @if($reply->upvoted == 'Unupvote' or $reply->downvoted == 'Undownvote')
-                        <span id="reply-{{ $reply->id }}-votenumber" class="my-1 text-danger text-bold votenumber">{{ $reply->upvote - $reply->downvote }}</span>
+                        <span id="reply-{{ $reply->reply_id->id }}-votenumber" class="my-1 text-danger text-bold votenumber">{{ $reply->reply_id->upvote - $reply->reply_id->downvote }}</span>
                     @else
-                        <span id="reply-{{ $reply->id }}-votenumber" class="my-1 text-dark text-bold votenumber">{{ $reply->upvote - $reply->downvote }}</span>
+                        <span id="reply-{{ $reply->reply_id->id }}-votenumber" class="my-1 text-dark text-bold votenumber">{{ $reply->reply_id->upvote - $reply->reply_id->downvote }}</span>
                     @endif
                     @if($reply->downvoted == 'Downvote')
-                        <a id="reply-{{ $reply->id }}-downvote" href="{{ route('reply.downvote', $reply) }}" class="replydownvote"><i class="fas fa-arrow-down"></i></a>
+                        <a id="reply-{{ $reply->reply_id->id }}-downvote" href="{{ route('reply.downvote', $reply->reply_id) }}" class="replydownvote"><i class="fas fa-arrow-down"></i></a>
                     @elseif($reply->downvoted == 'Undownvote')
-                        <a id="reply-{{ $reply->id }}-downvote" href="{{ route('reply.downvote', $reply) }}" class="text-danger replydownvote"><i class="fas fa-arrow-down"></i></a>
+                        <a id="reply-{{ $reply->reply_id->id }}-downvote" href="{{ route('reply.downvote', $reply->reply_id) }}" class="text-danger replydownvote"><i class="fas fa-arrow-down"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
                     @endif
@@ -33,14 +33,13 @@
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $reply->channel_id->id) }}" class="text-decoration-none"><b>{{ $reply->channel_id->name }} &#183</b></a>
                             <span class="text-muted">Posted by </span>
-                            <span class="text-primary">{{ $reply->user_id->name }}</span>
-                            
+                            <span class="text-primary">{{ $reply->reply_id->user_id->name }}</span>
                         </p>
                     </div>
                     <a href="#content-collapse-{{$reply->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Reply Content</a>
-                    
+
                     <div class="card-body text-left px-3 py-1 collapse" id="content-collapse-{{$reply->id}}">
-                        <div class="markdown-content" data-markdown-content="{{ $reply->content }}"></div>
+                        <div class="markdown-content" data-markdown-content="{{ $reply->reply_id->content }}"></div>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
 

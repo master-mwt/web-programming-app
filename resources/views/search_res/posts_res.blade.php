@@ -30,12 +30,17 @@
                     @endif
                 </div>
                 <div class="col p-0 d-flex flex-column overflow-auto">
-                    <div class="card-header text-left bg-transparent border-0 px-3">
+                    <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
                             <a href="" class="text-decoration-none">{{ $post->user_id->name }}</a>
                         </p>
-                        <h5 class="m-0 mb-2"><a href="{{ route('discover.post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
+                        <h5 class="m-0 mb-1"><a href="{{ route('discover.post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
+                    </div>
+                    <a href="#content-collapse-{{$post->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Post Content</a>
+
+                    <div class="card-body text-left px-3 py-1 collapse mb-1" id="content-collapse-{{$post->id}}">
+                        <div class="markdown-content" data-markdown-content="{{ $post->content }}"></div>
                         @foreach($post->tags as $tag)
                             <span class="badge badge-pill" style="font-size: 11px; background-color: #ddd">{{$tag->tag_id->name}}</span>
                         @endforeach
@@ -78,6 +83,10 @@
     $('ul.pagination').hide();
     $(function() {
         $('document').ready(function() {
+            $('.markdown-content').each(function(){
+                let markdown_content = $(this).data('markdown-content');
+                $(this).html(marked(markdown_content));
+            });
             $('.infinite-scroll').jscroll({
                 debug: true,
                 autoTrigger: true,
@@ -87,6 +96,14 @@
                 contentSelector: 'div.infinite-scroll',
                 callback: function() {
                     $('ul.pagination').remove();
+                    // Marked markdown parser func
+                    // maybe remove document ready
+                    $(document).ready(function(){
+                        $('.markdown-content').each(function(){
+                            let markdown_content = $(this).data('markdown-content');
+                            $(this).html(marked(markdown_content));
+                        });
+                    });
                 }
             });
         });

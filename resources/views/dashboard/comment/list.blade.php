@@ -20,7 +20,9 @@
                             <span class="text-primary">{{ $comment->user_id->name }}</span>
                         </p>
                     </div>
-                    <div class="card-body text-left px-3 py-1">
+                    <a href="#content-collapse-{{$comment->reply_id->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Reply Content</a>
+
+                    <div class="card-body text-left px-3 py-1 collapse" id="content-collapse-{{$comment->reply_id->id}}">
                         <div class="markdown-content" data-markdown-content="{{ $comment->reply_id->content }}"></div>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
