@@ -40,6 +40,51 @@
             <!-- Sidebar -->
             @include('layouts.sbars.sbar')
 
+            <!-- toasts -->
+            <div class="position-fixed bg-danger" style="z-index: 1000; right: 0; min-width: 350px;">
+
+                <!-- toast 1 -->
+                <div id="toast1" class="toast ml-auto bg-dark m-4" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <small class="text-muted">just now</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    See? Just like this.
+                </div>
+                </div>
+
+                <!-- toast 2 -->
+                <div id="toast2" class="toast ml-auto bg-dark m-4" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <small class="text-muted">2 seconds ago</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Heads up, toasts will stack automatically
+                </div>
+                </div>
+
+            </div>
+            <!-- end toasts -->
+
+            <!-- toast js -->
+            <script>
+                $(document).ready(function() {
+                    $('#toast1').toast({delay: 3000});
+                    $('#toast1').toast('show');  
+                    $('#toast2').toast({delay: 5000});
+                    $('#toast2').toast('show');  
+                });
+            </script>
+            <!-- end toast js -->
+
             <!-- Content -->
             <div class="content-wrapper">
                 <div class="content p-4">
