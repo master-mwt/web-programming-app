@@ -8,8 +8,10 @@ use App\Policies\ChannelPolicy;
 use App\Policies\CommentPolicy;
 use App\Policies\PostPolicy;
 use App\Policies\ReplyPolicy;
+use App\Policies\UserPolicy;
 use App\Post;
 use App\Reply;
+use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         Reply::class => ReplyPolicy::class,
         Comment::class => CommentPolicy::class,
         Channel::class => ChannelPolicy::class,
+        User::class => UserPolicy::class,
         // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 

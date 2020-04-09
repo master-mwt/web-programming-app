@@ -15,7 +15,7 @@ class ServiceSeeder extends Seeder
             //POST
             ['name' => 'create_post'],
             ['name' => 'delete_post'],
-            
+
             //REPLY
             ['name' => 'create_reply'],
             ['name' => 'delete_reply'],
@@ -38,6 +38,7 @@ class ServiceSeeder extends Seeder
             ['name' => 'create_user'],
             ['name' => 'delete_user'],
             ['name' => 'mod_user_data'],
+            ['name' => 'view_user_data'],
 
             //BACKEND LOGS
             ['name' => 'access_to_log'],

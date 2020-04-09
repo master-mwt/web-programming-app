@@ -70,7 +70,15 @@ class ChannelPolicy
      */
     public function update(User $user, Channel $channel)
     {
-        //
+        $service = Service::where('name', 'mod_channel_data')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+                ? Response::deny() : Response::allow();
+        }
     }
 
     /**
