@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Channel;
+use App\Comment;
+use App\Policies\ChannelPolicy;
+use App\Policies\CommentPolicy;
+use App\Policies\PostPolicy;
+use App\Policies\ReplyPolicy;
+use App\Post;
+use App\Reply;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,6 +21,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        Post::class => PostPolicy::class,
+        Reply::class => ReplyPolicy::class,
+        Comment::class => CommentPolicy::class,
+        Channel::class => ChannelPolicy::class,
         // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 

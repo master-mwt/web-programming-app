@@ -43,6 +43,8 @@ class ChannelController extends Controller
     {
         $data = $this->validateData();
 
+        $this->authorize('create', Channel::class);
+
         $channel = Channel::create($data);
 
         return redirect('/channels/' . $channel->id);
@@ -98,13 +100,15 @@ class ChannelController extends Controller
      */
     public function destroy(Channel $channel)
     {
+        $this->authorize('delete', $channel);
+        
         $channel->delete();
 
         if(auth()->user()->group_id == 1)
         {
             return redirect('/backend/channels');
         }
-        else 
+        else
         {
             return redirect('/channels');
         }

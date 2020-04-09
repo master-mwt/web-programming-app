@@ -45,6 +45,8 @@ class PostController extends Controller
         $data['user_id'] = Auth::User()->id;
         $data['channel_id'] = $request->input('channel_id');
 
+        $this->authorize('create', [Post::class, $data['channel_id']]);
+
         $post = Post::create($data);
 
         return redirect('/discover/post/' . $post->id);
@@ -100,6 +102,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
         $post->delete();
         return redirect('/posts');
     }

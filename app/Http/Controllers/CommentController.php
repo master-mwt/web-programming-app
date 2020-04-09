@@ -45,9 +45,11 @@ class CommentController extends Controller
         $data['user_id'] = Auth::User()->id;
         $data['channel_id'] = $request->input('channel_id');
         $data['reply_id'] = $request->input('reply_id');
-        
+
+        $this->authorize('create', [Comment::class, $data['channel_id']]);
+
         $comment = Comment::create($data);
-        
+
         $comment->post_id = $request->input('post_id');
 
         //return redirect('/comments/' . $comment->id);
@@ -104,6 +106,8 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        $this->authorize('delete', $comment);
+
         $comment->delete();
         return redirect('/comments');
     }

@@ -46,6 +46,8 @@ class ReplyController extends Controller
         $data['channel_id'] = $request->input('channel_id');
         $data['post_id'] = $request->input('post_id');
 
+        $this->authorize('create', [Reply::class, $data['channel_id']]);
+
         $reply = Reply::create($data);
 
         //return redirect('/replies/' . $reply->id);
@@ -102,6 +104,8 @@ class ReplyController extends Controller
      */
     public function destroy(Reply $reply)
     {
+        $this->authorize('delete', $reply);
+        
         $reply->delete();
         return redirect('/replies');
     }
