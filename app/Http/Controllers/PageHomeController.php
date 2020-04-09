@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use App\UserReplyDownvoted;
+use App\UserReplyUpvoted;
+use Illuminate\Support\Facades\Auth;
 use \App\User;
 use \App\Post;
 use \App\PostTag;
@@ -49,7 +51,7 @@ class PageHomeController extends Controller
     {
         return view('dashboard.settings');
     }
-    
+
     public function postOwned()
     {
         $user = Auth::User();
@@ -154,7 +156,7 @@ class PageHomeController extends Controller
             $post->title = $post->post_id->title;
             $post->upvote = $post->post_id->upvote;
             $post->downvote = $post->post_id->downvote;
-            
+
             $post->tags = PostTag::where('post_id',$post->post_id->id)->get();
             foreach($post->tags as $tag) {
                 $tag->tag_id = Tag::findOrFail($tag->tag_id);
@@ -337,7 +339,7 @@ class PageHomeController extends Controller
     {
         $user = Auth::User();
         $myreplies = Reply::where('user_id', $user->id)->paginate(10);
-        
+
         foreach($myreplies as $reply) {
             $reply->post_id = Post::findOrFail($reply->post_id);
             $reply->user_id = $user;
@@ -347,8 +349,18 @@ class PageHomeController extends Controller
             foreach($reply->comments as $comment) {
                 $comment->user_id = User::findOrFail($comment->user_id);
             }
+
+            if(Auth::check()){
+                is_null(UserReplyUpvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->id])->first())
+                    ? $reply->upvoted = 'Upvote'
+                    : $reply->upvoted = 'Unupvote';
+
+                is_null(UserReplyDownvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->id])->first())
+                    ? $reply->downvoted = 'Downvote'
+                    : $reply->downvoted = 'Undownvote';
+            }
         }
-        
+
         return view('dashboard.reply.list', compact(
             'myreplies'
         ));
@@ -358,7 +370,7 @@ class PageHomeController extends Controller
     {
         $user = Auth::User();
         $mycomments = Comment::where('user_id', $user->id)->paginate(10);
-        
+
         foreach($mycomments as $comment) {
             $comment->reply_id = Reply::findOrFail($comment->reply_id);
             $comment->user_id = $user;
@@ -366,7 +378,7 @@ class PageHomeController extends Controller
             $comment->reply_id->post_id = Post::findOrFail($comment->reply_id->post_id);
             $comment->channel_id = Channel::findOrFail($comment->reply_id->channel_id);
         }
-        
+
         return view('dashboard.comment.list', compact(
             'mycomments'
         ));

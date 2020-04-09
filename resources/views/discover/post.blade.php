@@ -84,9 +84,25 @@
         @foreach($replies as $reply)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
-                    <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                    <span class="my-1 text-dark text-bold">{{ $reply->upvote - $reply->downvote }}</span>
-                    <a href="" class=""><i class="fas fa-arrow-down"></i></a>
+                    @if($reply->upvoted == 'Upvote')
+                        <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                    @elseif($reply->upvoted == 'Unupvote')
+                        <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="text-success replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                    @else
+                        <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
+                    @endif
+                    @if($reply->upvoted == 'Unupvote' or $reply->downvoted == 'Undownvote')
+                        <span id="reply-{{ $reply->id }}-votenumber" class="my-1 text-success text-bold votenumber">{{ $reply->upvote - $reply->downvote }}</span>
+                    @else
+                        <span id="reply-{{ $reply->id }}-votenumber" class="my-1 text-dark text-bold votenumber">{{ $reply->upvote - $reply->downvote }}</span>
+                    @endif
+                    @if($reply->downvoted == 'Downvote')
+                        <a id="reply-{{ $reply->id }}-downvote" href="{{ route('reply.downvote', $reply) }}" class="replydownvote"><i class="fas fa-arrow-down"></i></a>
+                    @elseif($reply->downvoted == 'Undownvote')
+                        <a id="reply-{{ $reply->id }}-downvote" href="{{ route('reply.downvote', $reply) }}" class="text-success replydownvote"><i class="fas fa-arrow-down"></i></a>
+                    @else
+                        <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
+                    @endif
                 </div>
                 <div class="w-100">
                     <div class="card-header text-left border-0 px-3">

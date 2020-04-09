@@ -66,6 +66,16 @@ class PagePostController extends Controller
             foreach($reply->comments as $comment) {
                 $comment->user_id = User::findOrFail($comment->user_id);
             }
+
+            if(Auth::check()){
+                is_null(UserReplyUpvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->id])->first())
+                    ? $reply->upvoted = 'Upvote'
+                    : $reply->upvoted = 'Unupvote';
+
+                is_null(UserReplyDownvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $reply->id])->first())
+                    ? $reply->downvoted = 'Downvote'
+                    : $reply->downvoted = 'Undownvote';
+            }
         }
 
         return view('discover.post', compact(
