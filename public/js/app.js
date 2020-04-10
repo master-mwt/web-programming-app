@@ -56725,6 +56725,8 @@ __webpack_require__(/*! ./adminlte */ "./resources/js/adminlte.js");
 
 __webpack_require__(/*! jscroll */ "./node_modules/jscroll/jquery.jscroll.js");
 
+__webpack_require__(/*! ./notify */ "./resources/js/notify.js");
+
 __webpack_require__(/*! ./post_ajax */ "./resources/js/post_ajax.js");
 
 __webpack_require__(/*! ./reply_ajax */ "./resources/js/reply_ajax.js");
@@ -56780,6 +56782,35 @@ __webpack_require__(/*! datatables.net-buttons-bs4 */ "./node_modules/datatables
 
 /***/ }),
 
+/***/ "./resources/js/notify.js":
+/*!********************************!*\
+  !*** ./resources/js/notify.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// UTILS: NOTIFY
+
+/**
+ * A stacking toast generation
+ *
+ * @param {string} title The title of the toast
+ * @param {string} body The body of the toast
+ * @param {number} delay The delay of the toast (in milliseconds)
+ */
+var toastId = 0;
+
+function makeToast(title, body, delay) {
+  var now = new Date();
+  var time = now.getHours() + ':' + now.getMinutes();
+  var toast = "<div id=\"".concat(toastId, "\" class=\"toast ml-auto bg-dark m-4\" data-delay=\"").concat(delay, "\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n                    <div class=\"toast-header\">\n                        <strong class=\"mr-auto\">").concat(title, "</strong>\n                        <small class=\"text-muted\">").concat(time, "</small>\n                        <button type=\"button\" class=\"ml-2 mb-1 close\" data-dismiss=\"toast\" aria-label=\"Close\">\n                            <span aria-hidden=\"true\">&times;</span>\n                        </button>\n                    </div>\n                    <div class=\"toast-body\">").concat(body, "</div>\n                 </div>");
+  $('#toast-container').append(toast);
+  $(document).find('#toast' + toastId).toast('show');
+  toastId++;
+}
+
+/***/ }),
+
 /***/ "./resources/js/post_ajax.js":
 /*!***********************************!*\
   !*** ./resources/js/post_ajax.js ***!
@@ -56790,8 +56821,7 @@ __webpack_require__(/*! datatables.net-buttons-bs4 */ "./node_modules/datatables
 //
 // POST AJAX FUNCTIONS
 //
-var loginpath = window.location.protocol + "//" + window.location.host + "/login"; // TODO: Handle errors !!!!!!!
-
+var loginpath = window.location.protocol + "//" + window.location.host + "/login";
 $(document).ready(function () {
   // upvote handler
   $(document).on('click', '.upvote', function (e) {
@@ -56818,7 +56848,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        alert('error');
+        makeToast("Error", errorThrown, 4000);
       }
     });
   }); // downvote handler
@@ -56847,7 +56877,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        alert('error');
+        makeToast("Error", errorThrown, 4000);
       }
     });
   }); // save handler
@@ -56876,7 +56906,7 @@ $(document).ready(function () {
         sSavePost.prepend(children);
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        alert('error');
+        makeToast("Error", errorThrown, 4000);
       }
     });
   }); // hide handler
@@ -56905,7 +56935,7 @@ $(document).ready(function () {
         sHidePost.prepend(children);
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        alert('error');
+        makeToast("Error", errorThrown, 4000);
       }
     });
   }); // report handler
@@ -56934,7 +56964,7 @@ $(document).ready(function () {
         sReportPost.prepend(children);
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        alert('error');
+        makeToast("Error", errorThrown, 4000);
       }
     });
   });
@@ -56952,7 +56982,6 @@ $(document).ready(function () {
 //
 // REPLY AJAX FUNCTIONS
 //
-// TODO: Handle errors !!!!!!!
 $(document).ready(function () {
   // upvote handler
   $(document).on('click', '.replyupvote', function (e) {
@@ -56979,7 +57008,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        alert('error');
+        makeToast("Error", errorThrown, 4000);
       }
     });
   }); // downvote handler
@@ -57008,7 +57037,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        alert('error');
+        makeToast("Error", errorThrown, 4000);
       }
     });
   });

@@ -8,12 +8,14 @@ use App\PostTag;
 use App\Tag;
 use App\Channel;
 use App\User;
+use App\Role;
 use App\Reply;
 use App\UserPostDownvoted;
 use App\UserPostHidden;
 use App\UserPostReported;
 use App\UserPostSaved;
 use App\UserPostUpvoted;
+use App\UserChannelRole;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
@@ -87,7 +89,19 @@ class PageWelcomeController extends Controller
         }
 
         if($target === "channels" && !is_null($query)) {
-            $channels = Channel::where('title', 'LIKE', '%'.$query.'%')->paginate(10);
+            $channels = Channel::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
+
+            foreach ($channels as $channel) {
+                is_null(UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first())
+                ? $channel->joined = 'Join'
+                : $channel->joined = 'Leave';
+
+                if($channel->joined == 'Leave')
+                {
+                    $channel->member = UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first();
+                    $channel->member->role_id = Role::where('id', $channel->member->role_id)->first();
+                }
+            }
 
             return view('search_res.channels_res', [
                 'target' => $target,

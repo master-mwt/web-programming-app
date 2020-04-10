@@ -9,11 +9,27 @@
                 <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="50px" height="50px" class="rounded">
                     <h2 class="m-0 ml-3">{{ $channel->name }}</h2>
-                    <button class="btn btn-sm btn-outline-success ml-auto">JOIN</button>
-                    <button class="btn btn-sm btn-outline-primary ml-2">LEAVE</button>
+                    @if(!is_null($channel->member))
+                    <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-primary">{{$channel->member->role_id->name}}</span></h5>
+                    @endif
+                    @if($channel->joined == 'Join')
+                    <button class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
+                    @elseif($channel->joined == 'Leave')
+                    <button class="btn btn btn-outline-warning ml-auto"><strong>LEAVE</strong></button>
+                    @else
+                    @endif
                 </div>
-                <div class="card-body text-left px-3 py-1">
-                    <p class="text-muted">{{ $channel->description }}</p>
+                <div class="card-body text-left px-3 py-2">
+                    <h5 class="text-muted">Description</h5>
+                    <p class="">{{ $channel->description }}</p>
+                    <h5 class="text-muted">Rules</h5>
+                    <p class="">{{ $channel->rules }}</p>
+                </div>
+                <div class="card-footer">
+                    <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">See Members</a>
+                    @if(!is_null($channel->member) && $channel->member->role_id->name == 'creator')
+                    <button class="btn btn-sm btn-danger float-left">Delete Channel</button>
+                    @endif
                 </div>
             </div>
         </div>

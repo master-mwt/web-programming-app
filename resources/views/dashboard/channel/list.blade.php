@@ -11,8 +11,6 @@
                     <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="40px" height="40px" class="rounded">
                     <h3 class="m-0 ml-3"><a class="text-decoration-none" href="{{ route('discover.channel', $channel->id) }}">{{ $channel->name }}</a></h3>
                     <h5 class="m-0 ml-auto text-muted">{{ $channel->role_id->name }}</h5>
-                    <!-- <button class="btn btn-sm btn-outline-success ml-auto">JOIN</button>
-                    <button class="btn btn-sm btn-outline-primary ml-2">LEAVE</button> -->
                 </div>
             </div>
         @empty

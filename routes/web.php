@@ -59,6 +59,7 @@ Route::get('/home/channel/joined', 'PageHomeController@channelJoined')->name('ho
 // PAGECHANNELCONTROLLER ROUTES
 //************************************************************
 Route::get('/discover/channel/{id}', 'PageChannelController@channel')->name('discover.channel');
+Route::get('/discover/channel/{id}/members', 'PageChannelController@members')->name('discover.channel.members');
 
 //************************************************************
 // PAGEPOSTCONTROLLER ROUTES
