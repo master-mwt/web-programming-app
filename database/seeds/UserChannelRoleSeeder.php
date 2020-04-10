@@ -14,6 +14,13 @@ class UserChannelRoleSeeder extends Seeder
         global $results;
         $results = [];
 
+        $channels = \App\Channel::all();
+        $creator_role = \App\Role::where('name', 'creator')->first();
+
+        foreach ($channels as $channel){
+            array_push($results, ['user_id' => $channel->creator_id, 'channel_id' => $channel->id, 'role_id' => $creator_role->id]);
+        }
+
         factory(App\UserChannelRole::class, 100)->make()->each(function($user_channel_role) {
 
             global $results;
@@ -24,14 +31,15 @@ class UserChannelRoleSeeder extends Seeder
                 'role_id' => $user_channel_role->role_id
             ];
 
-            if(empty($results)) {
-                array_push($results, $block);
-            }
-
             $guard = false;
             foreach($results as $elem) {
                 if($elem !== $block && $guard == false) {
-                    continue;
+                    if($elem['user_id'] === $block['user_id'] && $elem['channel_id'] === $block['channel_id']){
+                        $guard = true;
+                        break;
+                    } else {
+                        continue;
+                    }
                 } else {
                     $guard = true;
                     break;
