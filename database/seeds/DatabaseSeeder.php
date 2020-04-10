@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserPostUpvotedSeeder::class);
         $this->call(UserReplyDownvotedSeeder::class);
         $this->call(UserReplyUpvotedSeeder::class);
+        $this->call(UserSoftBannedSeeder::class);
     }
 }

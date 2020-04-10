@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersChannelsRolesTable extends Migration
+class CreateUsersSoftBannedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,20 @@ class CreateUsersChannelsRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_channels_roles', function (Blueprint $table) {
+        Schema::create('users_soft_banned', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('channel_id')->unsigned();
-            $table->bigInteger('role_id')->unsigned();
             $table->timestamps();
         });
-        Schema::table('users_channels_roles', function (Blueprint $table) {
-            $table->unique(['user_id', 'channel_id']);
+
+        Schema::table('users_soft_banned', function (Blueprint $table){
+            $table->unique(['user_id','channel_id']);
 
             $table->foreign('user_id')
                 ->references('id')->on('users');
             $table->foreign('channel_id')
                 ->references('id')->on('channels')->onDelete('cascade');
-            $table->foreign('role_id')
-                ->references('id')->on('roles');
         });
     }
 
@@ -39,6 +37,6 @@ class CreateUsersChannelsRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_channel_roles');
+        Schema::dropIfExists('users_soft_banned');
     }
 }
