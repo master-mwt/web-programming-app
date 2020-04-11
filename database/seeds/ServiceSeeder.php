@@ -45,8 +45,15 @@ class ServiceSeeder extends Seeder
             //BACKEND
             ['name' => 'access_to_backend'],
 
+            // USER AND CHANNEL
             ['name' => 'silence_user_in_comment_section'],
             ['name' => 'report_user_in_channel'],
+            ['name' => 'upgrade_to_moderator'],
+            ['name' => 'upgrade_to_admin'],
+            ['name' => 'downgrade_moderator'],
+            ['name' => 'downgrade_admin'],
+            ['name' => 'report_post'],
+            ['name' => 'view_channel_members_list'],
         ];
 
         foreach($services as $service) {

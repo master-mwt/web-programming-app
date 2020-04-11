@@ -120,4 +120,19 @@ class PostPolicy
     {
         //
     }
+
+
+    /* Custom functions */
+    public function reportPost(User $user, Post $post)
+    {
+        $service = Service::where('name', 'report_post')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $post->channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+                ? Response::deny() : Response::allow();
+        }
+    }
 }

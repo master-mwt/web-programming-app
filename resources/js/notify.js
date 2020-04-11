@@ -27,3 +27,7 @@ function makeToast(title, body, delay){
     $(document).find('#toast' + toastId).toast('show');
     toastId++;
 }
+
+export {
+    makeToast,
+};

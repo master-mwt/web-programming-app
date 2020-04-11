@@ -210,6 +210,8 @@ class PagePostController extends Controller
     {
         $user_id = Auth::id();
 
+        $this->authorize("reportPost", $post);
+
         $reportedAlready = UserPostReported::where('user_id', $user_id)->where('post_id', $post->id)->first();
 
         if($reportedAlready){

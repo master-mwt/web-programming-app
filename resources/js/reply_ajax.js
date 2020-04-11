@@ -2,6 +2,8 @@
 // REPLY AJAX FUNCTIONS
 //
 
+import {makeToast} from './notify';
+
 $(document).ready(function() {
     // upvote handler
     $(document).on('click', '.replyupvote', function(e){

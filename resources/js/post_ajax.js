@@ -2,6 +2,8 @@
 // POST AJAX FUNCTIONS
 //
 
+import {makeToast} from './notify';
+
 let loginpath = window.location.protocol + "//" + window.location.host + "/login";
 
 $(document).ready(function() {

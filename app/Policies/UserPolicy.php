@@ -130,6 +130,7 @@ class UserPolicy
         //
     }
 
+
     /* Custom functions */
     public function silenceUserInCommentSection(User $user, int $channel_id)
     {
@@ -180,6 +181,58 @@ class UserPolicy
             return Response::deny();
         } else {
             return Response::allow();
+        }
+    }
+
+    public function upgradeToModerator(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'upgrade_to_moderator')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+                ? Response::deny() : Response::allow();
+        }
+    }
+
+    public function upgradeToAdmin(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'upgrade_to_admin')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+                ? Response::deny() : Response::allow();
+        }
+    }
+
+    public function downgradeModerator(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'downgrade_moderator')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+                ? Response::deny() : Response::allow();
+        }
+    }
+
+    public function downgradeAdmin(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'downgrade_admin')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+                ? Response::deny() : Response::allow();
         }
     }
 }
