@@ -31,13 +31,13 @@ class PageWelcomeController extends Controller
     public function index()
     {
         //remember to call a complex query from (for example) the PostController that returns the post meta-object, with all the references (for example: User, Channel) already resolved
-        $posts = Post::paginate(5);
-
+        $posts = Post::paginate(10);
+        
         foreach($posts as $post) {
             $post->channel_id = Channel::findOrFail($post->channel_id);
             $post->user_id = User::findOrFail($post->user_id);
             
-            $post->tags = PostTag::where('post_id',$post->id)->get();
+            $post->tags = PostTag::where('post_id',$post->post_id)->get();
             foreach($post->tags as $tag) {
                 $tag->tag_id = Tag::findOrFail($tag->tag_id);
             }
@@ -81,6 +81,17 @@ class PageWelcomeController extends Controller
         if($target === "users" && !is_null($query)) {
             $users = User::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
 
+            if(is_null($users->first()))
+            {
+                $message = 'you make a typo';
+        
+                return view('search_res.empty_res', compact(
+                    'target',
+                    'query',
+                    'message'
+                ));
+            }
+
             return view('search_res.users_res', [
                 'target' => $target,
                 'query' => $query,
@@ -90,6 +101,17 @@ class PageWelcomeController extends Controller
 
         if($target === "channels" && !is_null($query)) {
             $channels = Channel::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
+
+            if(is_null($channels->first()))
+            {
+                $message = 'you make a typo';
+        
+                return view('search_res.empty_res', compact(
+                    'target',
+                    'query',
+                    'message'
+                ));
+            }
 
             if(Auth::check())
             {
@@ -115,6 +137,17 @@ class PageWelcomeController extends Controller
 
         if($target === "posts" && !is_null($query)) {
             $posts = Post::where('title', 'LIKE', '%'.$query.'%')->paginate(10);
+
+            if(is_null($posts->first()))
+            {
+                $message = 'you make a typo';
+        
+                return view('search_res.empty_res', compact(
+                    'target',
+                    'query',
+                    'message'
+                ));
+            }
 
             foreach($posts as $post) {
                 $post->channel_id = Channel::findOrFail($post->channel_id);
@@ -156,9 +189,70 @@ class PageWelcomeController extends Controller
             ]);
         }
 
-        $message = 'wrong query';
+        if($target === "tags" && !is_null($query)) {
+            if(substr($query,  0, 1) != '#') {
+                $query = '#'.$query;
+            }
+            $tag = Tag::where('name', $query)->first();
+            
+            if(is_null($tag))
+            {
+                $message = 'you make a typo';
+        
+                return view('search_res.empty_res', compact(
+                    'target',
+                    'query',
+                    'message'
+                ));
+            }
+
+            $posts = PostTag::where('tag_id', $tag->id)->paginate(10);
+
+            foreach ($posts as $post) {
+                $post->post_id = Post::where('id', $post->post_id)->first();
+                $post->post_id->user_id = User::where('id', $post->post_id->user_id)->first();
+                $post->post_id->channel_id = Channel::where('id', $post->post_id->channel_id)->first();
+
+                $post->tags = PostTag::where('post_id',$post->post_id->id)->get();
+                foreach($post->tags as $tag) {
+                    $tag->tag_id = Tag::findOrFail($tag->tag_id);
+                }
+
+                if(Auth::check())
+                {
+                    is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                    ? $post->upvoted = 'Upvote'
+                    : $post->upvoted = 'Unupvote';
+
+                    is_null(UserPostDownvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                    ? $post->downvoted = 'Downvote'
+                    : $post->downvoted = 'Undownvote';
+
+                    is_null(UserPostSaved::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                    ? $post->saved = 'Save'
+                    : $post->saved = 'Unsave';
+
+                    is_null(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                    ? $post->hidden = 'Hide'
+                    : $post->hidden = 'Unhide';
+
+                    is_null(UserPostReported::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                    ? $post->reported = 'Report'
+                    : $post->reported = 'Unreport';
+                }
+            }
+
+            return view('search_res.tags_res', [
+                'target' => $target,
+                'query' => $query,
+                'posts' => $posts->appends($request->except('page'))
+            ]);
+        }
+
+        $message = 'empty query';
         
         return view('search_res.empty_res', compact(
+            'target',
             'message'
         ));
     }

@@ -20,6 +20,7 @@
                     <option value="posts" @if (!empty($target) && $target == 'posts') selected="selected" @endif>posts</option>
                     <option value="channels" @if (!empty($target) && $target == 'channels') selected="selected" @endif>channels</option>
                     <option value="users" @if (!empty($target) && $target == 'users') selected="selected" @endif>users</option>
+                    <option value="tags" @if (!empty($target) && $target == 'tags') selected="selected" @endif>tags</option>
                 </select>
             </div>
 
