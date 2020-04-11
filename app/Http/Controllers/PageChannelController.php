@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\UserReported;
+use App\UserSoftBanned;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Channel;
@@ -123,6 +125,109 @@ class PageChannelController extends Controller
         }
 
         $joinedAlready->delete();
+
+        return back();
+    }
+
+    public function banUserFromChannel(User $user, Channel $channel){
+
+        $this->authorize('banUserFromChannel', [User::class, $channel->id]);
+
+        $userExist = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+        $bannedAlready = UserSoftBanned::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+
+        if($bannedAlready || (!$userExist)){
+            return back();
+        }
+
+        UserSoftBanned::create(['user_id' => $user->id, 'channel_id' => $channel->id]);
+
+        return back();
+    }
+
+    public function upgradeToModerator(User $user, Channel $channel){
+
+        $this->authorize('upgradeToModerator', [User::class, $channel->id]);
+
+        $moderator_role = Role::where('name', 'moderator')->first();
+        $userIsJoined = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+
+        if((!$userIsJoined) || ($userIsJoined->role_id === $moderator_role->id)){
+            return back();
+        }
+
+        $userIsJoined->role_id = $moderator_role->id;
+        $userIsJoined->save();
+
+        return back();
+    }
+
+    public function upgradeToAdmin(User $user, Channel $channel){
+
+        $this->authorize('upgradeToAdmin', [User::class, $channel->id]);
+
+        $admin_role = Role::where('name', 'admin')->first();
+        $userIsJoined = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+
+        if((!$userIsJoined) || ($userIsJoined->role_id === $admin_role->id)){
+            return back();
+        }
+
+        $userIsJoined->role_id = $admin_role->id;
+        $userIsJoined->save();
+
+        return back();
+    }
+
+    public function downgradeModerator(User $user, Channel $channel){
+
+        $this->authorize('downgradeModerator', [User::class, $channel->id]);
+
+        $moderator_role = Role::where('name', 'moderator')->first();
+        $userIsModerator = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->where('role_id', $moderator_role->id)->first();
+
+        if(!$userIsModerator){
+            return back();
+        }
+
+        $member_role = Role::where('name', 'member')->first();
+
+        $userIsModerator->role_id = $member_role->id;
+        $userIsModerator->save();
+
+        return back();
+    }
+
+    public function downgradeAdmin(User $user, Channel $channel){
+
+        $this->authorize('downgradeAdmin', [User::class, $channel->id]);
+
+        $admin_role = Role::where('name', 'admin')->first();
+        $userIsAdmin = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->where('role_id', $admin_role->id)->first();
+
+        if(!$userIsAdmin){
+            return back();
+        }
+
+        $moderator_role = Role::where('name', 'moderator')->first();
+
+        $userIsAdmin->role_id = $moderator_role->id;
+        $userIsAdmin->save();
+
+        return back();
+    }
+
+    public function reportUserInChannel(User $user, Channel $channel){
+
+        $this->authorize('reportUserInChannel', [User::class, $channel->id]);
+
+        $reportedAlready = UserReported::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+
+        if($reportedAlready){
+            return back();
+        }
+
+        UserReported::create(['user_id' => $user->id, 'channel_id' => $channel->id]);
 
         return back();
     }
