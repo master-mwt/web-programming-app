@@ -38,6 +38,10 @@
             <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
             </div>
+        @else
+            <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
+                <a role="button" href="{{ route('login') }}" class="btn btn-success btn-block text-light">Make a Post</a>
+            </div>
         @endauth
 
         <div class="col-md-12 text-center infinite-scroll px-0">

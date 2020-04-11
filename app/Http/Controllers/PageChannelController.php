@@ -25,14 +25,17 @@ class PageChannelController extends Controller
         $posts = Post::where('channel_id', $id)->paginate(5);
         $user = Auth::User();
         
-        is_null(UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first())
-        ? $channel->joined = 'Join'
-        : $channel->joined = 'Leave';
-
-        if($channel->joined == 'Leave')
+        if(Auth::check())
         {
-            $channel->member = UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first();
-            $channel->member->role_id = Role::where('id', $channel->member->role_id)->first();
+            is_null(UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first())
+            ? $channel->joined = 'Join'
+            : $channel->joined = 'Leave';
+
+            if($channel->joined == 'Leave')
+            {
+                $channel->member = UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first();
+                $channel->member->role_id = Role::where('id', $channel->member->role_id)->first();
+            }
         }
 
         foreach($posts as $post) {

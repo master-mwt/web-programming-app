@@ -56786,9 +56786,12 @@ __webpack_require__(/*! datatables.net-buttons-bs4 */ "./node_modules/datatables
 /*!********************************!*\
   !*** ./resources/js/notify.js ***!
   \********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: makeToast */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeToast", function() { return makeToast; });
 // UTILS: NOTIFY
 
 /**
@@ -56809,18 +56812,24 @@ function makeToast(title, body, delay) {
   toastId++;
 }
 
+
+
 /***/ }),
 
 /***/ "./resources/js/post_ajax.js":
 /*!***********************************!*\
   !*** ./resources/js/post_ajax.js ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _notify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notify */ "./resources/js/notify.js");
 //
 // POST AJAX FUNCTIONS
 //
+
 var loginpath = window.location.protocol + "//" + window.location.host + "/login";
 $(document).ready(function () {
   // upvote handler
@@ -56848,7 +56857,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        makeToast("Error", errorThrown, 4000);
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
   }); // downvote handler
@@ -56877,7 +56886,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        makeToast("Error", errorThrown, 4000);
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
   }); // save handler
@@ -56906,7 +56915,7 @@ $(document).ready(function () {
         sSavePost.prepend(children);
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        makeToast("Error", errorThrown, 4000);
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
   }); // hide handler
@@ -56935,7 +56944,7 @@ $(document).ready(function () {
         sHidePost.prepend(children);
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        makeToast("Error", errorThrown, 4000);
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
   }); // report handler
@@ -56964,7 +56973,7 @@ $(document).ready(function () {
         sReportPost.prepend(children);
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        makeToast("Error", errorThrown, 4000);
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
   });
@@ -56976,12 +56985,16 @@ $(document).ready(function () {
 /*!************************************!*\
   !*** ./resources/js/reply_ajax.js ***!
   \************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _notify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notify */ "./resources/js/notify.js");
 //
 // REPLY AJAX FUNCTIONS
 //
+
 $(document).ready(function () {
   // upvote handler
   $(document).on('click', '.replyupvote', function (e) {
@@ -57008,7 +57021,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        makeToast("Error", errorThrown, 4000);
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
   }); // downvote handler
@@ -57037,7 +57050,7 @@ $(document).ready(function () {
         }
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
-        makeToast("Error", errorThrown, 4000);
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
   });

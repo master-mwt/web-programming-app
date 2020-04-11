@@ -91,15 +91,18 @@ class PageWelcomeController extends Controller
         if($target === "channels" && !is_null($query)) {
             $channels = Channel::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
 
-            foreach ($channels as $channel) {
-                is_null(UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first())
-                ? $channel->joined = 'Join'
-                : $channel->joined = 'Leave';
+            if(Auth::check())
+            {
+                foreach ($channels as $channel) {
+                    is_null(UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first())
+                    ? $channel->joined = 'Join'
+                    : $channel->joined = 'Leave';
 
-                if($channel->joined == 'Leave')
-                {
-                    $channel->member = UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first();
-                    $channel->member->role_id = Role::where('id', $channel->member->role_id)->first();
+                    if($channel->joined == 'Leave')
+                    {
+                        $channel->member = UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first();
+                        $channel->member->role_id = Role::where('id', $channel->member->role_id)->first();
+                    }
                 }
             }
 
