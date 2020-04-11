@@ -10,12 +10,12 @@
                     <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="50px" height="50px" class="rounded">
                     <h2 class="m-0 ml-3">{{ $channel->name }}</h2>
                     @if(!is_null($channel->member))
-                    <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-primary">{{$channel->member->role_id->name}}</span></h5>
+                        <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-primary">{{$channel->member->role_id->name}}</span></h5>
                     @endif
                     @if($channel->joined == 'Join')
-                    <button class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
+                        <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
                     @elseif($channel->joined == 'Leave')
-                    <button class="btn btn btn-outline-warning ml-auto"><strong>LEAVE</strong></button>
+                        <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning ml-auto"><strong>LEAVE</strong></button>
                     @else
                     @endif
                 </div>

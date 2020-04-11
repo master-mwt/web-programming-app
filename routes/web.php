@@ -122,6 +122,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
     Route::get('/replies/{reply}/upvote', 'PagePostController@replyUpvote')->name('reply.upvote');
     Route::get('/replies/{reply}/downvote', 'PagePostController@replyDownvote')->name('reply.downvote');
+    Route::get('/channels/{channel}/join', 'PageChannelController@joinChannel')->name('channel.join');
+    Route::get('/channels/{channel}/leave', 'PageChannelController@leaveChannel')->name('channel.leave');
     //************************************************************
     // AUTH:REST ROUTES
     //************************************************************

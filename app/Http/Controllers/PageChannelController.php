@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Channel;
 use App\Post;
@@ -24,7 +24,7 @@ class PageChannelController extends Controller
         $channel = Channel::where('id', $id)->first();
         $posts = Post::where('channel_id', $id)->paginate(5);
         $user = Auth::User();
-        
+
         if(Auth::check())
         {
             is_null(UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first())
@@ -94,5 +94,34 @@ class PageChannelController extends Controller
             'members',
             //'user'
         ));
+    }
+
+    public function joinChannel(Channel $channel){
+        $user_id = Auth::id();
+
+        $joinedAlready = UserChannelRole::where('user_id', $user_id)->where('channel_id', $channel->id)->first();
+
+        if($joinedAlready){
+            return back();
+        }
+
+        $member_role = Role::where('name', 'member')->first();
+        UserChannelRole::create(['user_id' => $user_id, 'channel_id' => $channel->id, 'role_id' => $member_role->id]);
+
+        return back();
+    }
+
+    public function leaveChannel(Channel $channel){
+        $user_id = Auth::id();
+
+        $joinedAlready = UserChannelRole::where('user_id', $user_id)->where('channel_id', $channel->id)->first();
+
+        if(!$joinedAlready){
+            return back();
+        }
+
+        $joinedAlready->delete();
+
+        return back();
     }
 }
