@@ -82,6 +82,8 @@ class PageChannelController extends Controller
         // maybe useful (current auth user role in current channel)
         //$user->role_id = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
 
+        $this->authorize('viewChannelMembersList', [Channel::class, $channel->id]);
+
         $members = UserChannelRole::where('channel_id', $channel->id)->orderBy('role_id')->paginate(10);
 
         foreach ($members as $member) {
