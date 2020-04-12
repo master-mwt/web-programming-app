@@ -129,28 +129,28 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function banUserFromChannel(User $user, Channel $channel){
+    public function banUserFromChannel(Channel $channel, User $member){
 
         $this->authorize('banUserFromChannel', [User::class, $channel->id]);
 
-        $userExist = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
-        $bannedAlready = UserSoftBanned::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+        $userExist = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
+        $bannedAlready = UserSoftBanned::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if($bannedAlready || (!$userExist)){
             return back();
         }
 
-        UserSoftBanned::create(['user_id' => $user->id, 'channel_id' => $channel->id]);
+        UserSoftBanned::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
 
         return back();
     }
 
-    public function upgradeToModerator(User $user, Channel $channel){
+    public function upgradeToModerator(Channel $channel, User $member){
 
         $this->authorize('upgradeToModerator', [User::class, $channel->id]);
 
         $moderator_role = Role::where('name', 'moderator')->first();
-        $userIsJoined = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+        $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $moderator_role->id)){
             return back();
@@ -162,12 +162,12 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function upgradeToAdmin(User $user, Channel $channel){
+    public function upgradeToAdmin(Channel $channel, User $member){
 
         $this->authorize('upgradeToAdmin', [User::class, $channel->id]);
 
         $admin_role = Role::where('name', 'admin')->first();
-        $userIsJoined = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+        $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $admin_role->id)){
             return back();
@@ -179,12 +179,12 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function downgradeModerator(User $user, Channel $channel){
+    public function downgradeModerator(Channel $channel, User $member){
 
         $this->authorize('downgradeModerator', [User::class, $channel->id]);
 
         $moderator_role = Role::where('name', 'moderator')->first();
-        $userIsModerator = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->where('role_id', $moderator_role->id)->first();
+        $userIsModerator = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $moderator_role->id)->first();
 
         if(!$userIsModerator){
             return back();
@@ -198,12 +198,12 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function downgradeAdmin(User $user, Channel $channel){
+    public function downgradeAdmin(Channel $channel, User $member){
 
         $this->authorize('downgradeAdmin', [User::class, $channel->id]);
 
         $admin_role = Role::where('name', 'admin')->first();
-        $userIsAdmin = UserChannelRole::where('user_id', $user->id)->where('channel_id', $channel->id)->where('role_id', $admin_role->id)->first();
+        $userIsAdmin = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $admin_role->id)->first();
 
         if(!$userIsAdmin){
             return back();
@@ -217,17 +217,17 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function reportUserInChannel(User $user, Channel $channel){
+    public function reportUserInChannel(Channel $channel, User $member){
 
         $this->authorize('reportUserInChannel', [User::class, $channel->id]);
 
-        $reportedAlready = UserReported::where('user_id', $user->id)->where('channel_id', $channel->id)->first();
+        $reportedAlready = UserReported::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if($reportedAlready){
             return back();
         }
 
-        UserReported::create(['user_id' => $user->id, 'channel_id' => $channel->id]);
+        UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
 
         return back();
     }
