@@ -81,8 +81,8 @@ class PageChannelController extends Controller
     public function members($id) {
         $channel = Channel::where('id', $id)->first();
         $user = Auth::User();
-        // maybe useful (current auth user role in current channel)
-        //$user->role_id = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
+        $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
+        $user->role->role_id = Role::where('id',$user->role->role_id)->first();
 
         $this->authorize('viewChannelMembersList', [Channel::class, $channel->id]);
 
@@ -91,12 +91,16 @@ class PageChannelController extends Controller
         foreach ($members as $member) {
             $member->user_id = User::where('id', $member->user_id)->first();
             $member->role_id = Role::where('id', $member->role_id)->first();
+
+            is_null(UserReported::where(['user_id' => $member->user_id->id, 'channel_id' => $channel->id])->first())
+            ? $member->reported = 'Not_Reported'
+            : $member->reported = 'Reported';
         }
 
         return view('discover.members', compact(
             'channel',
             'members',
-            //'user'
+            'user'
         ));
     }
 

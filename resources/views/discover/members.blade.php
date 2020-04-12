@@ -8,6 +8,17 @@
         <a role="button" href="{{ route('discover.channel', $channel->id) }}" class="btn btn-dark mb-4"><i class="fas fa-arrow-left mr-2"></i> back to channel {{$channel->name}}</a>
 
         <div class="col-md-12 text-center infinite-scroll px-0">
+
+        <h5 class="mx-auto mt-3 mb-5 bg-dark text-center p-3 rounded" style="width:600px">
+            <span class="text-warning">!!! DEBUG !!!</span>
+            <br><br>
+            <span class="text-success">name: </span> {{$user->name}}
+            <br>
+            <span class="text-success">role: </span> {{$user->role->role_id->name}}
+            <br><br>
+            <span class="text-warning">!!! DEBUG !!!</span>
+        </h5>
+
         @foreach($members as $member)
 
             @if($member->role_id->name == 'creator')
@@ -27,7 +38,10 @@
 
             <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="{{ URL::asset('/imgs/user3-128x128.jpg') }}" alt="" width="40px" height="40px" class="rounded-circle">
-                    <h4 class="m-0 ml-3"><a class="text-decoration-none" href="">{{ $member->user_id->name }}</a></h4>
+                    <h4 class="m-0 ml-3">
+                        <a class="text-decoration-none" href="">{{ $member->user_id->name }}</a>
+                    </h4>
+                    <span class="ml-3 badge badge-pill badge-light">{{$member->reported}}</span>
 
                     @if($member->role_id->name == 'creator')
                     <h5 class="m-0 ml-auto"><span class="text-danger">{{ $member->role_id->name }}</span></h5>
@@ -46,8 +60,9 @@
 
                 </div>
                 @if($member->role_id->name != 'creator')
-                <div class="card-body text-right p-0 px-3 border-0">
-                    <a href="" class="" style="color: orange">ban user</a>
+                <div class="card-body p-0 px-3 border-0 d-flex flex-column">
+                    <a href="" class="ml-auto" style="color: orange">ban user</a>
+                    <a href="" class="ml-auto" style="color: violet">report user</a>
                 </div>
                 @endif
                 <div class="card-footer border-0">

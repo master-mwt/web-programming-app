@@ -10,7 +10,7 @@
                     <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="50px" height="50px" class="rounded">
                     <h2 class="m-0 ml-3">{{ $channel->name }}</h2>
                     @if(!is_null($channel->member))
-                        <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-primary">{{$channel->member->role_id->name}}</span></h5>
+                        <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-warning">{{$channel->member->role_id->name}}</span></h5>
                     @endif
                     @if($channel->joined == 'Join')
                         <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
@@ -99,12 +99,13 @@
                             <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
                         @if($post->reported == 'Report')
-                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
+                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none mr-2 report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report Post</a>
                         @elseif($post->reported == 'Unreport')
-                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none text-danger report"><i id="post-{{ $post->id }}-report-icon" class="fas fa-flag mr-1"></i>Unreport</a>
+                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none mr-2 text-danger report"><i id="post-{{ $post->id }}-report-icon" class="fas fa-flag mr-1"></i>Unreport Post</a>
                         @else
-                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
+                            <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none mr-2 report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report Post</a>
                         @endif
+                        <a id="" href="" class="text-decoration-none report"><i id="" class="fas fa-exclamation-circle mr-1"></i>Report User</a>
                     </div>
                 </div>
             </div>
