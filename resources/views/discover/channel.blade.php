@@ -105,7 +105,7 @@
                         @else
                             <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none mr-2 report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report Post</a>
                         @endif
-                        <a id="" href="" class="text-decoration-none report"><i id="" class="fas fa-exclamation-circle mr-1"></i>Report User</a>
+                        <a id="" href="{{route('channel.member.report', [$channel, $post->user_id])}}" class="text-decoration-none"><i id="" class="fas fa-exclamation-circle mr-1"></i>Report User</a>
                     </div>
                 </div>
             </div>

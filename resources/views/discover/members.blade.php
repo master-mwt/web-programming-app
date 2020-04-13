@@ -61,21 +61,29 @@
                 </div>
                 @if($member->role_id->name != 'creator')
                 <div class="card-body p-0 px-3 border-0 d-flex flex-column">
-                    <a href="{{ route('channel.member.ban', ['channel' => $channel, 'member' => $member]) }}" class="ml-auto" style="color: orange">ban user</a>
-                    <a href="{{ route('channel.member.report', ['channel' => $channel, 'member' => $member]) }}" class="ml-auto" style="color: violet">report user</a>
+                    @if($member->isBanned === false)
+                        <a href="{{route('channel.member.ban', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: orange">ban user</a>
+                    @else
+                        <p href="#" class="ml-auto" style="color: grey">already banned user</p>
+                    @endif
+                    @if($member->isReported === false)
+                        <a href="{{route('channel.member.report', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: violet">report user</a>
+                    @else
+                        <p href="#" class="ml-auto" style="color: grey">already reported user</p>
+                    @endif
                 </div>
                 @endif
                 <div class="card-footer border-0">
 
                 @if($member->role_id->name == 'admin')
-                <button onclick="location.href='{{ route('channel.member.admin.downgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MODERATOR</span></button>
+                <button onclick="location.href='{{route('channel.member.admin.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MODERATOR</span></button>
 
                 @elseif($member->role_id->name == 'moderator')
-                <button onclick="location.href='{{ route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
-                <button onclick="location.href='{{ route('channel.member.admin.upgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to ADMIN</span></button>
+                <button onclick="location.href='{{route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
+                <button onclick="location.href='{{route('channel.member.admin.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to ADMIN</span></button>
 
                 @elseif($member->role_id->name == 'member')
-                <button onclick="location.href='{{ route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
+                <button onclick="location.href='{{route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
 
                 @else
                 @endif

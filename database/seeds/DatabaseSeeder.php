@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(ChannelSeeder::class);
+        // important relations that must be here
+        $this->call(UserChannelRoleSeeder::class);
+        // end important relations seeding
         $this->call(PostSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(TagSeeder::class);
@@ -24,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CommentSeeder::class);
 
         //relations
-        $this->call(UserChannelRoleSeeder::class);
+        // $this->call(UserChannelRoleSeeder::class);
         $this->call(RoleServiceSeeder::class);
         $this->call(GroupServiceSeeder::class);
         $this->call(PostTagSeeder::class);

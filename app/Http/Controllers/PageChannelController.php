@@ -93,9 +93,22 @@ class PageChannelController extends Controller
             $member->user_id = User::where('id', $member->user_id)->first();
             $member->role_id = Role::where('id', $member->role_id)->first();
 
-            is_null(UserReported::where(['user_id' => $member->user_id->id, 'channel_id' => $channel->id])->first())
-            ? $member->reported = 'Not_Reported'
-            : $member->reported = 'Reported';
+            if(is_null(UserReported::where(['user_id' => $member->user_id->id, 'channel_id' => $channel->id])->first())){
+                $member->reported = 'Not_Reported';
+                $member->isReported = false;
+            } else {
+                $member->reported = 'Reported';
+                $member->isReported = true;
+            }
+
+            if(is_null(UserSoftBanned::where(['user_id' => $member->user_id->id, 'channel_id' => $channel->id])->first())){
+                $member->banned = 'Not_Banned';
+                $member->isBanned = false;
+            } else {
+                $member->banned = 'Banned';
+                $member->isBanned = true;
+            }
+
         }
 
         return view('discover.members', compact(
@@ -142,7 +155,7 @@ class PageChannelController extends Controller
         $bannedAlready = UserSoftBanned::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if($bannedAlready || (!$userExist)){
-            return back();
+            abort(500, "Ban not permitted for this member");
         }
 
         UserSoftBanned::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
@@ -158,7 +171,7 @@ class PageChannelController extends Controller
         $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $moderator_role->id)){
-            return back();
+            abort(500, "Upgrade not permitted for this member");
         }
 
         $userIsJoined->role_id = $moderator_role->id;
@@ -175,7 +188,7 @@ class PageChannelController extends Controller
         $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $admin_role->id)){
-            return back();
+            abort(500, "Upgrade not permitted for this user");
         }
 
         $userIsJoined->role_id = $admin_role->id;
@@ -192,7 +205,7 @@ class PageChannelController extends Controller
         $userIsModerator = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $moderator_role->id)->first();
 
         if(!$userIsModerator){
-            return back();
+            abort(500, "Downgrade not permitted for this user");
         }
 
         $member_role = Role::where('name', 'member')->first();
@@ -211,7 +224,7 @@ class PageChannelController extends Controller
         $userIsAdmin = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $admin_role->id)->first();
 
         if(!$userIsAdmin){
-            return back();
+            abort(500, "Downgrade not permitted for this user");
         }
 
         $moderator_role = Role::where('name', 'moderator')->first();
@@ -229,7 +242,7 @@ class PageChannelController extends Controller
         $reportedAlready = UserReported::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if($reportedAlready){
-            return back();
+            abort(500, "This member is already reported");
         }
 
         UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
