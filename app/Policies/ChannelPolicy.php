@@ -76,7 +76,7 @@ class ChannelPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -96,7 +96,7 @@ class ChannelPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -135,7 +135,7 @@ class ChannelPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }

@@ -61,31 +61,31 @@
                 </div>
                 @if($member->role_id->name != 'creator')
                 <div class="card-body p-0 px-3 border-0 d-flex flex-column">
-                    <a href="" class="ml-auto" style="color: orange">ban user</a>
-                    <a href="" class="ml-auto" style="color: violet">report user</a>
+                    <a href="{{ route('channel.member.ban', ['channel' => $channel, 'member' => $member]) }}" class="ml-auto" style="color: orange">ban user</a>
+                    <a href="{{ route('channel.member.report', ['channel' => $channel, 'member' => $member]) }}" class="ml-auto" style="color: violet">report user</a>
                 </div>
                 @endif
                 <div class="card-footer border-0">
 
                 @if($member->role_id->name == 'admin')
-                <button class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MODERATOR</span></button>
+                <button onclick="location.href='{{ route('channel.member.admin.downgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MODERATOR</span></button>
 
                 @elseif($member->role_id->name == 'moderator')
-                <button class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
-                <button class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to ADMIN</span></button>
+                <button onclick="location.href='{{ route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
+                <button onclick="location.href='{{ route('channel.member.admin.upgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to ADMIN</span></button>
 
                 @elseif($member->role_id->name == 'member')
-                <button class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
+                <button onclick="location.href='{{ route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member]) }}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
 
                 @else
                 @endif
-                
+
             </div>
             </div>
         @endforeach
         {{ $members->links() }}
         </div>
-        
+
     </div>
 </div>
 
@@ -103,7 +103,7 @@
                 callback: function() {
                     $('ul.pagination').remove();
                 }
-            }); 
+            });
         });
     });
 </script>

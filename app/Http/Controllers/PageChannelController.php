@@ -81,10 +81,11 @@ class PageChannelController extends Controller
     public function members($id) {
         $channel = Channel::where('id', $id)->first();
         $user = Auth::User();
-        $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
-        $user->role->role_id = Role::where('id',$user->role->role_id)->first();
 
         $this->authorize('viewChannelMembersList', [Channel::class, $channel->id]);
+
+        $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
+        $user->role->role_id = Role::where('id',$user->role->role_id)->first();
 
         $members = UserChannelRole::where('channel_id', $channel->id)->orderBy('role_id')->paginate(10);
 

@@ -44,7 +44,7 @@ class UserPolicy
     {
         $service = Service::where('name', 'view_user_data')->first();
 
-        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id]);
+        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id])->first();
 
         if(!$group_service){
             return Response::deny();
@@ -64,7 +64,7 @@ class UserPolicy
     {
         $service = Service::where('name', 'create_user')->first();
 
-        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id]);
+        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id])->first();
 
         if(!$group_service){
             return Response::deny();
@@ -84,7 +84,7 @@ class UserPolicy
     {
         $service = Service::where('name', 'mod_user_data')->first();
 
-        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id]);
+        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id])->first();
 
         if(!$group_service){
             return Response::deny();
@@ -140,7 +140,7 @@ class UserPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -153,7 +153,7 @@ class UserPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -166,7 +166,7 @@ class UserPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -175,7 +175,7 @@ class UserPolicy
     {
         $service = Service::where('name', 'ban_user_from_platform')->first();
 
-        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id]);
+        $group_service = GroupService::where(['group_id' => $user->group_id, 'service_id' => $service->id])->first();
 
         if(!$group_service){
             return Response::deny();
@@ -192,7 +192,7 @@ class UserPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -205,7 +205,7 @@ class UserPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -218,7 +218,7 @@ class UserPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
@@ -231,7 +231,7 @@ class UserPolicy
         if(!$user_channel_role){
             return Response::deny();
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id]))
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
                 ? Response::deny() : Response::allow();
         }
     }
