@@ -42,7 +42,7 @@
                     <div class="card-body text-left px-3 py-1 collapse mb-1" id="content-collapse-{{$post->id}}">
                         <div class="markdown-content" data-markdown-content="{{ $post->content }}"></div>
                         @foreach($post->tags as $tag)
-                            <span class="badge badge-pill" style="font-size: 11px; background-color: #ddd">{{$tag->tag_id->name}}</span>
+                            <a href="{{ route('search', ['target' => 'tags', 'query' => $tag->tag_id->name]) }}"><span class="badge badge-pill" style="font-size: 11px; background-color: #ddd">{{$tag->tag_id->name}}</span></a>
                         @endforeach
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">

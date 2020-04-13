@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////
 
 //************************************************************
-// PAGEHOMECONTROLLER ROUTES
+// PAGEWELCOMECONTROLLER ROUTES
 //************************************************************
 Route::get('/', 'PageWelcomeController@index')->name('welcome');
 Route::get('/search', 'PageWelcomeController@search')->name('search');
