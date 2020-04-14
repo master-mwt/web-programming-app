@@ -14,6 +14,10 @@
                     @endif
                     @if($channel->joined == 'Join')
                         <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
+                    @elseif($channel->joined == 'Leave' && $channel->member->role_id->name == 'creator')
+                        <!-- TODO: connect rest destroy form -->
+                        <button class="btn btn btn-outline-danger ml-auto"><strong>DELETE CHANNEL</strong></button>
+                        <!-- ENDTODO -->
                     @elseif($channel->joined == 'Leave')
                         <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning ml-auto"><strong>LEAVE</strong></button>
                     @else
@@ -27,12 +31,9 @@
                 </div>
                 @if(!is_null($channel->member))
                 <div class="card-footer">
-                    <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">See Members</a>
-                    @if($channel->member->role_id->name == 'creator')
-                    <!-- TODO: connect rest destroy form -->
-                    <button class="btn btn-sm btn-danger float-left">Delete Channel</button>
-                    <!-- ENDTODO -->
-                    @endif
+                    <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">Members</a>
+                    <a role="button" href="" class="btn btn-sm btn-info float-right mr-2">Reported Posts</a>
+                    <a role="button" href="" class="btn btn-sm btn-info float-right mr-2">Banned Users</a>
                 </div>
                 @endif
             </div>
@@ -109,9 +110,11 @@
                         @else
                             <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-flag mr-1"></i>Report Post</a>
                         @endif
-                        <!-- TODO: check if current post-user has already been reported by current logged user -->
-                        <a id="" href="@guest {{route('login')}} @else {{route('channel.member.report', [$channel, $post->user_id])}} @endguest" class="text-decoration-none"><i id="" class="fas fa-exclamation-circle mr-1"></i>Report User</a>
-                        <!-- ENDTODO -->
+                        @if($channel->member->role_id->name != 'member')
+                            <!-- TODO: check if current post-user has already been reported by current logged user -->
+                            <a id="" href="@guest {{route('login')}} @else {{route('channel.member.report', [$channel, $post->user_id])}} @endguest" class="text-decoration-none"><i id="" class="far fa-times-circle mr-1"></i>Report User</a>
+                            <!-- ENDTODO -->
+                        @endif
                     </div>
                 </div>
             </div>

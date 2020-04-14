@@ -12,9 +12,13 @@
         <h5 class="mx-auto mt-3 mb-5 bg-dark text-center p-3 rounded" style="width:600px">
             <span class="text-warning">!!! DEBUG !!!</span>
             <br><br>
-            <span class="text-success">name: </span> {{$user->name}}
+            <span class="text-success">channel id: </span> {{$channel->id}}
             <br>
-            <span class="text-success">role: </span> {{$user->role->role_id->name}}
+            <span class="text-success">user id: </span> {{$user->id}}
+            <br>
+            <span class="text-success">user name: </span> {{$user->name}}
+            <br>
+            <span class="text-success">user role: </span> {{$user->role->role_id->name}}
             <br><br>
             <span class="text-warning">!!! DEBUG !!!</span>
         </h5>
@@ -38,10 +42,18 @@
 
             <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="{{ URL::asset('/imgs/user3-128x128.jpg') }}" alt="" width="40px" height="40px" class="rounded-circle">
-                    <h4 class="m-0 ml-3">
-                        <a class="text-decoration-none" href="">{{ $member->user_id->name }}</a>
-                    </h4>
-                    <span class="ml-3 badge badge-pill badge-light">{{$member->reported}}</span>
+                    @if($member->reported == 'Not_Reported')
+                        <h4 class="m-0 ml-3">
+                            <a href="{{ route('discover.user', $member->user_id->id) }}" class="text-decoration-none text-info" href="">{{ $member->user_id->name }}</a>
+                        </h4>
+                        <span class="ml-3 badge badge-pill badge-info">{{$member->reported}}</span>
+                    @elseif($member->reported == 'Reported')
+                        <h4 class="m-0 ml-3">
+                            <a href="{{ route('discover.user', $member->user_id->id) }}" class="text-decoration-none text-warning" href="">{{ $member->user_id->name }}</a>
+                        </h4>
+                        <span class="ml-3 badge badge-pill badge-warning">{{$member->reported}}</span>
+                    @else
+                    @endif
 
                     @if($member->role_id->name == 'creator')
                     <h5 class="m-0 ml-auto"><span class="text-danger">{{ $member->role_id->name }}</span></h5>
@@ -61,29 +73,54 @@
                 </div>
                 @if($member->role_id->name != 'creator')
                 <div class="card-body p-0 px-3 border-0 d-flex flex-column">
-                    @if($member->isBanned === false)
-                        <a href="{{route('channel.member.ban', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: orange">ban user</a>
-                    @else
-                        <p href="#" class="ml-auto" style="color: grey">already banned user</p>
+                    
+                    @if($user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin')
+                        
+                        @if($member->isBanned === false)
+                            <a href="{{route('channel.member.ban', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: orange">BAN USER</a>
+                        @else
+                        @endif
+
                     @endif
-                    @if($member->isReported === false)
-                        <a href="{{route('channel.member.report', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: violet">report user</a>
-                    @else
-                        <p href="#" class="ml-auto" style="color: grey">already reported user</p>
+
+                    @if($user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin' || $user->role->role_id->name == 'moderator')
+
+                        @if($member->isReported === false)
+                            <a href="{{route('channel.member.report', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: violet">REPORT USER</a>
+                        @else
+                            <a href="" class="ml-auto text-warning">UNREPORT USER</a>
+                        @endif
+                    
                     @endif
                 </div>
                 @endif
                 <div class="card-footer border-0">
+                
+                @if($user->role->role_id->name == 'creator')
 
-                @if($member->role_id->name == 'admin')
-                <button onclick="location.href='{{route('channel.member.admin.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MODERATOR</span></button>
+                    @if($member->role_id->name == 'admin')
+                    <button onclick="location.href='{{route('channel.member.admin.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MODERATOR</span></button>
 
-                @elseif($member->role_id->name == 'moderator')
-                <button onclick="location.href='{{route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
-                <button onclick="location.href='{{route('channel.member.admin.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to ADMIN</span></button>
+                    @elseif($member->role_id->name == 'moderator')
+                    <button onclick="location.href='{{route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
+                    <button onclick="location.href='{{route('channel.member.admin.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to ADMIN</span></button>
 
-                @elseif($member->role_id->name == 'member')
-                <button onclick="location.href='{{route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
+                    @elseif($member->role_id->name == 'member')
+                    <button onclick="location.href='{{route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
+
+                    @else
+                    @endif
+                
+                @elseif($user->role->role_id->name == 'admin')
+                    
+                    @if($member->role_id->name == 'moderator')
+                    <button onclick="location.href='{{route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
+
+                    @elseif($member->role_id->name == 'member')
+                    <button onclick="location.href='{{route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
+
+                    @else
+                    @endif
 
                 @else
                 @endif
