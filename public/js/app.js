@@ -56969,7 +56969,7 @@ $(document).ready(function () {
         $('#post-' + post_id + '-report-icon').toggleClass('far').toggleClass('fas');
         var reportText = sReportPost.text();
         var children = sReportPost.children();
-        sReportPost.text(reportText === 'Report' ? 'Unreport' : 'Report');
+        sReportPost.text(reportText === 'Report Post' ? 'Unreport Post' : 'Report Post');
         sReportPost.prepend(children);
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {

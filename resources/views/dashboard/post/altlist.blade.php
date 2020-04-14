@@ -32,7 +32,7 @@
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
-                            <span class="text-primary">{{ $post->post_id->user_id->name }}</span>
+                            <a href="{{ route('discover.user', $post->post_id->user_id->id) }}" class="text-decoration-none">{{ $post->post_id->user_id->name }}</a>
                         </p>
                         <h5 class="m-0 mb-1"><a href="{{ route('discover.post', $post->post_id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
                     </div>
@@ -59,13 +59,6 @@
                             <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="fas fa-eye-slash mr-1"></i>Unhide</a>
                         @else
                             <a href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
-                        @endif
-                        @if($post->reported == 'Report')
-                            <a id="post-{{ $post->post_id->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->post_id->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
-                        @elseif($post->reported == 'Unreport')
-                            <a id="post-{{ $post->post_id->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none text-danger report"><i id="post-{{ $post->post_id->id }}-report-icon" class="fas fa-flag mr-1"></i>Unreport</a>
-                        @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none"><i class="far fa-flag mr-1"></i>Report</a>
                         @endif
                     </div>
                 </div>

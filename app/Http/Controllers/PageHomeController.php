@@ -444,6 +444,7 @@ class PageHomeController extends Controller
 
         foreach($mycomments as $comment) {
             $comment->reply_id = Reply::findOrFail($comment->reply_id);
+            $comment->reply_id->user_id = User::findOrFail($comment->reply_id->user_id);
             $comment->user_id = $user;
             //destructuring
             $comment->reply_id->post_id = Post::findOrFail($comment->reply_id->post_id);

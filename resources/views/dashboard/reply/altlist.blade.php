@@ -32,8 +32,8 @@
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $reply->channel_id->id) }}" class="text-decoration-none"><b>{{ $reply->channel_id->name }} &#183</b></a>
-                            <span class="text-muted">Posted by </span>
-                            <span class="text-primary">{{ $reply->reply_id->user_id->name }}</span>
+                            <span class="text-muted">Reply posted by </span>
+                            <a href="{{ route('discover.user', $reply->reply_id->user_id->id) }}" class="text-decoration-none">{{ $reply->reply_id->user_id->name }}</a>
                         </p>
                     </div>
                     <a href="#content-collapse-{{$reply->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Reply Content</a>

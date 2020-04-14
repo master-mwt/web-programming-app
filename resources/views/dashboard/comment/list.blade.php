@@ -16,8 +16,8 @@
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $comment->channel_id->id) }}" class="text-decoration-none"><b>{{ $comment->channel_id->name }} &#183</b></a>
-                            <span class="text-muted">Posted by </span>
-                            <span class="text-primary">{{ $comment->user_id->name }}</span>
+                            <span class="text-muted">Reply posted by </span>
+                            <a href="{{route('discover.user', $comment->reply_id->user_id->id) }}" class="text-decoration-none">{{ $comment->reply_id->user_id->name }}</a>
                         </p>
                     </div>
                     <a href="#content-collapse-{{$comment->reply_id->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Reply Content</a>
@@ -36,7 +36,7 @@
                                 <div class="card-header text-left border-0 px-3">
                                     <p class="m-0 mb-1">
                                         <span class="text-muted">Posted by </span>
-                                        <a href="" class="text-decoration-none">{{ $comment->user_id->name }}</a>
+                                        <a href="{{ route('discover.user', $comment->user_id->id) }}" class="text-decoration-none">{{ $comment->user_id->name }}</a>
                                     </p>
                                 </div>
                                 <div class="card-body text-left px-3 py-1">

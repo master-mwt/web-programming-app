@@ -32,8 +32,8 @@
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $reply->channel_id->id) }}" class="text-decoration-none"><b>{{ $reply->channel_id->name }} &#183</b></a>
-                            <span class="text-muted">Posted by </span>
-                            <span class="text-primary">{{ $reply->user_id->name }}</span>
+                            <span class="text-muted">Reply posted by </span>
+                            <a href="{{ route('discover.user', $reply->user_id->id) }}" class="text-decoration-none">{{ $reply->user_id->name }}</a>
                             
                         </p>
                     </div>

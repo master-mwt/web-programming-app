@@ -161,7 +161,7 @@ $(document).ready(function() {
 
                 let reportText = sReportPost.text();
                 let children = sReportPost.children();
-                sReportPost.text( reportText === 'Report' ? 'Unreport' : 'Report' );
+                sReportPost.text( reportText === 'Report Post' ? 'Unreport Post' : 'Report Post' );
                 sReportPost.prepend(children);
 
             },
