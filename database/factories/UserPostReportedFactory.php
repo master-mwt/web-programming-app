@@ -7,8 +7,9 @@ use Faker\Generator as Faker;
 
 $factory->define(UserPostReported::class, function (Faker $faker) {
 
-    $user = \App\User::all()->random(1)->first();
     $post = \App\Post::all()->random(1)->first();
+    $user_channel_role = \App\UserChannelRole::where('channel_id', $post->channel_id)->get()->random(1)->first();
+    $user = \App\User::where('id', $user_channel_role->user_id)->first();
 
     return [
         // FKs

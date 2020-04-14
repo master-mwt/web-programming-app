@@ -17,6 +17,7 @@ class CreateUsersReportedTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('channel_id')->unsigned();
+            $table->bigInteger('reported_by')->unsigned();
             $table->timestamps();
         });
 
@@ -27,6 +28,8 @@ class CreateUsersReportedTable extends Migration
                 ->references('id')->on('users');
             $table->foreign('channel_id')
                 ->references('id')->on('channels')->onDelete('cascade');
+            $table->foreign('reported_by')
+                ->references('id')->on('users');
         });
     }
 

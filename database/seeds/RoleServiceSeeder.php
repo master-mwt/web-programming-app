@@ -95,8 +95,6 @@ class RoleServiceSeeder extends Seeder
             ['role_id' => $moderator, 'service_id' => $create_comment],   //create_comment
             ['role_id' => $moderator, 'service_id' => $delete_comment],   //delete_comment
 
-            ['role_id' => $moderator, 'service_id' => $ban_user_from_channel],   //ban_user_from_channel
-
             ['role_id' => $moderator, 'service_id' => $silence_user_in_comment_section],  //silence_user_in_comment_section
             ['role_id' => $moderator, 'service_id' => $report_user_in_channel],  //report_user_in_channel
 
