@@ -55,7 +55,7 @@ class PageHomeController extends Controller
     public function postOwned()
     {
         $user = Auth::User();
-        $myposts = Post::where('user_id', $user->id)->paginate(10);
+        $myposts = Post::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myposts as $post) {
             $post->channel_id = Channel::findOrFail($post->channel_id);
@@ -98,7 +98,7 @@ class PageHomeController extends Controller
     public function postSaved()
     {
         $user = Auth::User();
-        $myposts = UserPostSaved::where('user_id', $user->id)->paginate(10);
+        $myposts = UserPostSaved::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
@@ -147,7 +147,7 @@ class PageHomeController extends Controller
     public function postHidden()
     {
         $user = Auth::User();
-        $myposts = UserPostHidden::where('user_id', $user->id)->paginate(10);
+        $myposts = UserPostHidden::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
@@ -196,7 +196,7 @@ class PageHomeController extends Controller
     public function postReported()
     {
         $user = Auth::User();
-        $myposts = UserPostReported::where('user_id', $user->id)->paginate(10);
+        $myposts = UserPostReported::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
@@ -245,7 +245,7 @@ class PageHomeController extends Controller
     public function postUpvoted()
     {
         $user = Auth::User();
-        $myposts = UserPostUpvoted::where('user_id', $user->id)->paginate(10);
+        $myposts = UserPostUpvoted::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
@@ -294,7 +294,7 @@ class PageHomeController extends Controller
     public function postDownvoted()
     {
         $user = Auth::User();
-        $myposts = UserPostDownvoted::where('user_id', $user->id)->paginate(10);
+        $myposts = UserPostDownvoted::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myposts as $post) {
             $post->post_id = Post::findOrFail($post->post_id);
@@ -343,7 +343,7 @@ class PageHomeController extends Controller
     public function replyOwned()
     {
         $user = Auth::User();
-        $myreplies = Reply::where('user_id', $user->id)->paginate(10);
+        $myreplies = Reply::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myreplies as $reply) {
             $reply->post_id = Post::findOrFail($reply->post_id);
@@ -374,7 +374,7 @@ class PageHomeController extends Controller
     public function replyUpvoted()
     {
         $user = Auth::User();
-        $myreplies = UserReplyUpvoted::where('user_id', $user->id)->paginate(10);
+        $myreplies = UserReplyUpvoted::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myreplies as $reply) {
             $reply->reply_id = Reply::findOrFail($reply->reply_id);
@@ -407,7 +407,7 @@ class PageHomeController extends Controller
     public function replyDownvoted()
     {
         $user = Auth::User();
-        $myreplies = UserReplyDownvoted::where('user_id', $user->id)->paginate(10);
+        $myreplies = UserReplyDownvoted::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($myreplies as $reply) {
             $reply->reply_id = Reply::findOrFail($reply->reply_id);
@@ -440,7 +440,7 @@ class PageHomeController extends Controller
     public function commentOwned()
     {
         $user = Auth::User();
-        $mycomments = Comment::where('user_id', $user->id)->paginate(10);
+        $mycomments = Comment::where('user_id', $user->id)->orderByDesc('created_at')->paginate(10);
 
         foreach($mycomments as $comment) {
             $comment->reply_id = Reply::findOrFail($comment->reply_id);

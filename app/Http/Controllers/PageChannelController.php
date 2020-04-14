@@ -24,7 +24,7 @@ class PageChannelController extends Controller
     public function channel($id)
     {
         $channel = Channel::where('id', $id)->first();
-        $posts = Post::where('channel_id', $id)->paginate(5);
+        $posts = Post::where('channel_id', $id)->orderByDesc('created_at')->paginate(5);
         $user = Auth::User();
 
         if(Auth::check())

@@ -31,17 +31,17 @@ class PageWelcomeController extends Controller
     public function index()
     {
         //remember to call a complex query from (for example) the PostController that returns the post meta-object, with all the references (for example: User, Channel) already resolved
-        $posts = Post::paginate(10);
-        
+        $posts = Post::orderByDesc('created_at')->paginate(10);
+
         foreach($posts as $post) {
             $post->channel_id = Channel::findOrFail($post->channel_id);
             $post->user_id = User::findOrFail($post->user_id);
-            
+
             $post->tags = PostTag::where('post_id',$post->id)->get();
             foreach($post->tags as $tag) {
                 $tag->tag_id = Tag::findOrFail($tag->tag_id);
             }
-            
+
             if(Auth::check())
             {
                 is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
@@ -72,10 +72,10 @@ class PageWelcomeController extends Controller
     }
 
     public function search(Request $request)
-    {   
+    {
         $query = $request->input('query');
         $target = $request->input('target');
-        
+
         //paginate(10, ['*'], 'users_pages')
 
         if($target === "users" && !is_null($query)) {
@@ -84,7 +84,7 @@ class PageWelcomeController extends Controller
             if(is_null($users->first()))
             {
                 $message = 'you make a typo';
-        
+
                 return view('search_res.empty_res', compact(
                     'target',
                     'query',
@@ -105,7 +105,7 @@ class PageWelcomeController extends Controller
             if(is_null($channels->first()))
             {
                 $message = 'you make a typo';
-        
+
                 return view('search_res.empty_res', compact(
                     'target',
                     'query',
@@ -136,12 +136,12 @@ class PageWelcomeController extends Controller
         }
 
         if($target === "posts" && !is_null($query)) {
-            $posts = Post::where('title', 'LIKE', '%'.$query.'%')->paginate(10);
+            $posts = Post::where('title', 'LIKE', '%'.$query.'%')->orderByDesc('created_at')->paginate(10);
 
             if(is_null($posts->first()))
             {
                 $message = 'you make a typo';
-        
+
                 return view('search_res.empty_res', compact(
                     'target',
                     'query',
@@ -152,7 +152,7 @@ class PageWelcomeController extends Controller
             foreach($posts as $post) {
                 $post->channel_id = Channel::findOrFail($post->channel_id);
                 $post->user_id = User::findOrFail($post->user_id);
-                
+
                 $post->tags = PostTag::where('post_id',$post->id)->get();
                 foreach($post->tags as $tag) {
                     $tag->tag_id = Tag::findOrFail($tag->tag_id);
@@ -194,11 +194,11 @@ class PageWelcomeController extends Controller
                 $query = '#'.$query;
             }
             $tag = Tag::where('name', $query)->first();
-            
+
             if(is_null($tag))
             {
                 $message = 'you make a typo';
-        
+
                 return view('search_res.empty_res', compact(
                     'target',
                     'query',
@@ -250,7 +250,7 @@ class PageWelcomeController extends Controller
         }
 
         $message = 'empty query';
-        
+
         return view('search_res.empty_res', compact(
             'target',
             'message'
@@ -261,7 +261,7 @@ class PageWelcomeController extends Controller
     {
         return view('info.help');
     }
-    
+
     public function about()
     {
         return view('info.about');
