@@ -66,6 +66,12 @@ Route::get('/discover/channel/{id}/members', 'PageChannelController@members')->n
 //************************************************************
 Route::get('/discover/post/{id}', 'PagePostController@post')->name('discover.post');
 
+//************************************************************
+// PAGEPOSTCONTROLLER ROUTES
+//************************************************************
+Route::get('/discover/user/{id}', 'PageUserController@user')->name('discover.user');
+Route::get('/discover/user/{id}/posts', 'PageUserController@userPosts')->name('discover.user.posts');
+
 
 //////////////////////////////////////////////////////////////
 // ADMIN USER ROUTES (AUTHORIZATION)

@@ -6,6 +6,7 @@
     <div class="row justify-content-center">
 
         <div class="col-md-12 text-center infinite-scroll px-0">
+
         @foreach($posts as $post)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">

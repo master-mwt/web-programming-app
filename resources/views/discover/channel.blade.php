@@ -25,12 +25,16 @@
                     <h5 class="text-muted">Rules</h5>
                     <p class="">{{ $channel->rules }}</p>
                 </div>
+                @if(!is_null($channel->member))
                 <div class="card-footer">
                     <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">See Members</a>
-                    @if(!is_null($channel->member) && $channel->member->role_id->name == 'creator')
+                    @if($channel->member->role_id->name == 'creator')
+                    <!-- TODO: connect rest destroy form -->
                     <button class="btn btn-sm btn-danger float-left">Delete Channel</button>
+                    <!-- ENDTODO -->
                     @endif
                 </div>
+                @endif
             </div>
         </div>
 
@@ -58,7 +62,7 @@
                     @if($post->upvoted == 'Unupvote' or $post->downvoted == 'Undownvote')
                         <span id="post-{{ $post->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->upvote - $post->downvote }}</span>
                     @else
-                        <span id="post-{{ $post->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->upvote - $post->downvote }}</span>
+                        <span class="my-1 text-light">{{ $post->upvote - $post->downvote }}</span>
                     @endif
                     @if($post->downvoted == 'Downvote')
                         <a id="post-{{ $post->id }}-downvote" href="{{ route('post.downvote', $post) }}" class="downvote"><i class="fas fa-arrow-down"></i></a>
@@ -72,7 +76,7 @@
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <span class="text-muted">Posted by </span>
-                            <a href="" class="text-decoration-none">{{ $post->user_id->name }}</a>
+                            <a href="{{ route('discover.user', $post->user_id->id) }}" class="text-decoration-none">{{ $post->user_id->name }}</a>
                         </p>
                         <h5 class="m-0"><a href="{{ route('discover.post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
                     </div>
@@ -89,23 +93,25 @@
                         @elseif($post->saved == 'Unsave')
                             <a id="post-{{ $post->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2 text-danger save"><i id="post-{{ $post->id }}-save-icon" class="fas fa-bookmark mr-1"></i>Unsave</a>
                         @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
+                            <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
                         @endif
                         @if($post->hidden == 'Hide')
                             <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
                         @elseif($post->hidden == 'Unhide')
                             <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 text-danger hide"><i id="post-{{ $post->id }}-hide-icon" class="fas fa-eye-slash mr-1"></i>Unhide</a>
                         @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
+                            <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
                         @if($post->reported == 'Report')
                             <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none mr-2 report"><i id="post-{{ $post->id }}-report-icon" class="far fa-flag mr-1"></i>Report Post</a>
                         @elseif($post->reported == 'Unreport')
                             <a id="post-{{ $post->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none mr-2 text-danger report"><i id="post-{{ $post->id }}-report-icon" class="fas fa-flag mr-1"></i>Unreport Post</a>
                         @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.report', $post) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-flag mr-1"></i>Report Post</a>
+                            <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-flag mr-1"></i>Report Post</a>
                         @endif
-                        <a id="" href="{{route('channel.member.report', [$channel, $post->user_id])}}" class="text-decoration-none"><i id="" class="fas fa-exclamation-circle mr-1"></i>Report User</a>
+                        <!-- TODO: check if current post-user has already been reported by current logged user -->
+                        <a id="" href="@guest {{route('login')}} @else {{route('channel.member.report', [$channel, $post->user_id])}} @endguest" class="text-decoration-none"><i id="" class="fas fa-exclamation-circle mr-1"></i>Report User</a>
+                        <!-- ENDTODO -->
                     </div>
                 </div>
             </div>
@@ -176,22 +182,24 @@
     </form>
 @endauth
 
-<script type="text/javascript">
-    new EasyMDE({
-        autoDownloadFontAwesome: false,
-        indentWithTabs: true,
-        lineWrapping: true,
-        minHeight: "400px",
-        //showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'heading-1', 'heading-2', 'heading-3', 'clean-block', 'horizontal-rule'],
-        showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'clean-block', 'horizontal-rule'],
-        element: document.getElementById('easymde-area'),
-        initialValue: '',
-        //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
-        //<img src="" width="" heigth=""> instead of ![](https://)
-        uploadImage: true,
-        imageMaxSize: "4000x4000x2",
-        imageAccept: "image/png, image/jpg",
-    });
-</script>
+@auth
+    <script type="text/javascript">
+        new EasyMDE({
+            autoDownloadFontAwesome: false,
+            indentWithTabs: true,
+            lineWrapping: true,
+            minHeight: "400px",
+            //showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'heading-1', 'heading-2', 'heading-3', 'clean-block', 'horizontal-rule'],
+            showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'clean-block', 'horizontal-rule'],
+            element: document.getElementById('easymde-area'),
+            initialValue: '',
+            //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
+            //<img src="" width="" heigth=""> instead of ![](https://)
+            uploadImage: true,
+            imageMaxSize: "4000x4000x2",
+            imageAccept: "image/png, image/jpg",
+        });
+    </script>
+@endauth
 
 @endsection

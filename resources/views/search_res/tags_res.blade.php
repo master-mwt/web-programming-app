@@ -19,7 +19,7 @@
                     @if($post->upvoted == 'Unupvote' or $post->downvoted == 'Undownvote')
                         <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->upvote - $post->downvote }}</span>
                     @else
-                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->post_id->upvote - $post->post_id->downvote }}</span>
+                        <span class="my-1 text-light">{{ $post->post_id->upvote - $post->post_id->downvote }}</span>
                     @endif
                     @if($post->downvoted == 'Downvote')
                         <a id="post-{{ $post->post_id->id }}-downvote" href="{{ route('post.downvote', $post->post_id) }}" class="downvote"><i class="fas fa-arrow-down"></i></a>
@@ -33,7 +33,7 @@
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->post_id->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->post_id->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
-                            <a href="" class="text-decoration-none">{{ $post->post_id->user_id->name }}</a>
+                            <a href="{{ route('discover.user', $post->post_id->user_id->id) }}" class="text-decoration-none">{{ $post->post_id->user_id->name }}</a>
                         </p>
                         <h5 class="m-0 mb-1"><a href="{{ route('discover.post', $post->post_id->id) }}" class="text-decoration-none">{{ $post->post_id->title }}</a></h5>
                     </div>
@@ -58,21 +58,14 @@
                         @elseif($post->saved == 'Unsave')
                             <a id="post-{{ $post->post_id->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger save"><i id="post-{{ $post->post_id->id }}-save-icon" class="fas fa-bookmark mr-1"></i>Unsave</a>
                         @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.save', $post->post_id) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
+                            <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
                         @endif
                         @if($post->hidden == 'Hide')
                             <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
                         @elseif($post->hidden == 'Unhide')
                             <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="fas fa-eye-slash mr-1"></i>Unhide</a>
                         @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
-                        @endif
-                        @if($post->reported == 'Report')
-                            <a id="post-{{ $post->post_id->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->post_id->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
-                        @elseif($post->reported == 'Unreport')
-                            <a id="post-{{ $post->post_id->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none text-danger report"><i id="post-{{ $post->post_id->id }}-report-icon" class="fas fa-flag mr-1"></i>Unreport</a>
-                        @else
-                            <a href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none"><i class="far fa-flag mr-1"></i>Report</a>
+                            <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
                     </div>
                 </div>
