@@ -51,21 +51,21 @@
                         @elseif($post->saved == 'Unsave')
                             <a id="post-{{ $post->post_id->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger save"><i id="post-{{ $post->post_id->id }}-save-icon" class="fas fa-bookmark mr-1"></i>Unsave</a>
                         @else
-                            <a id="post-{{ $post->post_id->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post->post_id) }} @endguest" class="text-decoration-none mr-2 save"><i id="post-{{ $post->post_id->id }}-save-icon" class="far fa-bookmark mr-1"></i>Save</a>
+                            <a href="@guest {{route('login')}} @else {{ route('post.save', $post->post_id) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
                         @endif
                         @if($post->hidden == 'Hide')
                             <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
                         @elseif($post->hidden == 'Unhide')
                             <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="fas fa-eye-slash mr-1"></i>Unhide</a>
                         @else
-                            <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
+                            <a href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
                         @if($post->reported == 'Report')
                             <a id="post-{{ $post->post_id->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->post_id->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
                         @elseif($post->reported == 'Unreport')
                             <a id="post-{{ $post->post_id->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none text-danger report"><i id="post-{{ $post->post_id->id }}-report-icon" class="fas fa-flag mr-1"></i>Unreport</a>
                         @else
-                            <a id="post-{{ $post->post_id->id }}-report" href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none report"><i id="post-{{ $post->post_id->id }}-report-icon" class="far fa-flag mr-1"></i>Report</a>
+                            <a href="@guest {{route('login')}} @else {{ route('post.report', $post->post_id) }} @endguest" class="text-decoration-none"><i class="far fa-flag mr-1"></i>Report</a>
                         @endif
                     </div>
                 </div>
