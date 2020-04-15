@@ -57,6 +57,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
+
         return view('rest.user.show', compact('user'));
     }
 
@@ -68,6 +70,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
+
         return view('rest.user.edit', compact('user'));
     }
 
@@ -80,6 +84,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('update', $user);
+
         $data = $this->validateData();
 
         $user->update($data);
