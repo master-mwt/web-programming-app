@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\UserChannelRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChannelController extends Controller
 {
@@ -42,12 +44,30 @@ class ChannelController extends Controller
     public function store(Request $request)
     {
         $data = $this->validateData();
-
+        
         $this->authorize('create', Channel::class);
 
         $channel = Channel::create($data);
 
-        return redirect('/channels/' . $channel->id);
+        DB::beginTransaction();
+        try {
+            UserChannelRole::create(['user_id' => $channel->creator_id, 'channel_id' => $channel->id, 'role_id' => 1]);
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+
+            abort(500);
+        }
+
+        if(auth()->user()->group_id == 1)
+        {
+            return redirect('/backend/channels');
+        }
+        else
+        {
+            return redirect('/discover/channel/' . $channel->id);
+        }
     }
 
     /**

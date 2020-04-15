@@ -139,12 +139,16 @@ Route::group(['middleware' => ['auth']], function() {
     //************************************************************
     // AUTH:REST ROUTES
     //************************************************************
-    Route::post('/posts', 'PostController@store')->name('post.store');
-    Route::post('/replies', 'ReplyController@store')->name('reply.store');
+    Route::post('/posts', 'PostController@store')->name('posts.store');
+    Route::post('/replies', 'ReplyController@store')->name('replies.store');
     Route::post('/comments', 'CommentController@store')->name('comment.store');
-    Route::get('/users/{user}', 'UserController@show')->name('user.show');
-    Route::get('/users/{user}/edit', 'UserController@edit')->name('user.edit');
+
+    Route::get('/users/{user}', 'UserController@show')->name('users.show');
+    Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');
     Route::patch('/users/{user}', 'UserController@update');
+
+    Route::get('/channels/create', 'ChannelController@create')->name('channels.create');
+    Route::post('/channels', 'ChannelController@store');
 });
 
 

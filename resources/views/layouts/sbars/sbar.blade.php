@@ -15,8 +15,12 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
+                @php
+                    $user = Auth::User();
+                    $user->image = \App\Image::where('id', $user->image_id)->first();
+                @endphp
                 <a href="{{ route('home') }}">
-                    <img src="{{ URL::asset('/imgs/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                    <img src="@if(is_null($user->image)) {{ URL::asset('imgs/no_profile_img.jpg') }} @else {{ $user->image->location }} @endif" class="img-circle elevation-2" alt="User Image">
                 </a>
             </div>
 

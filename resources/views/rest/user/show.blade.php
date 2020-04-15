@@ -53,19 +53,23 @@
                                 <input type="text" id="email" class="form-control" disabled value="{{ $user->email }}" name="email">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="group_id">group_id</label>
-                                <input type="text" id="group_id" class="form-control" disabled value="{{ $user->group_id }}" name="group_id">
+                        @if(Auth::User()->group_id == 1)
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="group_id">group_id</label>
+                                    <input type="text" id="group_id" class="form-control" disabled value="{{ $user->group_id }}" name="group_id">
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     <div class="card-footer">
-                        <form class="d-inline" action="/users/{{ $user->id }}" method="post">
-                            @method('delete')
-                            @csrf
-                            <button class="btn btn-dark float-right">delete</button>
-                        </form>
+                        @if(Auth::User()->group_id == 1)
+                            <form class="d-inline" action="/users/{{ $user->id }}" method="post">
+                                @method('delete')
+                                @csrf
+                                <button class="btn btn-dark float-right">delete</button>
+                            </form>
+                        @endif
                         <a href="/users/{{ $user->id }}/edit" class="btn btn-success float-right mr-2" role="button">edit</a>
                     </div>
                 </div>

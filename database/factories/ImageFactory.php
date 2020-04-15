@@ -20,7 +20,7 @@ $factory->define(Image::class, function (Faker $faker) {
     return [
         'type' => $type,
         'size' => $width . "x" . $height,
-        'location' => $imagePath,
+        'location' => substr($imagePath, strpos($imagePath, '/', 1)),
         'caption' => $faker->sentence,
     ];
 });

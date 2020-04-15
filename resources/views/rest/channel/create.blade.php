@@ -47,13 +47,23 @@
                                         @error('rules') <span class="text-primary">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col">
-                                        <label for="creator_id">creator_id</label>
-                                        <input type="text" id="creator_id" class="form-control" autocomplete="off" value="{{ Auth::User()->id }}" name="creator_id" disabled>
-                                        @error('creator_id') <span class="text-primary">{{ $message }}</span> @enderror
+                                @if(Auth::User()->group_id == 1)
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label for="creator_id">creator_id</label>
+                                            <input type="text" id="creator_id" class="form-control" autocomplete="off" value="{{ Auth::User()->id }}" name="creator_id">
+                                            @error('creator_id') <span class="text-primary">{{ $message }}</span> @enderror
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <label for="creator_id">creator_id</label>
+                                            <input type="text" id="creator_id" class="form-control" autocomplete="off" value="{{ Auth::User()->id }}" name="creator_id" readonly>
+                                            @error('creator_id') <span class="text-primary">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         <div class="card-footer">
                             <button class="btn btn-primary float-right" type="submit">create</button>

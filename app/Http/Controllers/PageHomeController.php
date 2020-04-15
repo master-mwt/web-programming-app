@@ -17,6 +17,7 @@ use \App\UserPostUpvoted;
 use \App\UserPostDownvoted;
 use \App\UserChannelRole;
 use \App\Role;
+use \App\Image;
 use App\UserReplyDownvoted;
 use App\UserReplyUpvoted;
 use Illuminate\Http\Request;
@@ -41,6 +42,7 @@ class PageHomeController extends Controller
     public function index()
     {
         $user = Auth::User();
+        $user->image = Image::where('id', $user->image_id)->first();
 
         return view('dashboard.home', compact(
             'user'

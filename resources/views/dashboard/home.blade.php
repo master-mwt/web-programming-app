@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex flex-row">
-                    <img src="{{ URL::asset('/imgs/user2-160x160.jpg') }}" alt="user-profile-image" class="rounded border" width='80'>
+                    <img src="@if(is_null($user->image)){{ URL::asset('imgs/no_profile_img.jpg') }} @else {{ $user->image->location }}@endif" alt="user-profile-image" class="rounded border" width='80'>
                     <div class="d-flex flex-column my-auto ml-4">
                         <h4 class="m-0">{{ $user->name }} {{ $user->surname }}</h4>
                         <h5 class="m-0 text-muted">{{ $user->username }}</h5>
@@ -19,9 +19,10 @@
                 <div class="card-footer">
                     <div class="float-right">
                         <!-- connect edit button to user rest show/edit profile -->
-                        <a role="button" href="{{ route('user.show', $user->id) }}" class="btn btn-success mr-1">edit profile</a>
+                        <a role="button" href="{{ route('users.show', $user->id) }}" class="btn btn-success mr-1">show profile data</a>
                         <a role="button" href="{{ route('password.update') }}" class="btn btn-success">change password</a>
                     </div>
+                    <a href="{{ route('channels.create') }}" class="btn btn-primary" role="button">create a channel</a>
                 </div>
             </div>
         </div>
