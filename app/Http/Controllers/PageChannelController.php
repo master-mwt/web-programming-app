@@ -18,6 +18,7 @@ use App\UserPostSaved;
 use App\UserPostUpvoted;
 use App\UserChannelRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PageChannelController extends Controller
 {
@@ -121,6 +122,10 @@ class PageChannelController extends Controller
     public function joinChannel(Channel $channel){
         $user_id = Auth::id();
 
+        if(UserSoftBanned::where('user_id', $user_id)->where('channel_id', $channel->id)->first()){
+            abort(403, 'You are not allowed to join this channel');
+        }
+
         $joinedAlready = UserChannelRole::where('user_id', $user_id)->where('channel_id', $channel->id)->first();
 
         if($joinedAlready){
@@ -151,14 +156,59 @@ class PageChannelController extends Controller
 
         $this->authorize('banUserFromChannel', [User::class, $channel->id]);
 
-        $userExist = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
+        $role_creator = \App\Role::where('name', 'creator')->first()->id;
+        $memberExist = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
         $bannedAlready = UserSoftBanned::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
-        if($bannedAlready || (!$userExist)){
+        if($bannedAlready || (!$memberExist)){
             abort(500, "Ban not permitted for this member");
         }
 
-        UserSoftBanned::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
+        $memberRole = \App\Role::where('id', $memberExist->role_id)->first()->id;
+
+        if($memberRole === $role_creator){
+            abort(500, "Ban not permitted for the channel's creator");
+        }
+
+        $userChannelRole = UserChannelRole::where('user_id', Auth::id())->where('channel_id', $channel->id)->first();
+        $userRole = \App\Role::where('id', $userChannelRole->role_id)->first()->id;
+
+        if($memberRole <= $userRole){
+            abort(500, "Ban not permitted for a member whose role is higher or equals than yours");
+        }
+
+        DB::beginTransaction();
+        try {
+
+            UserSoftBanned::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
+            $memberExist->delete();
+
+            $userIsReported = UserReported::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
+
+            if($userIsReported){
+                $userIsReported->delete();
+            }
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+            abort(500, "An error occurred");
+        }
+
+        return back();
+    }
+
+    public function unBanUserFromChannel(Channel $channel, User $member){
+
+        $this->authorize('banUserFromChannel', [User::class, $channel->id]);
+
+        $bannedAlready = UserSoftBanned::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
+
+        if(!$bannedAlready){
+            abort(500, "This member is not banned");
+        }
+
+        $bannedAlready->delete();
 
         return back();
     }
@@ -239,13 +289,43 @@ class PageChannelController extends Controller
 
         $this->authorize('reportUserInChannel', [User::class, $channel->id]);
 
+        $role_creator = \App\Role::where('name', 'creator')->first()->id;
+        $memberExist = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
         $reportedAlready = UserReported::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
-        if($reportedAlready){
-            abort(500, "This member is already reported");
+        if($reportedAlready || (!$memberExist)){
+            abort(500, "Report not permitted for this member");
+        }
+
+        $memberRole = \App\Role::where('id', $memberExist->role_id)->first()->id;
+
+        if($memberRole === $role_creator){
+            abort(500, "Report not permitted for the channel's creator");
+        }
+
+        $userChannelRole = UserChannelRole::where('user_id', Auth::id())->where('channel_id', $channel->id)->first();
+        $userRole = \App\Role::where('id', $userChannelRole->role_id)->first()->id;
+
+        if($memberRole <= $userRole){
+            abort(500, "Report not permitted for a member whose role is higher than yours");
         }
 
         UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id, 'reported_by' => Auth::User()->id]);
+
+        return back();
+    }
+
+    public function unReportUserInChannel(Channel $channel, User $member){
+
+        $this->authorize('reportUserInChannel', [User::class, $channel->id]);
+
+        $reportedAlready = UserReported::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
+
+        if(!$reportedAlready){
+            abort(500, "This member is not reported");
+        }
+
+        $reportedAlready->delete();
 
         return back();
     }

@@ -131,7 +131,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/channels/{channel}/join', 'PageChannelController@joinChannel')->name('channel.join');
     Route::get('/channels/{channel}/leave', 'PageChannelController@leaveChannel')->name('channel.leave');
     Route::get('/channels/{channel}/members/{member}/ban', 'PageChannelController@banUserFromChannel')->name('channel.member.ban');
+    Route::get('/channels/{channel}/members/{member}/unban', 'PageChannelController@unBanUserFromChannel')->name('channel.member.unban');
     Route::get('/channels/{channel}/members/{member}/report', 'PageChannelController@reportUserInChannel')->name('channel.member.report');
+    Route::get('/channels/{channel}/members/{member}/unreport', 'PageChannelController@unReportUserInChannel')->name('channel.member.unreport');
     Route::get('/channels/{channel}/members/{member}/upgradetomoderator', 'PageChannelController@upgradeToModerator')->name('channel.member.moderator.upgrade');
     Route::get('/channels/{channel}/members/{member}/upgradetoadmin', 'PageChannelController@upgradeToAdmin')->name('channel.member.admin.upgrade');
     Route::get('/channels/{channel}/members/{member}/downgrademoderator', 'PageChannelController@downgradeModerator')->name('channel.member.moderator.downgrade');

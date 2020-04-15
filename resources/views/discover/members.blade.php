@@ -73,9 +73,9 @@
                 </div>
                 @if($member->role_id->name != 'creator')
                 <div class="card-body p-0 px-3 border-0 d-flex flex-column">
-                    
+
                     @if($user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin')
-                        
+
                         @if($member->isBanned === false)
                             <a href="{{route('channel.member.ban', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: orange">BAN USER</a>
                         @else
@@ -88,14 +88,14 @@
                         @if($member->isReported === false)
                             <a href="{{route('channel.member.report', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: violet">REPORT USER</a>
                         @else
-                            <a href="" class="ml-auto text-warning">UNREPORT USER</a>
+                            <a href="{{route('channel.member.unreport', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto text-warning">UNREPORT USER</a>
                         @endif
-                    
+
                     @endif
                 </div>
                 @endif
                 <div class="card-footer border-0">
-                
+
                 @if($user->role->role_id->name == 'creator')
 
                     @if($member->role_id->name == 'admin')
@@ -110,9 +110,9 @@
 
                     @else
                     @endif
-                
+
                 @elseif($user->role->role_id->name == 'admin')
-                    
+
                     @if($member->role_id->name == 'moderator')
                     <button onclick="location.href='{{route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
 

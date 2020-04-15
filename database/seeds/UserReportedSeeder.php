@@ -31,7 +31,8 @@ class UserReportedSeeder extends Seeder
             $guard = false;
             foreach($results as $elem) {
                 if($elem !== $block && $guard == false) {
-                    if($elem['user_id'] === $block['user_id'] && $elem['channel_id'] === $block['channel_id']){
+                    if($elem['user_id'] === $block['user_id'] && $elem['channel_id'] === $block['channel_id'] &&
+                        $block['user_id'] === $block['reported_by']){
                         $guard = true;
                         break;
                     } else {
