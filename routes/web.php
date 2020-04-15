@@ -142,6 +142,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/posts', 'PostController@store')->name('post.store');
     Route::post('/replies', 'ReplyController@store')->name('reply.store');
     Route::post('/comments', 'CommentController@store')->name('comment.store');
+    Route::get('/users/{user}', 'UserController@show')->name('user.show');
+    Route::get('/users/{user}/edit', 'UserController@edit')->name('user.edit');
+    Route::patch('/users/{user}', 'UserController@update');
 });
 
 
