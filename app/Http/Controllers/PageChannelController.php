@@ -245,7 +245,7 @@ class PageChannelController extends Controller
             abort(500, "This member is already reported");
         }
 
-        UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
+        UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id, 'reported_by' => Auth::User()->id]);
 
         return back();
     }

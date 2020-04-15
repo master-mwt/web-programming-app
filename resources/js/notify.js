@@ -12,7 +12,7 @@ function makeToast(title, body, delay){
     let now = new Date();
     let time = now.getHours() + ':' + now.getMinutes();
 
-    let toast = `<div id="toast${toastId}" class="toast ml-auto bg-dark m-4" data-delay="${delay}" role="alert" aria-live="assertive" aria-atomic="true">
+    let toast = `<div id="toast${toastId}" class="toast ml-auto bg-primary m-4" data-delay="${delay}" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header">
                         <strong class="mr-auto">${title}</strong>
                         <small class="text-muted">${time}</small>

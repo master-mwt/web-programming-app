@@ -56806,7 +56806,7 @@ var toastId = 0;
 function makeToast(title, body, delay) {
   var now = new Date();
   var time = now.getHours() + ':' + now.getMinutes();
-  var toast = "<div id=\"toast".concat(toastId, "\" class=\"toast ml-auto bg-dark m-4\" data-delay=\"").concat(delay, "\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n                    <div class=\"toast-header\">\n                        <strong class=\"mr-auto\">").concat(title, "</strong>\n                        <small class=\"text-muted\">").concat(time, "</small>\n                        <button type=\"button\" class=\"ml-2 mb-1 close\" data-dismiss=\"toast\" aria-label=\"Close\">\n                            <span aria-hidden=\"true\">&times;</span>\n                        </button>\n                    </div>\n                    <div class=\"toast-body\">").concat(body, "</div>\n                 </div>");
+  var toast = "<div id=\"toast".concat(toastId, "\" class=\"toast ml-auto bg-primary m-4\" data-delay=\"").concat(delay, "\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n                    <div class=\"toast-header\">\n                        <strong class=\"mr-auto\">").concat(title, "</strong>\n                        <small class=\"text-muted\">").concat(time, "</small>\n                        <button type=\"button\" class=\"ml-2 mb-1 close\" data-dismiss=\"toast\" aria-label=\"Close\">\n                            <span aria-hidden=\"true\">&times;</span>\n                        </button>\n                    </div>\n                    <div class=\"toast-body\">").concat(body, "</div>\n                 </div>");
   $('#toast-container').append(toast);
   $(document).find('#toast' + toastId).toast('show');
   toastId++;

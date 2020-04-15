@@ -110,11 +110,6 @@
                         @else
                             <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-flag mr-1"></i>Report Post</a>
                         @endif
-                        @if($channel->member->role_id->name != 'member')
-                            <!-- TODO: check if current post-user has already been reported by current logged user -->
-                            <a id="" href="@guest {{route('login')}} @else {{route('channel.member.report', [$channel, $post->user_id])}} @endguest" class="text-decoration-none"><i id="" class="far fa-times-circle mr-1"></i>Report User</a>
-                            <!-- ENDTODO -->
-                        @endif
                     </div>
                 </div>
             </div>
