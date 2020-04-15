@@ -8,6 +8,7 @@ use App\Post;
 use App\PostTag;
 use App\Tag;
 use App\Channel;
+use App\Image;
 use App\UserPost;
 use App\UserPostUpvoted;
 use App\UserPostDownvoted;
@@ -21,6 +22,7 @@ class PageUserController extends Controller
     public function user($id)
     {
         $user = User::where('id', $id)->first();
+        $user->image = Image::where('id', $user->image_id)->first();
 
         return view('discover.user', compact(
             'user'

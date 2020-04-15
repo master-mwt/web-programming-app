@@ -20,7 +20,7 @@
                     $user->image = \App\Image::where('id', $user->image_id)->first();
                 @endphp
                 <a href="{{ route('home') }}">
-                    <img src="@if(is_null($user->image)) {{ URL::asset('imgs/no_profile_img.jpg') }} @else {{ $user->image->location }} @endif" class="img-circle elevation-2" alt="User Image">
+                    <img src="@if(is_null($user->image)) {{ URL::asset('/imgs/no_profile_img.jpg') }} @else {{ $user->image->location }} @endif" class="img-circle elevation-2" alt="User Image">
                 </a>
             </div>
 

@@ -9,7 +9,7 @@
         @foreach($users as $user)
             <div class="card bg-dark col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px">
                 <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
-                    <img src="{{ URL::asset('/imgs/user3-128x128.jpg') }}" alt="" width="40px" height="40px" class="rounded-circle">
+                    <img src="@if(is_null($user->image_id)) {{ URL::asset('/imgs/no_profile_img.jpg') }} @else {{ $user->image_id->location }} @endif" alt="" width="40px" height="40px" class="rounded-circle">
                     <h4 class="m-0 ml-3"><a class="text-decoration-none" href="{{ route('discover.user', $user->id) }}">{{ $user->name }}</a></h4>
                 </div>
             </div>

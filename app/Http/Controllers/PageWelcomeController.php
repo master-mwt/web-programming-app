@@ -8,6 +8,7 @@ use App\PostTag;
 use App\Tag;
 use App\Channel;
 use App\User;
+use App\Image;
 use App\Role;
 use App\Reply;
 use App\UserPostDownvoted;
@@ -80,6 +81,10 @@ class PageWelcomeController extends Controller
 
         if($target === "users" && !is_null($query)) {
             $users = User::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
+            
+            foreach ($users as $user) {
+                $user->image_id = Image::where('id', $user->image_id)->first();
+            }
 
             if(is_null($users->first()))
             {
@@ -116,6 +121,7 @@ class PageWelcomeController extends Controller
             if(Auth::check())
             {
                 foreach ($channels as $channel) {
+                    $channel->image = Image::where('id', $channel->image_id)->first();
                     is_null(UserChannelRole::where(['user_id' => Auth::User()->id, 'channel_id' => $channel->id])->first())
                     ? $channel->joined = 'Join'
                     : $channel->joined = 'Leave';

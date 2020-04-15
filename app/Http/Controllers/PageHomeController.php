@@ -467,6 +467,7 @@ class PageHomeController extends Controller
             $channel->channel_id = Channel::findOrFail($channel->channel_id);
             $channel->user_id = $user;
             $channel->role_id = Role::findOrFail($channel->role_id);
+            $channel->channel_id->image_id = Image::where('id', $channel->channel_id->image_id)->first();
             //destructuring
             $channel->id = $channel->channel_id;
             $channel->name = $channel->channel_id->name;
@@ -486,6 +487,7 @@ class PageHomeController extends Controller
             $channel->channel_id = Channel::findOrFail($channel->channel_id);
             $channel->user_id = $user;
             $channel->role_id = Role::findOrFail($channel->role_id);
+            $channel->channel_id->image_id = Image::where('id', $channel->channel_id->image_id)->first();
             //destructuring
             $channel->id = $channel->channel_id;
             $channel->name = $channel->channel_id->name;

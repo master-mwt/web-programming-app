@@ -9,10 +9,10 @@
         @foreach($channels as $channel)
             <div class="card bg-dark col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px">
                 <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
-                    <img src="{{ URL::asset('/imgs/channellogo.png') }}" alt="" width="40px" height="40px" class="rounded">
+                    <img src="@if(is_null($channel->image)) {{ URL::asset('/imgs/no_channel_img.jpg') }} @else {{ $channel->image->location }} @endif" alt="" width="40px" height="40px" class="rounded">
                     <h3 class="m-0 ml-3"><a class="text-decoration-none" href="{{ route('discover.channel', $channel->id) }}">{{ $channel->name }}</a></h3>
                     @if(!is_null($channel->member))
-                    <h5 class="m-0 ml-auto text-muted">{{$channel->member->role_id->name}}</h5>
+                    <h5 class="m-0 ml-auto text-warning">{{$channel->member->role_id->name}}</h5>
                     @endif
                 </div>
             </div>

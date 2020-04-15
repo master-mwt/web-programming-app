@@ -11,6 +11,7 @@ use App\Post;
 use App\PostTag;
 use App\Tag;
 use App\Role;
+use App\Image;
 use App\UserPostDownvoted;
 use App\UserPostHidden;
 use App\UserPostReported;
@@ -25,6 +26,7 @@ class PageChannelController extends Controller
     public function channel($id)
     {
         $channel = Channel::where('id', $id)->first();
+        $channel->image = Image::where('id', $channel->image_id)->first();
         $posts = Post::where('channel_id', $id)->orderByDesc('created_at')->paginate(5);
         $user = Auth::User();
 
@@ -93,6 +95,7 @@ class PageChannelController extends Controller
         foreach ($members as $member) {
             $member->user_id = User::where('id', $member->user_id)->first();
             $member->role_id = Role::where('id', $member->role_id)->first();
+            $member->user_id->image_id = Image::where('id', $member->user_id->image_id)->first();
 
             if(is_null(UserReported::where(['user_id' => $member->user_id->id, 'channel_id' => $channel->id])->first())){
                 $member->reported = 'Not_Reported';
