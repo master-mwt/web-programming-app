@@ -59,7 +59,6 @@ Route::get('/home/channel/joined', 'PageHomeController@channelJoined')->name('ho
 // PAGECHANNELCONTROLLER ROUTES
 //************************************************************
 Route::get('/discover/channel/{id}', 'PageChannelController@channel')->name('discover.channel');
-Route::get('/discover/channel/{id}/members', 'PageChannelController@members')->name('discover.channel.members');
 
 //************************************************************
 // PAGEPOSTCONTROLLER ROUTES
@@ -119,17 +118,30 @@ Route::group(['middleware' => ['access_to_log']], function() {
 
 Route::group(['middleware' => ['auth']], function() {
     //************************************************************
-    // AUTH:ACTIONS ROUTES
+    // AUTH:ACTIONS ROUTES - POST
     //************************************************************
     Route::get('/posts/{post}/upvote', 'PagePostController@upvote')->name('post.upvote');
     Route::get('/posts/{post}/downvote', 'PagePostController@downvote')->name('post.downvote');
     Route::get('/posts/{post}/save', 'PagePostController@save')->name('post.save');
     Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
     Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
+    
+    //************************************************************
+    // AUTH:ACTIONS ROUTES - REPLY
+    //************************************************************
     Route::get('/replies/{reply}/upvote', 'PagePostController@replyUpvote')->name('reply.upvote');
     Route::get('/replies/{reply}/downvote', 'PagePostController@replyDownvote')->name('reply.downvote');
+    
+    //************************************************************
+    // AUTH:ACTIONS ROUTES - CHANNEL
+    //************************************************************
     Route::get('/channels/{channel}/join', 'PageChannelController@joinChannel')->name('channel.join');
     Route::get('/channels/{channel}/leave', 'PageChannelController@leaveChannel')->name('channel.leave');
+        
+    //************************************************************
+    // AUTH:ACTIONS ROUTES - CHANNEL -> MEMBERS
+    //************************************************************
+    Route::get('/discover/channel/{id}/members', 'PageChannelController@members')->name('discover.channel.members');
     Route::get('/channels/{channel}/members/{member}/ban', 'PageChannelController@banUserFromChannel')->name('channel.member.ban');
     Route::get('/channels/{channel}/members/{member}/unban', 'PageChannelController@unBanUserFromChannel')->name('channel.member.unban');
     Route::get('/channels/{channel}/members/{member}/report', 'PageChannelController@reportUserInChannel')->name('channel.member.report');
@@ -138,6 +150,17 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/channels/{channel}/members/{member}/upgradetoadmin', 'PageChannelController@upgradeToAdmin')->name('channel.member.admin.upgrade');
     Route::get('/channels/{channel}/members/{member}/downgrademoderator', 'PageChannelController@downgradeModerator')->name('channel.member.moderator.downgrade');
     Route::get('/channels/{channel}/members/{member}/downgradeadmin', 'PageChannelController@downgradeAdmin')->name('channel.member.admin.downgrade');
+            
+    //************************************************************
+    // AUTH:ACTIONS ROUTES - CHANNEL -> BANNED USERS
+    //************************************************************
+    Route::get('/discover/channel/{id}/banned_users', 'PageChannelController@bannedUsers')->name('discover.channel.banned_users');
+        
+    //************************************************************
+    // AUTH:ACTIONS ROUTES - CHANNEL -> REPORTED POSTS
+    //************************************************************
+    Route::get('/discover/channel/{id}/reported_posts', 'PageChannelController@reportedPosts')->name('discover.channel.reported_posts');
+
     //************************************************************
     // AUTH:REST ROUTES
     //************************************************************

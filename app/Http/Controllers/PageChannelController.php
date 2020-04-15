@@ -122,6 +122,16 @@ class PageChannelController extends Controller
         ));
     }
 
+    public function reportedPosts($id)
+    {
+        return view('discover.reported_posts');
+    }
+
+    public function bannedUsers($id)
+    {
+        return view('discover.banned_users');
+    }
+
     public function joinChannel(Channel $channel){
         $user_id = Auth::id();
 

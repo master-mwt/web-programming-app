@@ -32,8 +32,12 @@
                 @if(!is_null($channel->member))
                 <div class="card-footer">
                     <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">Members</a>
-                    <a role="button" href="" class="btn btn-sm btn-info float-right mr-2">Reported Posts</a>
-                    <a role="button" href="" class="btn btn-sm btn-info float-right mr-2">Banned Users</a>
+                    @if($channel->member->role_id->name != 'member')
+                        <a role="button" href="{{ route('discover.channel.reported_posts', $channel->id) }}" class="btn btn-sm btn-info float-right mr-2">Reported Posts</a>
+                    @endif
+                    @if($channel->member->role_id->name != 'member' && $channel->member->role_id->name != 'moderator')
+                        <a role="button" href="{{ route('discover.channel.banned_users', $channel->id) }}" class="btn btn-sm btn-info float-right mr-2">Banned Users</a>
+                    @endif
                 </div>
                 @endif
             </div>
