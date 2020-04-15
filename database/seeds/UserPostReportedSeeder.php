@@ -21,6 +21,7 @@ class UserPostReportedSeeder extends Seeder
             $block = [
                 'user_id' => $user_post_reported->user_id,
                 'post_id' => $user_post_reported->post_id,
+                'channel_id' => $user_post_reported->channel_id,
             ];
 
             if(empty($results)) {

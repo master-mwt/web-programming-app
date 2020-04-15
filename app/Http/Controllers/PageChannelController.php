@@ -20,6 +20,7 @@ use App\UserPostUpvoted;
 use App\UserChannelRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PageChannelController extends Controller
 {
@@ -124,7 +125,51 @@ class PageChannelController extends Controller
 
     public function reportedPosts($id)
     {
-        return view('discover.reported_posts');
+        $posts = UserPostReported::where('channel_id', $id)->paginate(10);
+
+        foreach ($posts as $post) {
+            $post->user_id = User::where('id', $post->user_id)->first();
+            $post->post_id = Post::where('id', $post->post_id)->first();
+            $post->channel_id = Channel::where('id', $post->channel_id)->first();
+            $post->counter = UserPostReported::where('post_id', $post->post_id->id)->count();
+
+            $post->tags = PostTag::where('post_id',$post->post_id->id)->get();
+            foreach($post->tags as $tag) {
+                $tag->tag_id = Tag::findOrFail($tag->tag_id);
+            }
+
+            if(Auth::check())
+            {
+                is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->upvoted = 'Upvote'
+                : $post->upvoted = 'Unupvote';
+
+                is_null(UserPostDownvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->downvoted = 'Downvote'
+                : $post->downvoted = 'Undownvote';
+
+                is_null(UserPostSaved::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->saved = 'Save'
+                : $post->saved = 'Unsave';
+
+                is_null(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->hidden = 'Hide'
+                : $post->hidden = 'Unhide';
+
+                is_null(UserPostReported::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
+                ? $post->reported = 'Report'
+                : $post->reported = 'Unreport';
+            }
+        }
+
+        $posts_sorted = $posts->sortByDesc(function($post){
+            return $post->counter;
+        });
+        $posts_sorted_paginated = new LengthAwarePaginator($posts_sorted, $posts->total(), $posts->perPage());
+
+        return view('discover.reported_posts', [
+            'posts' => $posts_sorted_paginated,
+        ]);
     }
 
     public function bannedUsers($id)

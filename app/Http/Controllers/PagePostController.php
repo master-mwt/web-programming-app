@@ -220,7 +220,7 @@ class PagePostController extends Controller
             return response()->json(null, 200);
         }
 
-        UserPostReported::create(['user_id' => $user_id, 'post_id' => $post->id]);
+        UserPostReported::create(['user_id' => $user_id, 'post_id' => $post->id, 'channel_id' => $post->channel_id]);
 
         return response()->json(null, 200);
     }

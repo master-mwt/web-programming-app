@@ -10,21 +10,21 @@
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     @if($post->upvoted == 'Upvote')
-                        <a id="post-{{ $post->id }}-upvote" href="{{ route('post.upvote', $post) }}" class="upvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                        <a id="post-{{ $post->post_id->id }}-upvote" href="{{ route('post.upvote', $post->post_id) }}" class="upvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @elseif($post->upvoted == 'Unupvote')
-                        <a id="post-{{ $post->id }}-upvote" href="{{ route('post.upvote', $post) }}" class="text-warning upvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                        <a id="post-{{ $post->post_id->id }}-upvote" href="{{ route('post.upvote', $post->post_id) }}" class="text-warning upvote"><i class="fas fa-arrow-up mb-1"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     @endif
                     @if($post->upvoted == 'Unupvote' or $post->downvoted == 'Undownvote')
-                        <span id="post-{{ $post->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->upvote - $post->downvote }}</span>
+                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->upvote - $post->downvote }}</span>
                     @else
-                        <span id="post-{{ $post->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->upvote - $post->downvote }}</span>
+                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->upvote - $post->downvote }}</span>
                     @endif
                     @if($post->downvoted == 'Downvote')
-                        <a id="post-{{ $post->id }}-downvote" href="{{ route('post.downvote', $post) }}" class="downvote"><i class="fas fa-arrow-down"></i></a>
+                        <a id="post-{{ $post->post_id->id }}-downvote" href="{{ route('post.downvote', $post->post_id) }}" class="downvote"><i class="fas fa-arrow-down"></i></a>
                     @elseif($post->downvoted == 'Undownvote')
-                        <a id="post-{{ $post->id }}-downvote" href="{{ route('post.downvote', $post) }}" class="text-warning downvote"><i class="fas fa-arrow-down"></i></a>
+                        <a id="post-{{ $post->post_id->id }}-downvote" href="{{ route('post.downvote', $post->post_id) }}" class="text-warning downvote"><i class="fas fa-arrow-down"></i></a>
                     @else
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
                     @endif
@@ -34,13 +34,14 @@
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
                             <a href="{{ route('discover.user', $post->user_id->id) }}" class="text-decoration-none">{{ $post->user_id->name }}</a>
+                            <span class="ml-2 badge badge-pill badge-danger">{{$post->counter}} reports</span>
                         </p>
-                        <h5 class="m-0 mb-1"><a href="{{ route('discover.post', $post->id) }}" class="text-decoration-none">{{ $post->title }}</a></h5>
+                        <h5 class="m-0 mb-1"><a href="{{ route('discover.post', $post->post_id->id) }}" class="text-decoration-none">{{ $post->post_id->title }}</a></h5>
                     </div>
-                    <a href="#content-collapse-{{$post->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Post Content</a>
+                    <a href="#content-collapse-{{$post->post_id->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Post Content</a>
 
-                    <div class="card-body text-left px-3 py-1 collapse mb-1" id="content-collapse-{{$post->id}}">
-                        <div class="markdown-content" data-markdown-content="{{ $post->content }}"></div>
+                    <div class="card-body text-left px-3 py-1 collapse mb-1" id="content-collapse-{{$post->post_id->id}}">
+                        <div class="markdown-content" data-markdown-content="{{ $post->post_id->content }}"></div>
                         @foreach($post->tags as $tag)
                             <a href="{{ route('search', ['target' => 'tags', 'query' => $tag->tag_id->name]) }}"><span class="badge badge-pill" style="font-size: 11px; background-color: #ddd">{{$tag->tag_id->name}}</span></a>
                         @endforeach
@@ -48,19 +49,22 @@
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
                     <!-- <a href="@guest {{route('login')}} @else # @endguest" class="text-decoration-none mr-2"><i class="fas fa-crown mr-1"></i>Give Award</a> -->
                         @if($post->saved == 'Save')
-                            <a id="post-{{ $post->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2 save"><i id="post-{{ $post->id }}-save-icon" class="far fa-bookmark mr-1"></i>Save</a>
+                            <a id="post-{{ $post->post_id->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post->post_id) }} @endguest" class="text-decoration-none mr-2 save"><i id="post-{{ $post->post_id->id }}-save-icon" class="far fa-bookmark mr-1"></i>Save</a>
                         @elseif($post->saved == 'Unsave')
-                            <a id="post-{{ $post->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post) }} @endguest" class="text-decoration-none mr-2 text-danger save"><i id="post-{{ $post->id }}-save-icon" class="fas fa-bookmark mr-1"></i>Unsave</a>
+                            <a id="post-{{ $post->post_id->id }}-save" href="@guest {{route('login')}} @else {{ route('post.save', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger save"><i id="post-{{ $post->post_id->id }}-save-icon" class="fas fa-bookmark mr-1"></i>Unsave</a>
                         @else
                             <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-bookmark mr-1"></i>Save</a>
                         @endif
                         @if($post->hidden == 'Hide')
-                            <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
+                            <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="far fa-eye-slash mr-1"></i>Hide</a>
                         @elseif($post->hidden == 'Unhide')
-                            <a id="post-{{ $post->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post) }} @endguest" class="text-decoration-none mr-2 text-danger hide"><i id="post-{{ $post->id }}-hide-icon" class="fas fa-eye-slash mr-1"></i>Unhide</a>
+                            <a id="post-{{ $post->post_id->id }}-hide" href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger hide"><i id="post-{{ $post->post_id->id }}-hide-icon" class="fas fa-eye-slash mr-1"></i>Unhide</a>
                         @else
                             <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
+                        <!-- TODO: global channel unreport func link -->
+                        <a href="{{route('login')}}" class="float-right text-decoration-none text-danger mr-2"><i class="fas fa-flag-checkered mr-1"></i>Globally Unreport</a>
+                        <!-- END TODO -->
                     </div>
                 </div>
             </div>

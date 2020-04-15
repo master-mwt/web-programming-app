@@ -12,6 +12,7 @@ $factory->define(UserPostReported::class, function (Faker $faker) {
     $user = \App\User::where('id', $user_channel_role->user_id)->first();
 
     return [
+        'channel_id' => $post->channel_id,
         // FKs
         'user_id' => $user->id,
         'post_id' => $post->id,
