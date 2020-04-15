@@ -26,108 +26,14 @@
         <div class="col-md-12 text-center infinite-scroll px-0">
 
         @foreach($members as $member)
-
-            @if($member->role_id->name == 'creator')
             <div class="card col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px; background-color: #111">
-
-            @elseif($member->role_id->name == 'admin')
-            <div class="card col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px; background-color: #222">
-
-            @elseif($member->role_id->name == 'moderator')
-            <div class="card col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px; background-color: #333">
-
-            @elseif($member->role_id->name == 'member')
-            <div class="card col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 600px; background-color: #444">
-
-            @else
-            @endif
-
-            <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
+                <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="@if(is_null($member->user_id->image_id)) {{ URL::asset('/imgs/no_profile_img.jpg') }} @else {{ $member->user_id->image_id->location }} @endif" alt="" width="40px" height="40px" class="rounded-circle">
-                    @if($member->reported == 'Not_Reported')
-                        <h4 class="m-0 ml-3">
-                            <a href="{{ route('discover.user', $member->user_id->id) }}" class="text-decoration-none text-info" href="">{{ $member->user_id->name }}</a>
-                        </h4>
-                        <span class="ml-3 badge badge-pill badge-info">{{$member->reported}}</span>
-                    @elseif($member->reported == 'Reported')
-                        <h4 class="m-0 ml-3">
-                            <a href="{{ route('discover.user', $member->user_id->id) }}" class="text-decoration-none text-warning" href="">{{ $member->user_id->name }}</a>
-                        </h4>
-                        <span class="ml-3 badge badge-pill badge-warning">{{$member->reported}}</span>
-                    @else
-                    @endif
-
-                    @if($member->role_id->name == 'creator')
-                    <h5 class="m-0 ml-auto"><span class="text-danger">{{ $member->role_id->name }}</span></h5>
-
-                    @elseif($member->role_id->name == 'admin')
-                    <h5 class="m-0 ml-auto"><span class="text-warning">{{ $member->role_id->name }}</span></h5>
-
-                    @elseif($member->role_id->name == 'moderator')
-                    <h5 class="m-0 ml-auto"><span class="text-success">{{ $member->role_id->name }}</span></h5>
-
-                    @elseif($member->role_id->name == 'member')
-                    <h5 class="m-0 ml-auto"><span class="text-light">{{ $member->role_id->name }}</span></h5>
-
-                    @else
-                    @endif
-
+                    <h4 class="m-0 ml-3">
+                        <a href="{{ route('discover.user', $member->user_id->id) }}" class="text-decoration-none text-info" href="">{{ $member->user_id->name }}</a>
+                    </h4>
+                    <a href="" class="ml-auto" style="color: orange">UNBAN USER</a>
                 </div>
-                @if($member->role_id->name != 'creator')
-                <div class="card-body p-0 px-3 border-0 d-flex flex-column">
-
-                    @if($user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin')
-
-                        @if($member->isBanned === false)
-                            <a href="{{route('channel.member.ban', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: orange">BAN USER</a>
-                        @else
-                        @endif
-
-                    @endif
-
-                    @if($user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin' || $user->role->role_id->name == 'moderator')
-
-                        @if($member->isReported === false)
-                            <a href="{{route('channel.member.report', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: violet">REPORT USER</a>
-                        @else
-                            <a href="{{route('channel.member.unreport', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto text-warning">UNREPORT USER</a>
-                        @endif
-
-                    @endif
-                </div>
-                @endif
-                <div class="card-footer border-0">
-
-                @if($user->role->role_id->name == 'creator')
-
-                    @if($member->role_id->name == 'admin')
-                    <button onclick="location.href='{{route('channel.member.admin.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MODERATOR</span></button>
-
-                    @elseif($member->role_id->name == 'moderator')
-                    <button onclick="location.href='{{route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
-                    <button onclick="location.href='{{route('channel.member.admin.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to ADMIN</span></button>
-
-                    @elseif($member->role_id->name == 'member')
-                    <button onclick="location.href='{{route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
-
-                    @else
-                    @endif
-
-                @elseif($user->role->role_id->name == 'admin')
-
-                    @if($member->role_id->name == 'moderator')
-                    <button onclick="location.href='{{route('channel.member.moderator.downgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right ml-2"><i class="fas fa-arrow-down mr-2"></i><span class="">Downgrade to MEMBER</span></button>
-
-                    @elseif($member->role_id->name == 'member')
-                    <button onclick="location.href='{{route('channel.member.moderator.upgrade', ['channel' => $channel, 'member' => $member->user_id])}}'" class="btn btn-sm btn-outline-light float-right"><i class="fas fa-arrow-up mr-2"></i> <span class="">Upgrade to MODERATOR</span></button>
-
-                    @else
-                    @endif
-
-                @else
-                @endif
-
-            </div>
             </div>
         @endforeach
         {{ $members->links() }}

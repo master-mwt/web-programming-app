@@ -5,6 +5,8 @@
 <div class="container"></div>
     <div class="row justify-content-center">
 
+        <a role="button" href="{{ route('discover.channel', $channel->id) }}" class="btn btn-dark mb-4"><i class="fas fa-arrow-left mr-2"></i> back to channel {{$channel->name}}</a>
+
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($posts as $post)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">

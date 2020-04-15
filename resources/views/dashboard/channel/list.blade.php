@@ -10,7 +10,7 @@
                 <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="@if(is_null($channel->channel_id->image_id)) {{ URL::asset('/imgs/no_channel_img.jpg') }} @else {{$channel->channel_id->image_id->location}} @endif" alt="" width="40px" height="40px" class="rounded">
                     <h3 class="m-0 ml-3"><a class="text-decoration-none" href="{{ route('discover.channel', $channel->id) }}">{{ $channel->name }}</a></h3>
-                    <h5 class="m-0 ml-auto text-muted">{{ $channel->role_id->name }}</h5>
+                    <h5 class="m-0 ml-auto text-warning">{{ $channel->role_id->name }}</h5>
                 </div>
             </div>
         @empty

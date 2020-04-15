@@ -125,6 +125,8 @@ class PageChannelController extends Controller
 
     public function reportedPosts($id)
     {
+        $channel = Channel::where('id', $id)->first();
+        
         $posts = UserPostReported::where('channel_id', $id)->paginate(10);
 
         foreach ($posts as $post) {
@@ -168,13 +170,31 @@ class PageChannelController extends Controller
         $posts_sorted_paginated = new LengthAwarePaginator($posts_sorted, $posts->total(), $posts->perPage());
 
         return view('discover.reported_posts', [
+            'channel' => $channel,
             'posts' => $posts_sorted_paginated,
         ]);
     }
 
     public function bannedUsers($id)
     {
-        return view('discover.banned_users');
+        $channel = Channel::where('id', $id)->first();
+        $user = Auth::User();
+
+        $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
+        $user->role->role_id = Role::where('id',$user->role->role_id)->first();
+        
+        $members = UserSoftBanned::where('channel_id', $channel->id)->paginate(10);
+        
+        foreach ($members as $member) {
+            $member->user_id = User::where('id', $member->user_id)->first();
+            $member->user_id->image_id = Image::where('id', $member->user_id->image_id)->first();
+        }
+
+        return view('discover.banned_users', compact(
+            'channel',
+            'user',
+            'members'
+        ));
     }
 
     public function joinChannel(Channel $channel){
