@@ -28,6 +28,8 @@ class CreateUsersPostsReportedTable extends Migration
                 ->references('id')->on('users');
             $table->foreign('post_id')
                 ->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('channel_id')
+                ->references('id')->on('channels')->onDelete('cascade');
         });
     }
 

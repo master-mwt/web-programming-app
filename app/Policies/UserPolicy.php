@@ -210,6 +210,19 @@ class UserPolicy
         }
     }
 
+    public function upgradeToCreator(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'upgrade_to_creator')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
+                ? Response::deny() : Response::allow();
+        }
+    }
+
     public function downgradeModerator(User $user, int $channel_id)
     {
         $service = Service::where('name', 'downgrade_moderator')->first();
@@ -226,6 +239,19 @@ class UserPolicy
     public function downgradeAdmin(User $user, int $channel_id)
     {
         $service = Service::where('name', 'downgrade_admin')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
+                ? Response::deny() : Response::allow();
+        }
+    }
+
+    public function downgradeCreator(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'downgrade_creator')->first();
         $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
 
         if(!$user_channel_role){

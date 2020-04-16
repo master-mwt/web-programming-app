@@ -37,8 +37,10 @@ class GroupServiceSeeder extends Seeder
         $report_user_in_channel = \App\Service::where('name', 'report_user_in_channel')->first()->id;
         $upgrade_to_moderator = \App\Service::where('name', 'upgrade_to_moderator')->first()->id;
         $upgrade_to_admin = \App\Service::where('name', 'upgrade_to_admin')->first()->id;
+        $upgrade_to_creator = \App\Service::where('name', 'upgrade_to_creator')->first()->id;
         $downgrade_moderator = \App\Service::where('name', 'downgrade_moderator')->first()->id;
         $downgrade_admin = \App\Service::where('name', 'downgrade_admin')->first()->id;
+        $downgrade_creator = \App\Service::where('name', 'downgrade_creator')->first()->id;
         $report_post = \App\Service::where('name', 'report_post')->first()->id;
         $view_channel_members_list = \App\Service::where('name', 'view_channel_members_list')->first()->id;
 
@@ -74,8 +76,10 @@ class GroupServiceSeeder extends Seeder
 
             ['group_id' => $administrator, 'service_id' => $upgrade_to_moderator],  //upgrade_to_moderator
             ['group_id' => $administrator, 'service_id' => $upgrade_to_admin],  //upgrade_to_admin
+            ['group_id' => $administrator, 'service_id' => $upgrade_to_creator],  //upgrade_to_creator
             ['group_id' => $administrator, 'service_id' => $downgrade_moderator],  //downgrade_moderator
             ['group_id' => $administrator, 'service_id' => $downgrade_admin],  //downgrade_admin
+            ['group_id' => $administrator, 'service_id' => $downgrade_creator],  //downgrade_creator
             ['group_id' => $administrator, 'service_id' => $report_post],  //report_post
             ['group_id' => $administrator, 'service_id' => $view_channel_members_list],  //view_channel_members_list
 

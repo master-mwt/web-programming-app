@@ -126,7 +126,7 @@ class PageChannelController extends Controller
     public function reportedPosts($id)
     {
         $channel = Channel::where('id', $id)->first();
-        
+
         $posts = UserPostReported::where('channel_id', $id)->paginate(10);
 
         foreach ($posts as $post) {
@@ -182,9 +182,9 @@ class PageChannelController extends Controller
 
         $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
         $user->role->role_id = Role::where('id',$user->role->role_id)->first();
-        
+
         $members = UserSoftBanned::where('channel_id', $channel->id)->paginate(10);
-        
+
         foreach ($members as $member) {
             $member->user_id = User::where('id', $member->user_id)->first();
             $member->user_id->image_id = Image::where('id', $member->user_id->image_id)->first();
@@ -225,7 +225,30 @@ class PageChannelController extends Controller
             return back();
         }
 
-        $joinedAlready->delete();
+        $creator_role = \App\Role::where('name', 'creator')->first()->id;
+
+        if($joinedAlready->role_id === $creator_role){
+            abort(500, 'You are the creator of this channel');
+        }
+
+        $reported_posts = UserPostReported::where('user_id', $joinedAlready->user_id)->where('channel_id', $joinedAlready->channel_id)->get();
+
+        DB::beginTransaction();
+        try {
+
+            if($reported_posts){
+                foreach ($reported_posts as $reported_post){
+                    $reported_post->delete();
+                }
+            }
+
+            $joinedAlready->delete();
+
+            DB::commit();
+        } catch(\Exception $e){
+            DB::rollBack();
+            abort(500, "An error occurred");
+        }
 
         return back();
     }
@@ -325,6 +348,23 @@ class PageChannelController extends Controller
         return back();
     }
 
+    public function upgradeToCreator(Channel $channel, User $member){
+
+        $this->authorize('upgradeToCreator', [User::class, $channel->id]);
+
+        $creator_role = Role::where('name', 'creator')->first();
+        $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
+
+        if((!$userIsJoined) || ($userIsJoined->role_id === $creator_role->id)){
+            abort(500, "Upgrade not permitted for this user");
+        }
+
+        $userIsJoined->role_id = $creator_role->id;
+        $userIsJoined->save();
+
+        return back();
+    }
+
     public function downgradeModerator(Channel $channel, User $member){
 
         $this->authorize('downgradeModerator', [User::class, $channel->id]);
@@ -363,6 +403,29 @@ class PageChannelController extends Controller
         return back();
     }
 
+    public function downgradeCreator(Channel $channel, User $member){
+
+        $this->authorize('downgradeCreator', [User::class, $channel->id]);
+
+        $creator_role = Role::where('name', 'creator')->first();
+        $userIsCreator = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $creator_role->id)->first();
+
+        if(!$userIsCreator){
+            abort(500, "Downgrade not permitted for this user");
+        }
+
+        if(UserChannelRole::where('channel_id', $channel->id)->where('role_id', $creator_role->id)->get()->count() < 2){
+            abort(500, "Upgrade an Admin to creator first");
+        }
+
+        $admin_role = Role::where('name', 'admin')->first();
+
+        $userIsCreator->role_id = $admin_role->id;
+        $userIsCreator->save();
+
+        return back();
+    }
+
     public function reportUserInChannel(Channel $channel, User $member){
 
         $this->authorize('reportUserInChannel', [User::class, $channel->id]);
@@ -388,7 +451,7 @@ class PageChannelController extends Controller
             abort(500, "Report not permitted for a member whose role is higher than yours");
         }
 
-        UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id, 'reported_by' => Auth::User()->id]);
+        UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
 
         return back();
     }

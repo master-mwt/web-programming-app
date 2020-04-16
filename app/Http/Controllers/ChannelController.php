@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\UserChannelRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ChannelController extends Controller
@@ -44,15 +45,17 @@ class ChannelController extends Controller
     public function store(Request $request)
     {
         $data = $this->validateData();
-        
-        $this->authorize('create', Channel::class);
 
-        $channel = Channel::create($data);
+        $this->authorize('create', Channel::class);
 
         DB::beginTransaction();
         try {
-            UserChannelRole::create(['user_id' => $channel->creator_id, 'channel_id' => $channel->id, 'role_id' => 1]);
+            $channel = Channel::create($data);
 
+            if(Auth::user()->group_id != 1){
+                UserChannelRole::create(['user_id' => $channel->creator_id, 'channel_id' => $channel->id, 'role_id' => 1]);
+            }
+            
             DB::commit();
         } catch(\Exception $e) {
             DB::rollBack();
@@ -121,7 +124,7 @@ class ChannelController extends Controller
     public function destroy(Channel $channel)
     {
         $this->authorize('delete', $channel);
-        
+
         $channel->delete();
 
         if(auth()->user()->group_id == 1)

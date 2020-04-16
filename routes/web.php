@@ -125,19 +125,19 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/posts/{post}/save', 'PagePostController@save')->name('post.save');
     Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
     Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
-    
+
     //************************************************************
     // AUTH:ACTIONS ROUTES - REPLY
     //************************************************************
     Route::get('/replies/{reply}/upvote', 'PagePostController@replyUpvote')->name('reply.upvote');
     Route::get('/replies/{reply}/downvote', 'PagePostController@replyDownvote')->name('reply.downvote');
-    
+
     //************************************************************
     // AUTH:ACTIONS ROUTES - CHANNEL
     //************************************************************
     Route::get('/channels/{channel}/join', 'PageChannelController@joinChannel')->name('channel.join');
     Route::get('/channels/{channel}/leave', 'PageChannelController@leaveChannel')->name('channel.leave');
-        
+
     //************************************************************
     // AUTH:ACTIONS ROUTES - CHANNEL -> MEMBERS
     //************************************************************
@@ -148,14 +148,16 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/channels/{channel}/members/{member}/unreport', 'PageChannelController@unReportUserInChannel')->name('channel.member.unreport');
     Route::get('/channels/{channel}/members/{member}/upgradetomoderator', 'PageChannelController@upgradeToModerator')->name('channel.member.moderator.upgrade');
     Route::get('/channels/{channel}/members/{member}/upgradetoadmin', 'PageChannelController@upgradeToAdmin')->name('channel.member.admin.upgrade');
+    Route::get('/channels/{channel}/members/{member}/upgradetocreator', 'PageChannelController@upgradeToCreator')->name('channel.member.creator.upgrade');
     Route::get('/channels/{channel}/members/{member}/downgrademoderator', 'PageChannelController@downgradeModerator')->name('channel.member.moderator.downgrade');
     Route::get('/channels/{channel}/members/{member}/downgradeadmin', 'PageChannelController@downgradeAdmin')->name('channel.member.admin.downgrade');
-            
+    Route::get('/channels/{channel}/members/{member}/downgradecreator', 'PageChannelController@downgradeCreator')->name('channel.member.creator.downgrade');
+
     //************************************************************
     // AUTH:ACTIONS ROUTES - CHANNEL -> BANNED USERS
     //************************************************************
     Route::get('/discover/channel/{id}/banned_users', 'PageChannelController@bannedUsers')->name('discover.channel.banned_users');
-        
+
     //************************************************************
     // AUTH:ACTIONS ROUTES - CHANNEL -> REPORTED POSTS
     //************************************************************

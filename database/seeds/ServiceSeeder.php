@@ -50,8 +50,10 @@ class ServiceSeeder extends Seeder
             ['name' => 'report_user_in_channel'],
             ['name' => 'upgrade_to_moderator'],
             ['name' => 'upgrade_to_admin'],
+            ['name' => 'upgrade_to_creator'],
             ['name' => 'downgrade_moderator'],
             ['name' => 'downgrade_admin'],
+            ['name' => 'downgrade_creator'],
             ['name' => 'report_post'],
             ['name' => 'view_channel_members_list'],
         ];
