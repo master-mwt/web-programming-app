@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\UserReported;
 use App\UserSoftBanned;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use App\User;
 use App\Channel;
 use App\Post;
@@ -44,7 +44,7 @@ class PageChannelController extends Controller
             }
         }
 
-        if($user->group_id == 1){
+        if(Auth::check() && Auth::User()->group_id == 1){
             $administrator = new \App\Role();
             $administrator->name = 'administrator';
             $channel->member = (object)['role_id' => $administrator];
@@ -88,7 +88,8 @@ class PageChannelController extends Controller
         ));
     }
 
-    public function members($id) {
+    public function members($id)
+    {
         $channel = Channel::where('id', $id)->first();
         $user = Auth::User();
 
@@ -215,7 +216,8 @@ class PageChannelController extends Controller
         ));
     }
 
-    public function joinChannel(Channel $channel){
+    public function joinChannel(Channel $channel)
+    {
         $user_id = Auth::id();
 
         if(UserSoftBanned::where('user_id', $user_id)->where('channel_id', $channel->id)->first()){
@@ -234,7 +236,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function leaveChannel(Channel $channel){
+    public function leaveChannel(Channel $channel)
+    {
         $user_id = Auth::id();
 
         $joinedAlready = UserChannelRole::where('user_id', $user_id)->where('channel_id', $channel->id)->first();
@@ -271,7 +274,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function banUserFromChannel(Channel $channel, User $member){
+    public function banUserFromChannel(Channel $channel, User $member)
+    {
 
         $this->authorize('banUserFromChannel', [User::class, $channel->id]);
 
@@ -317,7 +321,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function unBanUserFromChannel(Channel $channel, User $member){
+    public function unBanUserFromChannel(Channel $channel, User $member)
+    {
 
         $this->authorize('banUserFromChannel', [User::class, $channel->id]);
 
@@ -332,7 +337,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function upgradeToModerator(Channel $channel, User $member){
+    public function upgradeToModerator(Channel $channel, User $member)
+    {
 
         $this->authorize('upgradeToModerator', [User::class, $channel->id]);
 
@@ -366,7 +372,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function upgradeToCreator(Channel $channel, User $member){
+    public function upgradeToCreator(Channel $channel, User $member)
+    {
 
         $this->authorize('upgradeToCreator', [User::class, $channel->id]);
 
@@ -395,7 +402,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function downgradeModerator(Channel $channel, User $member){
+    public function downgradeModerator(Channel $channel, User $member)
+    {
 
         $this->authorize('downgradeModerator', [User::class, $channel->id]);
 
@@ -414,7 +422,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function downgradeAdmin(Channel $channel, User $member){
+    public function downgradeAdmin(Channel $channel, User $member)
+    {
 
         $this->authorize('downgradeAdmin', [User::class, $channel->id]);
 
@@ -433,7 +442,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function downgradeCreator(Channel $channel, User $member){
+    public function downgradeCreator(Channel $channel, User $member)
+    {
 
         $this->authorize('downgradeCreator', [User::class, $channel->id]);
 
@@ -463,7 +473,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function reportUserInChannel(Channel $channel, User $member){
+    public function reportUserInChannel(Channel $channel, User $member)
+    {
 
         $this->authorize('reportUserInChannel', [User::class, $channel->id]);
 
@@ -493,7 +504,8 @@ class PageChannelController extends Controller
         return back();
     }
 
-    public function unReportUserInChannel(Channel $channel, User $member){
+    public function unReportUserInChannel(Channel $channel, User $member)
+    {
 
         $this->authorize('reportUserInChannel', [User::class, $channel->id]);
 

@@ -12,7 +12,7 @@
                     @if(!is_null($channel->member))
                         <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-warning">{{$channel->member->role_id->name}}</span></h5>
                     @endif
-                    @if($channel->joined == 'Join' && !(\Illuminate\Support\Facades\Auth::user()->group_id == 1))
+                    @if($channel->joined == 'Join' && !(Auth::User()->group_id == 1))
                         <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
                     @elseif($channel->joined == 'Leave' && $channel->member->role_id->name == 'creator')
                         <button class="btn btn btn-outline-danger ml-auto" data-toggle="modal" data-target="#delete-modal"><strong>DELETE CHANNEL</strong></button>
@@ -27,16 +27,18 @@
                     <h5 class="text-muted">Rules</h5>
                     <p class="">{{ $channel->rules }}</p>
                 </div>
-                @if(!is_null($channel->member) || \Illuminate\Support\Facades\Auth::user()->group_id == 1)
-                <div class="card-footer">
-                    <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">Members</a>
-                    @if($channel->member->role_id->name != 'member')
-                        <a role="button" href="{{ route('discover.channel.reported_posts', $channel->id) }}" class="btn btn-sm btn-info float-right mr-2">Reported Posts</a>
+                @if(Auth::check())
+                    @if(!is_null($channel->member) || Auth::User()->group_id == 1)
+                    <div class="card-footer">
+                        <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">Members</a>
+                        @if($channel->member->role_id->name != 'member')
+                            <a role="button" href="{{ route('discover.channel.reported_posts', $channel->id) }}" class="btn btn-sm btn-info float-right mr-2">Reported Posts</a>
+                        @endif
+                        @if($channel->member->role_id->name != 'member' && $channel->member->role_id->name != 'moderator')
+                            <a role="button" href="{{ route('discover.channel.banned_users', $channel->id) }}" class="btn btn-sm btn-info float-right mr-2">Banned Users</a>
+                        @endif
+                    </div>
                     @endif
-                    @if($channel->member->role_id->name != 'member' && $channel->member->role_id->name != 'moderator')
-                        <a role="button" href="{{ route('discover.channel.banned_users', $channel->id) }}" class="btn btn-sm btn-info float-right mr-2">Banned Users</a>
-                    @endif
-                </div>
                 @endif
             </div>
         </div>
@@ -171,6 +173,20 @@
                         <input name="title" type="text" class="form-control mb-3" id="title" placeholder="Title">
                         {{ Form::hidden('channel_id', $channel->id) }}
                         <textarea name="content" id="easymde-area" cols="" rows=""></textarea>
+                        
+                        <!-- temp style block -->
+                        <style>
+                            .ui-autocomplete {
+                                max-height: 200px;
+                                overflow-y: auto;
+                                overflow-x: hidden;
+                            }
+                        </style>
+                        <!-- end temp style block -->
+                        
+                        <div id="tags-area-container">
+                            <textarea name="tags" id="tags-area" cols="" rows="" class="col p-2 rounded" placeholder="Tags"></textarea>
+                        </div>
                         <!-- / MODAL CONTENT -->
                     </div>
                     <div class="modal-footer">
@@ -226,6 +242,82 @@
             uploadImage: true,
             imageMaxSize: "4000x4000x2",
             imageAccept: "image/png, image/jpg",
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme",
+            "a",
+            "s",
+            "c",
+            "d",
+            "r",
+            "y",
+            "g",
+            "n"
+            ];
+            function split( val ) {
+            return val.split( /,\s*/ );
+            }
+            function extractLast( term ) {
+            return split( term ).pop();
+            }
+        
+            $( "#tags-area" )
+            // don't navigate away from the field on tab when selecting an item
+            .on( "keydown", function( event ) {
+                if ( event.keyCode === $.ui.keyCode.TAB &&
+                    $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+                }
+            })
+            .autocomplete({
+                appendTo: "#tags-area-container",
+                minLength: 0,
+                source: function( request, response ) {
+                // delegate back to autocomplete, but extract the last term
+                response( $.ui.autocomplete.filter(
+                    availableTags, extractLast( request.term ) ) );
+                },
+                focus: function() {
+                // prevent value inserted on focus
+                return false;
+                },
+                select: function( event, ui ) {
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+                return false;
+                }
+            });
         });
     </script>
 @endauth
