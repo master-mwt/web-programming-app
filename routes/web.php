@@ -137,6 +137,7 @@ Route::group(['middleware' => ['auth']], function() {
     //************************************************************
     Route::get('/channels/{channel}/join', 'PageChannelController@joinChannel')->name('channel.join');
     Route::get('/channels/{channel}/leave', 'PageChannelController@leaveChannel')->name('channel.leave');
+    Route::delete('/channels/{channel}', 'ChannelController@destroy')->name('channel.delete');
 
     //************************************************************
     // AUTH:ACTIONS ROUTES - CHANNEL -> MEMBERS

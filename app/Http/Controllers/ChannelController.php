@@ -55,7 +55,7 @@ class ChannelController extends Controller
             if(Auth::user()->group_id != 1){
                 UserChannelRole::create(['user_id' => $channel->creator_id, 'channel_id' => $channel->id, 'role_id' => 1]);
             }
-            
+
             DB::commit();
         } catch(\Exception $e) {
             DB::rollBack();
@@ -133,7 +133,7 @@ class ChannelController extends Controller
         }
         else
         {
-            return redirect('/channels');
+            return redirect('/home');
         }
     }
 

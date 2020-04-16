@@ -12,12 +12,10 @@
                     @if(!is_null($channel->member))
                         <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-warning">{{$channel->member->role_id->name}}</span></h5>
                     @endif
-                    @if($channel->joined == 'Join')
+                    @if($channel->joined == 'Join' && !(\Illuminate\Support\Facades\Auth::user()->group_id == 1))
                         <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
                     @elseif($channel->joined == 'Leave' && $channel->member->role_id->name == 'creator')
-                        <!-- TODO: connect rest destroy form -->
-                        <button class="btn btn btn-outline-danger ml-auto"><strong>DELETE CHANNEL</strong></button>
-                        <!-- ENDTODO -->
+                        <button class="btn btn btn-outline-danger ml-auto" data-toggle="modal" data-target="#delete-modal"><strong>DELETE CHANNEL</strong></button>
                     @elseif($channel->joined == 'Leave')
                         <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning ml-auto"><strong>LEAVE</strong></button>
                     @else
@@ -29,7 +27,7 @@
                     <h5 class="text-muted">Rules</h5>
                     <p class="">{{ $channel->rules }}</p>
                 </div>
-                @if(!is_null($channel->member))
+                @if(!is_null($channel->member) || \Illuminate\Support\Facades\Auth::user()->group_id == 1)
                 <div class="card-footer">
                     <a role="button" href="{{ route('discover.channel.members', $channel->id) }}" class="btn btn-sm btn-info float-right">Members</a>
                     @if($channel->member->role_id->name != 'member')
@@ -177,6 +175,34 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary">submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+@endauth
+
+@auth
+    <form action="{{route('channel.delete', $channel)}}" method="post">
+        @csrf
+        @method('delete')
+
+        <div class="modal fade" id="delete-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title ml-auto" id="delete-modal-label">delete channel</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- MODAL CONTENT -->
+                        <h1 class="text-center text-danger">WARNING: This action is irreversible</h1>
+                        <!-- / MODAL CONTENT -->
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">Delete</button>
                     </div>
                 </div>
             </div>

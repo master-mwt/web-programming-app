@@ -44,6 +44,12 @@ class PageChannelController extends Controller
             }
         }
 
+        if($user->group_id == 1){
+            $administrator = new \App\Role();
+            $administrator->name = 'administrator';
+            $channel->member = (object)['role_id' => $administrator];
+        }
+
         foreach($posts as $post) {
             $post->user_id = User::findOrFail($post->user_id);
 
@@ -88,8 +94,14 @@ class PageChannelController extends Controller
 
         $this->authorize('viewChannelMembersList', [Channel::class, $channel->id]);
 
-        $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
-        $user->role->role_id = Role::where('id',$user->role->role_id)->first();
+        if($user->group_id == 1){
+            $administrator = new \App\Role();
+            $administrator->name = 'administrator';
+            $user->role = (object)['role_id' => $administrator];
+        } else {
+            $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
+            $user->role->role_id = Role::where('id',$user->role->role_id)->first();
+        }
 
         $members = UserChannelRole::where('channel_id', $channel->id)->orderBy('role_id')->paginate(10);
 
@@ -180,8 +192,14 @@ class PageChannelController extends Controller
         $channel = Channel::where('id', $id)->first();
         $user = Auth::User();
 
-        $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
-        $user->role->role_id = Role::where('id',$user->role->role_id)->first();
+        if($user->group_id == 1){
+            $administrator = new \App\Role();
+            $administrator->name = 'administrator';
+            $user->role = (object)['role_id' => $administrator];
+        } else {
+            $user->role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel->id])->first();
+            $user->role->role_id = Role::where('id',$user->role->role_id)->first();
+        }
 
         $members = UserSoftBanned::where('channel_id', $channel->id)->paginate(10);
 
@@ -359,8 +377,20 @@ class PageChannelController extends Controller
             abort(500, "Upgrade not permitted for this user");
         }
 
-        $userIsJoined->role_id = $creator_role->id;
-        $userIsJoined->save();
+        DB::beginTransaction();
+        try {
+
+            $userIsJoined->role_id = $creator_role->id;
+            $userIsJoined->save();
+
+            $channel->creator_id = $member->id;
+            $channel->save();
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+            abort(500, "An error occurred");
+        }
 
         return back();
     }
@@ -414,14 +444,21 @@ class PageChannelController extends Controller
             abort(500, "Downgrade not permitted for this user");
         }
 
-        if(UserChannelRole::where('channel_id', $channel->id)->where('role_id', $creator_role->id)->get()->count() < 2){
-            abort(500, "Upgrade an Admin to creator first");
-        }
-
         $admin_role = Role::where('name', 'admin')->first();
 
-        $userIsCreator->role_id = $admin_role->id;
-        $userIsCreator->save();
+        DB::beginTransaction();
+        try {
+            $userIsCreator->role_id = $admin_role->id;
+            $userIsCreator->save();
+
+            $channel->creator_id = Auth::id();
+            $channel->save();
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+            abort(500, "An error occurred");
+        }
 
         return back();
     }

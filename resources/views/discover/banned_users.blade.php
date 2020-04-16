@@ -22,7 +22,7 @@
                 <span class="text-warning">!!! DEBUG !!!</span>
             </h5>
         </div>
-        
+
         <div class="col-md-12 text-center infinite-scroll px-0">
 
         @foreach($members as $member)
@@ -32,7 +32,7 @@
                     <h4 class="m-0 ml-3">
                         <a href="{{ route('discover.user', $member->user_id->id) }}" class="text-decoration-none text-info" href="">{{ $member->user_id->name }}</a>
                     </h4>
-                    <a href="" class="ml-auto" style="color: orange">UNBAN USER</a>
+                    <a href="{{route('channel.member.unban', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: orange">UNBAN USER</a>
                 </div>
             </div>
         @endforeach
