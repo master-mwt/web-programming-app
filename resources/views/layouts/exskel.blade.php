@@ -27,6 +27,14 @@
 
         <!-- Marked markdown parser -->
         <script src="{{ URL::asset('js/marked.min.js') }}"></script>
+
+        <!-- JQuery UI - dynamic loading -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+        <!-- JQuery UI - static linking -->
+        <!-- <link rel="stylesheet" href="{{ URL::asset('css/jquery-ui.min.css') }}">
+        <script src="{{ URL::asset('js/jquery-ui.min.js') }}"></script> -->
     </head>
 
     <body class="hold-transition sidebar-mini">
