@@ -30,6 +30,12 @@ class PageChannelController extends Controller
         $channel->image = Image::where('id', $channel->image_id)->first();
         $posts = Post::where('channel_id', $id)->orderByDesc('created_at')->paginate(5);
         $user = Auth::User();
+        
+        $tags = Tag::all();
+        $tags_array = [];
+        foreach ($tags as $tag) {
+            array_push($tags_array, $tag->name);
+        }
 
         if(Auth::check())
         {
@@ -84,7 +90,8 @@ class PageChannelController extends Controller
 
         return view('discover.channel', compact(
             'channel',
-            'posts'
+            'posts',
+            'tags_array'
         ));
     }
 

@@ -56731,6 +56731,8 @@ __webpack_require__(/*! ./post_ajax */ "./resources/js/post_ajax.js");
 
 __webpack_require__(/*! ./reply_ajax */ "./resources/js/reply_ajax.js");
 
+__webpack_require__(/*! ./comment_ajax */ "./resources/js/comment_ajax.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -56779,6 +56781,50 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js");
 
 __webpack_require__(/*! datatables.net-buttons-bs4 */ "./node_modules/datatables.net-buttons-bs4/js/buttons.bootstrap4.js");
+
+/***/ }),
+
+/***/ "./resources/js/comment_ajax.js":
+/*!**************************************!*\
+  !*** ./resources/js/comment_ajax.js ***!
+  \**************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _notify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notify */ "./resources/js/notify.js");
+//
+// COMMENT AJAX FUNCTIONS
+//
+
+var loginpath = window.location.protocol + "//" + window.location.host + "/login";
+$(document).ready(function () {
+  // delete handler
+  $(document).on('click', '.commentdelete', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var comment_id = hrefarray[hrefarray.length - 1];
+
+    if (href.trim() === loginpath) {
+      window.location.href = loginpath;
+      return;
+    }
+
+    $.ajax({
+      method: "DELETE",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var comment = $('#comment-' + comment_id);
+        comment.remove();
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
+      }
+    });
+  });
+});
 
 /***/ }),
 
@@ -56976,6 +57022,30 @@ $(document).ready(function () {
         Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
       }
     });
+  }); // delete handler
+
+  $(document).on('click', '.delete', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var post_id = hrefarray[hrefarray.length - 1];
+
+    if (href.trim() === loginpath) {
+      window.location.href = loginpath;
+      return;
+    }
+
+    $.ajax({
+      method: "DELETE",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var post = $('#post-' + post_id);
+        post.remove();
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
+      }
+    });
   });
 });
 
@@ -56995,6 +57065,7 @@ __webpack_require__.r(__webpack_exports__);
 // REPLY AJAX FUNCTIONS
 //
 
+var loginpath = window.location.protocol + "//" + window.location.host + "/login";
 $(document).ready(function () {
   // upvote handler
   $(document).on('click', '.replyupvote', function (e) {
@@ -57048,6 +57119,30 @@ $(document).ready(function () {
           $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
           $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
         }
+      },
+      error: function error(XMLHTTPRequest, textStatus, errorThrown) {
+        Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);
+      }
+    });
+  }); // delete handler
+
+  $(document).on('click', '.replydelete', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var hrefarray = href.split('/');
+    var reply_id = hrefarray[hrefarray.length - 1];
+
+    if (href.trim() === loginpath) {
+      window.location.href = loginpath;
+      return;
+    }
+
+    $.ajax({
+      method: "DELETE",
+      url: href,
+      success: function success(data, textStatus, XMLHTTPRequest) {
+        var reply = $('#reply-' + reply_id);
+        reply.remove();
       },
       error: function error(XMLHTTPRequest, textStatus, errorThrown) {
         Object(_notify__WEBPACK_IMPORTED_MODULE_0__["makeToast"])("Error", errorThrown, 4000);

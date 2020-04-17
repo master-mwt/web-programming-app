@@ -247,40 +247,9 @@
 
     <script type="text/javascript">
         $(function() {
-            var availableTags = [
-            "ActionScript",
-            "AppleScript",
-            "Asp",
-            "BASIC",
-            "C",
-            "C++",
-            "Clojure",
-            "COBOL",
-            "ColdFusion",
-            "Erlang",
-            "Fortran",
-            "Groovy",
-            "Haskell",
-            "Java",
-            "JavaScript",
-            "Lisp",
-            "Perl",
-            "PHP",
-            "Python",
-            "Ruby",
-            "Scala",
-            "Scheme",
-            "a",
-            "s",
-            "c",
-            "d",
-            "r",
-            "y",
-            "g",
-            "n"
-            ];
+            var availableTags = {!! json_encode($tags_array) !!}
             function split( val ) {
-            return val.split( /,\s*/ );
+            return val.split( /\ \s*/ );
             }
             function extractLast( term ) {
             return split( term ).pop();
@@ -314,7 +283,7 @@
                 terms.push( ui.item.value );
                 // add placeholder to get the comma-and-space at the end
                 terms.push( "" );
-                this.value = terms.join( ", " );
+                this.value = terms.join( " " );
                 return false;
                 }
             });

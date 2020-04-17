@@ -44,6 +44,11 @@ class PostController extends Controller
 
         $data['user_id'] = Auth::User()->id;
         $data['channel_id'] = $request->input('channel_id');
+        //temp
+        $tags_array = $request->input('tags');
+        $tags = explode(" ", $tags_array);
+
+        dd($data, $tags_array, $tags);
 
         $this->authorize('create', [Post::class, $data['channel_id']]);
 
