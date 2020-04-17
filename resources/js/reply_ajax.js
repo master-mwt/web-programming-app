@@ -4,6 +4,8 @@
 
 import {makeToast} from './notify';
 
+let loginpath = window.location.protocol + "//" + window.location.host + "/login";
+
 $(document).ready(function() {
     // upvote handler
     $(document).on('click', '.replyupvote', function(e){
@@ -62,6 +64,32 @@ $(document).ready(function() {
                     $('#reply-' + reply_id + '-downvote').toggleClass('text-danger');
                     $('#reply-' + reply_id + '-votenumber').toggleClass('text-danger').toggleClass('text-dark');
                 }
+
+            },
+            error: function(XMLHTTPRequest, textStatus, errorThrown){
+                makeToast("Error", errorThrown, 4000);
+            },
+        });
+    });
+    // delete handler
+    $(document).on('click', '.replydelete', function(e){
+        e.preventDefault();
+        let href = $(this).attr('href');
+        let hrefarray = href.split('/');
+        let reply_id = hrefarray[hrefarray.length - 1];
+
+        if(href.trim() === loginpath){
+            window.location.href = loginpath;
+            return;
+        }
+
+        $.ajax({
+            method: "DELETE",
+            url: href,
+            success: function(data, textStatus, XMLHTTPRequest){
+
+                let reply = $('#reply-' + reply_id);
+                reply.remove();
 
             },
             error: function(XMLHTTPRequest, textStatus, errorThrown){

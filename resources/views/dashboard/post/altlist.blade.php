@@ -6,7 +6,7 @@
 
     <div class="col-md-12 text-center infinite-scroll px-0">
         @forelse($myposts as $post)
-            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+            <div id="post-{{$post->post_id->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     @if($post->upvoted == 'Upvote')
                         <a id="post-{{ $post->post_id->id }}-upvote" href="{{ route('post.upvote', $post->post_id) }}" class="upvote"><i class="fas fa-arrow-up mb-1"></i></a>
@@ -60,6 +60,7 @@
                         @else
                             <a href="@guest {{route('login')}} @else {{ route('post.hide', $post->post_id) }} @endguest" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
+                        <a href="@guest {{route('login')}} @else {{ route('post.delete', $post->post_id) }} @endguest" class="text-decoration-none mr-2 text-danger delete"><i class="fa fa-exclamation-triangle"></i> Delete</a>
                     </div>
                 </div>
             </div>

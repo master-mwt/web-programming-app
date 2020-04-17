@@ -105,9 +105,14 @@ class ReplyController extends Controller
     public function destroy(Reply $reply)
     {
         $this->authorize('delete', $reply);
-        
+
         $reply->delete();
-        return redirect('/replies');
+
+        if(request()->ajax()){
+            return response()->json(null, 204);
+        } else {
+            return redirect('/replies');
+        }
     }
 
 

@@ -107,7 +107,7 @@ class PostController extends Controller
         $post->delete();
 
         if(request()->ajax()){
-            return response()->json(null, 200);
+            return response()->json(null, 204);
         } else {
             return redirect('/posts');
         }

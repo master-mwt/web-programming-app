@@ -109,7 +109,12 @@ class CommentController extends Controller
         $this->authorize('delete', $comment);
 
         $comment->delete();
-        return redirect('/comments');
+
+        if(request()->ajax()){
+            return response()->json(null, 204);
+        } else {
+            return redirect('/comments');
+        }
     }
 
 

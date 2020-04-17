@@ -65,7 +65,7 @@
         <!-- ./wrapper -->
 
         <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-        <script type="javascript">
+        <script>
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
