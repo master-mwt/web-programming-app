@@ -105,7 +105,12 @@ class PostController extends Controller
         $this->authorize('delete', $post);
 
         $post->delete();
-        return redirect('/posts');
+
+        if(request()->ajax()){
+            return response()->json(null, 200);
+        } else {
+            return redirect('/posts');
+        }
     }
 
 

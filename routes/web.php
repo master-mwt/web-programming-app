@@ -125,12 +125,19 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/posts/{post}/save', 'PagePostController@save')->name('post.save');
     Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
     Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
+    Route::delete('/posts/{post}', 'PostController@destroy')->name('post.delete');
 
     //************************************************************
     // AUTH:ACTIONS ROUTES - REPLY
     //************************************************************
     Route::get('/replies/{reply}/upvote', 'PagePostController@replyUpvote')->name('reply.upvote');
     Route::get('/replies/{reply}/downvote', 'PagePostController@replyDownvote')->name('reply.downvote');
+    Route::delete('/replies/{reply}', 'ReplyController@destroy')->name('reply.delete');
+
+    //************************************************************
+    // AUTH:ACTIONS ROUTES - COMMENT
+    //************************************************************
+    Route::delete('/comments/{comment}', 'CommentController@destroy')->name('comment.delete');
 
     //************************************************************
     // AUTH:ACTIONS ROUTES - CHANNEL
