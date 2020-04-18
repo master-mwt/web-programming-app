@@ -6,7 +6,7 @@
 
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($myreplies as $reply)
-            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+            <div id="reply-{{$reply->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
                     @if($reply->upvoted == 'Upvote')
                         <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
@@ -34,11 +34,11 @@
                             <a href="{{ route('discover.channel', $reply->channel_id->id) }}" class="text-decoration-none"><b>{{ $reply->channel_id->name }} &#183</b></a>
                             <span class="text-muted">Reply posted by </span>
                             <a href="{{ route('discover.user', $reply->user_id->id) }}" class="text-decoration-none">{{ $reply->user_id->name }}</a>
-                            
+
                         </p>
                     </div>
                     <a href="#content-collapse-{{$reply->id}}" role="button" class="text-decoration-none px-3 py-2 btn btn-sm btn-block btn-outline-secondary" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Reply Content</a>
-                    
+
                     <div class="card-body text-left px-3 py-1 collapse" id="content-collapse-{{$reply->id}}">
                         <div class="markdown-content" data-markdown-content="{{ $reply->content }}"></div>
                     </div>
@@ -50,6 +50,8 @@
                         @else
                         <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Comments</a>
                         @endif
+
+                        <a href="@guest {{route('login')}} @else {{ route('reply.delete', $reply) }} @endguest" class="text-decoration-none mr-2 text-danger replydelete float-right"><i class="fa fa-exclamation-triangle"></i> Delete</a>
 
                     </div>
                     @if(count($reply->comments) == 0)

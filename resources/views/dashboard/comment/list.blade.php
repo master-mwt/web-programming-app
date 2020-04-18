@@ -3,10 +3,10 @@
 @section('content')
 <div class="container p-0">
     <div class="row justify-content-center">
-            
+
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($mycomments as $comment)
-            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+            <div id="comment-{{$comment->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
                     <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     <span class="my-1 text-dark text-bold">{{ $comment->reply_id->upvote - $comment->reply_id->downvote }}</span>
@@ -26,9 +26,11 @@
                         <div class="markdown-content" data-markdown-content="{{ $comment->reply_id->content }}"></div>
                     </div>
                     <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
-                        
+
                         <a href="{{route('discover.post', $comment->reply_id->post_id->id)}}" class="text-decoration-none"><i class="fas fa-link mr-2"></i>See the Original Post</a>
-                        
+
+                        <a href="@guest {{route('login')}} @else {{ route('comment.delete', $comment) }} @endguest" class="text-decoration-none mr-2 text-danger commentdelete float-right"><i class="fa fa-exclamation-triangle"></i> Delete Comment</a>
+
                     </div>
                     <div class="pl-2 pr-2 pt-2">
                         <div class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0 mb-2" style="max-width: 800px">
@@ -80,7 +82,7 @@
                         });
                     });
                 }
-            }); 
+            });
         });
     });
 </script>

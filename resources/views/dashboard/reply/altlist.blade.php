@@ -6,7 +6,7 @@
 
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($myreplies as $reply)
-            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+            <div id="reply-{{$reply->reply_id->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
                     @if($reply->upvoted == 'Upvote')
                         <a id="reply-{{ $reply->reply_id->id }}-upvote" href="{{ route('reply.upvote', $reply->reply_id) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
@@ -49,6 +49,8 @@
                         @else
                         <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Comments</a>
                         @endif
+
+                        <a href="@guest {{route('login')}} @else {{ route('reply.delete', $reply->reply_id) }} @endguest" class="text-decoration-none mr-2 text-danger replydelete float-right"><i class="fa fa-exclamation-triangle"></i> Delete</a>
 
                     </div>
                     @if(count($reply->comments) == 0)
