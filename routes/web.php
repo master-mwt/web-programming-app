@@ -126,6 +126,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/posts/{post}/hide', 'PagePostController@hide')->name('post.hide');
     Route::get('/posts/{post}/report', 'PagePostController@report')->name('post.report');
     Route::delete('/posts/{post}', 'PostController@destroy')->name('post.delete');
+    Route::get('/posts/{post}/globalunreport', 'PagePostController@postGlobalUnreport')->name('post.globalunreport');
 
     //************************************************************
     // AUTH:ACTIONS ROUTES - REPLY

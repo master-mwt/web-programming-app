@@ -43,6 +43,7 @@ class GroupServiceSeeder extends Seeder
         $downgrade_creator = \App\Service::where('name', 'downgrade_creator')->first()->id;
         $report_post = \App\Service::where('name', 'report_post')->first()->id;
         $view_channel_members_list = \App\Service::where('name', 'view_channel_members_list')->first()->id;
+        $global_post_unreport = \App\Service::where('name', 'global_post_unreport')->first()->id;
 
         // BINDING GROUP - SERVICE
         $groupsServices = [
@@ -82,6 +83,7 @@ class GroupServiceSeeder extends Seeder
             ['group_id' => $administrator, 'service_id' => $downgrade_creator],  //downgrade_creator
             ['group_id' => $administrator, 'service_id' => $report_post],  //report_post
             ['group_id' => $administrator, 'service_id' => $view_channel_members_list],  //view_channel_members_list
+            ['group_id' => $administrator, 'service_id' => $global_post_unreport],  //global_post_unreport
 
             // logged
             ['group_id' => $logged, 'service_id' => $create_channel],   //create_channel

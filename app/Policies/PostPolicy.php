@@ -135,4 +135,17 @@ class PostPolicy
                 ? Response::deny() : Response::allow();
         }
     }
+
+    public function postGlobalUnreport(User $user, Post $post)
+    {
+        $service = Service::where('name', 'global_post_unreport')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $post->channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
+                ? Response::deny() : Response::allow();
+        }
+    }
 }

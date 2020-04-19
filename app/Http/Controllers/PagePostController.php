@@ -312,4 +312,13 @@ class PagePostController extends Controller
         $data['vote'] = $reply->upvote - $reply->downvote;
         return response($data, 200);
     }
+
+    public function postGlobalUnreport(Post $post){
+
+        $this->authorize('postGlobalUnreport', [Post::class, $post]);
+
+        UserPostReported::where('post_id', $post->id)->delete();
+
+        return response()->json(null, 204);
+    }
 }

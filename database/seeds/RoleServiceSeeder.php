@@ -35,6 +35,7 @@ class RoleServiceSeeder extends Seeder
         $downgrade_admin = \App\Service::where('name', 'downgrade_admin')->first()->id;
         $report_post = \App\Service::where('name', 'report_post')->first()->id;
         $view_channel_members_list = \App\Service::where('name', 'view_channel_members_list')->first()->id;
+        $global_post_unreport = \App\Service::where('name', 'global_post_unreport')->first()->id;
 
         // BINDING ROLE - SERVICE
         $rolesServices = [
@@ -62,6 +63,7 @@ class RoleServiceSeeder extends Seeder
             ['role_id' => $creator, 'service_id' => $downgrade_admin],  //downgrade_admin
             ['role_id' => $creator, 'service_id' => $report_post],  //report_post
             ['role_id' => $creator, 'service_id' => $view_channel_members_list],  //view_channel_members_list
+            ['role_id' => $creator, 'service_id' => $global_post_unreport],  //global_post_unreport
 
             // admin
             ['role_id' => $admin, 'service_id' => $create_post],   //create_post
@@ -84,6 +86,7 @@ class RoleServiceSeeder extends Seeder
             ['role_id' => $admin, 'service_id' => $downgrade_moderator],  //downgrade_moderator
             ['role_id' => $admin, 'service_id' => $report_post],  //report_post
             ['role_id' => $admin, 'service_id' => $view_channel_members_list],  //view_channel_members_list
+            ['role_id' => $admin, 'service_id' => $global_post_unreport],  //global_post_unreport
 
             // moderator
             ['role_id' => $moderator, 'service_id' => $create_post],   //create_post
@@ -100,6 +103,7 @@ class RoleServiceSeeder extends Seeder
 
             ['role_id' => $moderator, 'service_id' => $report_post],  //report_post
             ['role_id' => $moderator, 'service_id' => $view_channel_members_list],  //view_channel_members_list
+            ['role_id' => $moderator, 'service_id' => $global_post_unreport],  //global_post_unreport
 
             // member
             ['role_id' => $member, 'service_id' => $create_post],   //create_post

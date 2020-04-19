@@ -64,9 +64,7 @@
                         @else
                             <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
-                        <!-- TODO: global channel unreport func link -->
-                        <a href="{{route('login')}}" class="float-right text-decoration-none text-danger mr-2"><i class="fas fa-flag-checkered mr-1"></i>Globally Unreport</a>
-                        <!-- END TODO -->
+                        <a href="{{route('post.globalunreport', $post->post_id)}}" class="float-right text-decoration-none text-danger mr-2"><i class="fas fa-flag-checkered mr-1"></i>Globally Unreport</a>
                     </div>
                 </div>
             </div>

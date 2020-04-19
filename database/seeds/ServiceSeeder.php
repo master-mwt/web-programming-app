@@ -56,6 +56,7 @@ class ServiceSeeder extends Seeder
             ['name' => 'downgrade_creator'],
             ['name' => 'report_post'],
             ['name' => 'view_channel_members_list'],
+            ['name' => 'global_post_unreport'],
         ];
 
         foreach($services as $service) {
