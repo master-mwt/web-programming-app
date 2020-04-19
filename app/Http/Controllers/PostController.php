@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\PostTag;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class PostController extends Controller
 {
@@ -44,15 +48,62 @@ class PostController extends Controller
 
         $data['user_id'] = Auth::User()->id;
         $data['channel_id'] = $request->input('channel_id');
-        //temp
+        //retrieve tags from request
         $tags_array = $request->input('tags');
-        $tags = explode(" ", $tags_array);
-
-        dd($data, $tags_array, $tags);
+        //string->array_of_strings tags explosion
+        $tags_exploded = explode(" ", $tags_array);
+        //add # to tags that doesn't start with #
+        $tags_nu = [];
+        foreach ($tags_exploded as $tag_exploded) {
+            if($tag_exploded[0] != '#') {
+                array_push($tags_nu, '#'.$tag_exploded);
+            } else {
+                array_push($tags_nu, $tag_exploded);
+            }
+        }
+        //remove duplicate tags
+        $tags = array_unique($tags_nu);
 
         $this->authorize('create', [Post::class, $data['channel_id']]);
 
         $post = Post::create($data);
+
+        foreach ($tags as $tag) {
+            //if tag is new
+            if(is_null(Tag::where('name', $tag)->first()))
+            {
+                DB::beginTransaction();
+                try {
+                    //INSERT new tag
+                    //RETRIEVE new tag object from db (for id)
+                    //INSERT RELATION post-tag
+                    Tag::create(['name' => $tag]);
+                    $tag = Tag::where('name', $tag)->first();
+                    PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
+
+                    DB::commit();
+                } catch(\Exception $e) {
+                    DB::rollBack();
+
+                    abort(500);
+                }
+            //if tag is NOT new
+            } else {
+                DB::beginTransaction();
+                try {
+                    //RETRIEVE new tag object from db (for id)
+                    //INSERT RELATION post-tag
+                    $tag = Tag::where('name', $tag)->first();
+                    PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
+
+                    DB::commit();
+                } catch(\Exception $e) {
+                    DB::rollBack();
+
+                    abort(500);
+                }
+            }
+        }
 
         return redirect('/discover/post/' . $post->id);
     }
