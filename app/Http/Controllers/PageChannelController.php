@@ -30,7 +30,7 @@ class PageChannelController extends Controller
         $channel->image = Image::where('id', $channel->image_id)->first();
         $posts = Post::where('channel_id', $id)->orderByDesc('created_at')->paginate(5);
         $user = Auth::User();
-        
+
         $tags = Tag::all();
         $tags_array = [];
         foreach ($tags as $tag) {
@@ -389,6 +389,10 @@ class PageChannelController extends Controller
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $creator_role->id)){
             abort(500, "Upgrade not permitted for this user");
+        }
+
+        if(UserChannelRole::where('channel_id', $channel->id)->where('role_id', $creator_role->id)->first()){
+            abort(500, "Remove the creator first");
         }
 
         DB::beginTransaction();
