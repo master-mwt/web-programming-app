@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
 
         <div class="col-md-12 text-center infinite-scroll px-0">
-        @foreach($myreplies as $reply)
+        @forelse($myreplies as $reply)
             <div id="reply-{{$reply->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
                     @if($reply->upvoted == 'Upvote')
@@ -77,7 +77,10 @@
                     @endif
                 </div>
             </div>
-        @endforeach
+        @empty
+            <img src="{{ URL::asset('/imgs/no_res_2.png') }}" alt="" class="rounded my-4" width="350px">
+            <h2 class="text-primary">no results ...</h2>
+        @endforelse
         {{ $myreplies->links() }}
         </div>
 

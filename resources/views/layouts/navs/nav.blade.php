@@ -88,7 +88,7 @@
         <div class="modal-body pb-0 px-3 pt-3">
 
         <div class="media">
-            <img src="{{ URL::asset('/imgs/user1-128x128.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+            <img src="{{ URL::asset('/imgs/no_profile_img.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
             <div class="media-body">
                 <h3 class="dropdown-item-title">
                 User 1
@@ -100,7 +100,7 @@
         </div>
 
         <div class="media">
-            <img src="{{ URL::asset('/imgs/user8-128x128.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+            <img src="{{ URL::asset('/imgs/no_profile_img.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
             <div class="media-body">
                 <h3 class="dropdown-item-title">
                 User 3

@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Channel::class, function (Faker $faker) {
 
-    $image = \App\Image::all()->random(1)->first();
+    $image = \App\Image::where('location', '/imgs/no_channel_img.jpg')->first();
     $creator = \App\User::all()->random(1)->first();
 
     return [

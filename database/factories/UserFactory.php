@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
 
     $groupLogged = \App\Group::where('name','logged')->first();
-    $image = \App\Image::all()->random(1)->first();
+    $image = \App\Image::where('location', '/imgs/no_profile_img.jpg')->first();
 
     return [
         'name' => $faker->name,

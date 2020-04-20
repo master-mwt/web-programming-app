@@ -557,13 +557,13 @@ class PageChannelController extends Controller
 
         $imagename = time().'.'.$request->image->extension();
 
-        $request->image->move(public_path('images'), $imagename);
+        $request->image->move(public_path('imgs_cstm/channels'), $imagename);
         
-        $imagegetsize = getimagesize('images/'.$imagename);
+        $imagegetsize = getimagesize('imgs_cstm/channels/'.$imagename);
 
         $data['type'] = $imagegetsize['mime'];
         $data['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
-        $data['location'] = '/images/'.$imagename;
+        $data['location'] = '/imgs_cstm/channels/'.$imagename;
         $data['caption'] = $faker->sentence;
         
         DB::beginTransaction();

@@ -7,22 +7,34 @@ use Faker\Generator as Faker;
 
 static $files = false;
 
+global $rootDir;
+$rootDir = 'public/imgs/';
+
+global $images;
+$images = getImages($rootDir);
+
 $factory->define(Image::class, function (Faker $faker) {
 
-    $rootDir = 'public/imgs/';
-    $imagePath = $rootDir . $faker->randomElement(getImages($rootDir));
-    $imageDetails = getimagesize($imagePath);
+    global $rootDir;
+    global $images;
+    foreach ($images as $k => $image) {
+        $imagePath = $rootDir . $image;
+        $imageDetails = getimagesize($imagePath);
 
-    $width = $imageDetails[0];
-    $height = $imageDetails[1];
-    $type = $imageDetails['mime'];
+        $width = $imageDetails[0];
+        $height = $imageDetails[1];
+        $type = $imageDetails['mime'];
 
-    return [
-        'type' => $type,
-        'size' => $width . "x" . $height,
-        'location' => substr($imagePath, strpos($imagePath, '/', 1)),
-        'caption' => $faker->sentence,
-    ];
+        unset($images[$k]);
+
+        return [
+            'type' => $type,
+            'size' => $width . "x" . $height,
+            'location' => substr($imagePath, strpos($imagePath, '/', 1)),
+            'caption' => $faker->sentence,
+        ];
+    }
+    dd("finished");
 });
 
 function getImages($dir){

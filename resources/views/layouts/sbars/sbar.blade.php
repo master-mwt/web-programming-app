@@ -3,7 +3,7 @@
 
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-    <img src="{{ URL::asset('/imgs/AdminLTELogo.png') }}" alt="Logo" class="brand-image img-circle elevation-3"
+    <img src="{{ URL::asset('/imgs/main_logo.png') }}" alt="Logo" class="brand-image img-circle elevation-3"
         style="opacity: .8">
     <span class="brand-text font-weight-light">Kernel Panic</span>
     </a>
@@ -14,18 +14,18 @@
         @else
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
+            <div class="image d-block my-auto">
                 @php
                     $user = Auth::User();
                     $user->image = \App\Image::where('id', $user->image_id)->first();
                 @endphp
                 <a href="{{ route('home') }}">
-                    <img src="@if(is_null($user->image)) {{ URL::asset('/imgs/no_profile_img.jpg') }} @else {{ $user->image->location }} @endif" class="img-circle elevation-2" alt="User Image">
+                    <img src="@if(is_null($user->image)) {{ URL::asset('/imgs/no_profile_img.jpg') }} @else {{ $user->image->location }} @endif" class="img-circle elevation-2" alt="User Image" style="width: 32px; height: 32px">
                 </a>
             </div>
 
             <div class="info">
-                <a href="{{ route('home') }}" class="d-block">{{ Auth::user()->name }}</a>
+                <a href="{{ route('home') }}" class="d-block text-truncate">{{ Auth::user()->name }}</a>
             </div>
         </div>
         @endguest

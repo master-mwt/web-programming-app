@@ -14,7 +14,8 @@
                 </div>
             </div>
         @empty
-            <h2>no results ...</h2>
+            <img src="{{ URL::asset('/imgs/no_res_2.png') }}" alt="" class="rounded my-4" width="350px">
+            <h2 class="text-primary">no results ...</h2>
         @endforelse
         {{ $mychannels->links() }}
         </div>

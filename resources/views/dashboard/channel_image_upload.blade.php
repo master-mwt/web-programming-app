@@ -17,7 +17,7 @@
                             <button type="button" data-dismiss="alert" class="close">x</button>
                             <strong>{{$message}}</strong>
                         </div>
-                    <img src="/images/{{ Session::get('image') }}" class="col mb-3">
+                    <img src="/imgs_cstm/channels/{{ Session::get('image') }}" class="col mb-3">
                     @endif
 
                     @if(count($errors) > 0)

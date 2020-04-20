@@ -11,6 +11,6 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Image::class, 30)->create();
+        factory(App\Image::class, 4)->create();
     }
 }
