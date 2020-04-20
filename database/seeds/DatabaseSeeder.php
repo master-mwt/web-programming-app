@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ChannelSeeder::class);
         // important relations that must be here
         $this->call(UserChannelRoleSeeder::class);
-        // end important relations seeding
+        // END important relations seeding
         $this->call(PostSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(TagSeeder::class);
@@ -40,5 +40,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserReplyUpvotedSeeder::class);
         $this->call(UserSoftBannedSeeder::class);
         $this->call(UserReportedSeeder::class);
+        $this->call(UserHardBannedSeeder::class);
     }
 }
