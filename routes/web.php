@@ -33,8 +33,8 @@ Route::get('/home', 'PageHomeController@index')->name('home');
 //************************************************************
 // PAGEHOMECONTROLLER SUBROUTES [PROFILE IMAGE UPLOAD]
 //************************************************************
-Route::get('/home/profile/image/upload', 'PageHomeController@imageUpload')->name('home.image.upload');
-Route::post('/home/profile/image/upload', 'PageHomeController@imageUploadStore')->name('home.image.upload.store');
+Route::get('/home/profile/image/upload', 'PageHomeController@imageUpload')->name('home.profile.image.upload');
+Route::post('/home/profile/image/upload', 'PageHomeController@imageUploadStore')->name('home.profile.image.upload.store');
 
 //************************************************************
 // PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:POST]
@@ -65,6 +65,11 @@ Route::get('/home/channel/joined', 'PageHomeController@channelJoined')->name('ho
 // PAGECHANNELCONTROLLER ROUTES
 //************************************************************
 Route::get('/discover/channel/{id}', 'PageChannelController@channel')->name('discover.channel');
+//************************************************************
+// PAGECHANNELCONTROLLER SUBROUTES [CHANNEL IMAGE UPLOAD]
+//************************************************************
+Route::get('/home/channel/{id}/image/upload', 'PageChannelController@imageUpload')->name('home.channel.image.upload');
+Route::post('/home/channel/image/upload', 'PageChannelController@imageUploadStore')->name('home.channel.image.upload.store');
 
 //************************************************************
 // PAGEPOSTCONTROLLER ROUTES

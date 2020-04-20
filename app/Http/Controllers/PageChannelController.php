@@ -21,6 +21,7 @@ use App\UserChannelRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Faker\Generator as Faker;
 
 class PageChannelController extends Controller
 {
@@ -534,5 +535,51 @@ class PageChannelController extends Controller
         $reportedAlready->delete();
 
         return back();
+    }
+
+    public function imageUpload($id)
+    {   
+        $channel = Channel::findOrFail($id);
+
+        return view('dashboard.channel_image_upload', [
+            'channel' => $channel,
+        ]);
+    }
+
+    public function imageUploadStore(Request $request, Faker $faker)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
+        ]);
+        
+        //get current channel
+        $channel_id = $request->input('channel_id');
+
+        $imagename = time().'.'.$request->image->extension();
+
+        $request->image->move(public_path('images'), $imagename);
+        
+        $imagegetsize = getimagesize('images/'.$imagename);
+
+        $data['type'] = $imagegetsize['mime'];
+        $data['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
+        $data['location'] = '/images/'.$imagename;
+        $data['caption'] = $faker->sentence;
+        
+        DB::beginTransaction();
+        try {
+            $image = Image::create($data);
+            Channel::where('id', $channel_id)->update(['image_id' => $image->id]);
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+
+            abort(500);
+        }
+
+        return back()
+        ->with('success', 'you have successfully upload image')
+        ->with('image', $imagename);
     }
 }

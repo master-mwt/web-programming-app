@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="panel panel-primary col">
-            <div class="panel-heading col"><h2>change profile image</h2></div>
+            <div class="panel-heading col"><h2>change channel image</h2></div>
             <div class="panel-body col">
                 @if($message = Session::get('success'))
                     <div class="alert alert-success alert-block">
@@ -25,8 +25,9 @@
                     </div>
                 @endif
 
-                <form action="{{ route('home.profile.image.upload.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('home.channel.image.upload.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    {{ Form::hidden('channel_id', $channel->id) }}
                     <div class="row">
                         <div class="col">
                             <input type="file" name="image" class="form-control">
