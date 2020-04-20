@@ -102,6 +102,13 @@ Route::group(['middleware' => ['admin']], function() {
     Route::resource('/roles', 'RoleController');
     Route::resource('/services', 'ServiceController');
     Route::resource('/tags', 'TagController');
+
+    //************************************************************
+    // ADMIN:ACTION ROUTES
+    //************************************************************
+    Route::get('/users/{user}/hardban', 'PageBackendController@hardBanUser')->name('backend.user.hardban');
+    Route::get('/users/{user}/unhardban', 'PageBackendController@unHardBanUser')->name('backend.user.unhardban');
+
 });
 
 Route::group(['middleware' => ['access_to_backend']], function() {

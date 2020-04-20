@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\UserHardBanned;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -58,6 +59,10 @@ class UserController extends Controller
     public function show(User $user)
     {
         $this->authorize('view', $user);
+
+        if(UserHardBanned::where('user_id', $user->id)->first()){
+            $user->hardBanned = true;
+        }
 
         return view('rest.user.show', compact('user'));
     }

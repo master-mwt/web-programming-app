@@ -71,6 +71,13 @@
                             </form>
                         @endif
                         <a href="/users/{{ $user->id }}/edit" class="btn btn-success float-right mr-2" role="button">edit</a>
+                        @if(Auth::User()->group_id == 1)
+                            @if($user->hardBanned === true)
+                                <a href="{{route('backend.user.unhardban', $user)}}" class="btn btn-danger float-right mr-2" role="button">remove hardban</a>
+                            @else
+                                <a href="{{route('backend.user.hardban', $user)}}" class="btn btn-danger float-right mr-2" role="button">hardban</a>
+                            @endif
+                        @endif
                     </div>
                 </div>
             </div>

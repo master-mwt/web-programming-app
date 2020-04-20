@@ -8,6 +8,8 @@ use App\DataTables\PostDataTable;
 use App\DataTables\ReplyDataTable;
 use App\DataTables\TagDataTable;
 use App\DataTables\UserDataTable;
+use App\User;
+use App\UserHardBanned;
 use Illuminate\Http\Request;
 
 class PageBackendController extends Controller
@@ -40,5 +42,35 @@ class PageBackendController extends Controller
     public function backendUsers(UserDataTable $dataTable)
     {
         return $dataTable->render('backend.users');
+    }
+
+    public function hardBanUser(User $user)
+    {
+        $this->authorize('banUserFromPlatform', User::class);
+
+        $hardBannedAlready = UserHardBanned::where('user_id', $user->id)->first();
+
+        if($hardBannedAlready){
+            return back();
+        }
+
+        UserHardBanned::create(['user_id' => $user->id]);
+
+        return back();
+    }
+
+    public function unHardBanUser(User $user)
+    {
+        $this->authorize('banUserFromPlatform', User::class);
+
+        $hardBannedAlready = UserHardBanned::where('user_id', $user->id)->first();
+
+        if(!$hardBannedAlready){
+            return back();
+        }
+
+        $hardBannedAlready->delete();
+
+        return back();
     }
 }
