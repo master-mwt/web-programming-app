@@ -21,6 +21,8 @@ use \App\Image;
 use App\UserReplyDownvoted;
 use App\UserReplyUpvoted;
 use Illuminate\Http\Request;
+use Faker\Generator as Faker;
+use Illuminate\Support\Facades\DB;
 
 class PageHomeController extends Controller
 {
@@ -496,5 +498,46 @@ class PageHomeController extends Controller
         return view('dashboard.channel.list', compact(
             'mychannels'
         ));
+    }
+
+    public function imageUpload()
+    {
+        return view('dashboard.image_upload');
+    }
+
+    public function imageUploadStore(Request $request, Faker $faker)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
+        ]);
+
+        $imagename = time().'.'.$request->image->extension();
+
+        $request->image->move(public_path('images'), $imagename);
+        
+        $imagegetsize = getimagesize('images/'.$imagename);
+
+        $data['type'] = $imagegetsize['mime'];
+        $data['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
+        $data['location'] = '/images/'.$imagename;
+        $data['caption'] = $faker->sentence;
+        
+        $user = Auth::User();
+        
+        DB::beginTransaction();
+        try {
+            $image = Image::create($data);
+            User::where('id', $user->id)->update(['image_id' => $image->id]);
+
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollBack();
+
+            abort(500);
+        }
+
+        return back()
+        ->with('success', 'you have successfully upload image')
+        ->with('image', $imagename);
     }
 }

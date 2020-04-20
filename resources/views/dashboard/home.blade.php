@@ -8,6 +8,7 @@
                 <div class="card-header d-flex flex-row">
                     <img src="@if(is_null($user->image)){{ URL::asset('/imgs/no_profile_img.jpg') }} @else {{ $user->image->location }}@endif" alt="user-profile-image" class="rounded border" width='80'>
                     <div class="d-flex flex-column my-auto ml-4">
+                        <a href="{{ route('home.image.upload') }}" class="">change profile image</a>
                         <h4 class="m-0">{{ $user->name }} {{ $user->surname }}</h4>
                         <h5 class="m-0 text-muted">{{ $user->username }}</h5>
                     </div>

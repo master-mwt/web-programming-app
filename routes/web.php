@@ -31,6 +31,12 @@ Route::get('/contact', 'PageWelcomeController@contact')->name('contact');
 Auth::routes();
 Route::get('/home', 'PageHomeController@index')->name('home');
 //************************************************************
+// PAGEHOMECONTROLLER SUBROUTES [PROFILE IMAGE UPLOAD]
+//************************************************************
+Route::get('/home/profile/image/upload', 'PageHomeController@imageUpload')->name('home.image.upload');
+Route::post('/home/profile/image/upload', 'PageHomeController@imageUploadStore')->name('home.image.upload.store');
+
+//************************************************************
 // PAGEHOMECONTROLLER SUBROUTES [DASHBOARD:POST]
 //************************************************************
 Route::get('/home/post/owned', 'PageHomeController@postOwned')->name('home.post.owned');
