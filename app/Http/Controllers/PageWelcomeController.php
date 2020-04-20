@@ -34,7 +34,8 @@ class PageWelcomeController extends Controller
         //remember to call a complex query from (for example) the PostController that returns the post meta-object, with all the references (for example: User, Channel) already resolved
         $posts = Post::orderByDesc('created_at')->paginate(10);
 
-        foreach($posts as $post) {
+        foreach($posts as $key => $post) {
+
             $post->channel_id = Channel::findOrFail($post->channel_id);
             $post->user_id = User::findOrFail($post->user_id);
 
@@ -45,6 +46,11 @@ class PageWelcomeController extends Controller
 
             if(Auth::check())
             {
+                if(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first()){
+                    $posts->forget($key);
+                    continue;
+                }
+
                 is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
                 ? $post->upvoted = 'Upvote'
                 : $post->upvoted = 'Unupvote';
@@ -81,7 +87,7 @@ class PageWelcomeController extends Controller
 
         if($target === "users" && !is_null($query)) {
             $users = User::where('name', 'LIKE', '%'.$query.'%')->paginate(10);
-            
+
             foreach ($users as $user) {
                 $user->image_id = Image::where('id', $user->image_id)->first();
             }
@@ -155,7 +161,7 @@ class PageWelcomeController extends Controller
                 ));
             }
 
-            foreach($posts as $post) {
+            foreach($posts as $key => $post) {
                 $post->channel_id = Channel::findOrFail($post->channel_id);
                 $post->user_id = User::findOrFail($post->user_id);
 
@@ -166,6 +172,11 @@ class PageWelcomeController extends Controller
 
                 if(Auth::check())
                 {
+                    if(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first()){
+                        $posts->forget($key);
+                        continue;
+                    }
+
                     is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
                     ? $post->upvoted = 'Upvote'
                     : $post->upvoted = 'Unupvote';
@@ -214,7 +225,7 @@ class PageWelcomeController extends Controller
 
             $posts = PostTag::where('tag_id', $tag->id)->paginate(10);
 
-            foreach ($posts as $post) {
+            foreach ($posts as $key => $post) {
                 $post->post_id = Post::where('id', $post->post_id)->first();
                 $post->post_id->user_id = User::where('id', $post->post_id->user_id)->first();
                 $post->post_id->channel_id = Channel::where('id', $post->post_id->channel_id)->first();
@@ -226,6 +237,11 @@ class PageWelcomeController extends Controller
 
                 if(Auth::check())
                 {
+                    if(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first()){
+                        $posts->forget($key);
+                        continue;
+                    }
+
                     is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->post_id->id])->first())
                     ? $post->upvoted = 'Upvote'
                     : $post->upvoted = 'Unupvote';

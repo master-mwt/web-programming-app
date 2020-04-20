@@ -56,7 +56,7 @@ class PageChannelController extends Controller
             $channel->member = (object)['role_id' => $administrator];
         }
 
-        foreach($posts as $post) {
+        foreach($posts as $key => $post) {
             $post->user_id = User::findOrFail($post->user_id);
 
             $post->tags = PostTag::where('post_id',$post->id)->get();
@@ -66,6 +66,11 @@ class PageChannelController extends Controller
 
             if(Auth::check())
             {
+                if(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first()){
+                    $posts->forget($key);
+                    continue;
+                }
+
                 is_null(UserPostUpvoted::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first())
                 ? $post->upvoted = 'Upvote'
                 : $post->upvoted = 'Unupvote';
