@@ -9,7 +9,9 @@
                 <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="@if(is_null($channel->image)) {{ URL::asset('/imgs/no_channel_img.jpg') }} @else {{$channel->image->location}} @endif" alt="" width="50px" height="50px" class="rounded">
                     <div class="d-flex flex-column">
-                        <a href="{{ route('home.channel.image.upload', $channel->id) }}" class="text-decoration-none">change channel image</a>
+                        @if(!is_null($channel->member) && Auth::check() && $channel->member->role_id->name == 'creator')
+                            <a href="{{ route('home.channel.image.upload', $channel->id) }}" class="text-decoration-none">change channel image</a>
+                        @endif
                         <h2 class="m-0 ml-3">{{ $channel->name }}</h2>
                     </div>
                     @if(!is_null($channel->member))

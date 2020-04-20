@@ -11,6 +11,13 @@
                             return to backend
                         </a>
                     </div>
+                @elseif(Auth::check() && Auth::User()->group_id == 2)
+                    <div class="text-center">
+                        <a role="button" href="{{ route('home') }}" class="btn btn-dark mb-4">
+                            <i class="fas fa-arrow-left mr-2"></i> 
+                            return to home
+                        </a>
+                    </div>
                 @endif
                 <div class="card">
                     <div class="card-header">
