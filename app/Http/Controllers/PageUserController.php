@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\UserHardBanned;
 use Auth;
 use App\User;
 use App\Post;
@@ -23,6 +24,10 @@ class PageUserController extends Controller
     {
         $user = User::where('id', $id)->first();
         $user->image = Image::where('id', $user->image_id)->first();
+
+        if(UserHardBanned::where('user_id', $user->id)->first()){
+            $user->hardBanned = true;
+        }
 
         return view('discover.user', compact(
             'user'
