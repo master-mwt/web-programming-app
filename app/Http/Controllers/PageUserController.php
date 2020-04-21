@@ -36,7 +36,7 @@ class PageUserController extends Controller
 
     public function userPosts($id)
     {
-        $posts = Post::where('user_id', $id)->paginate(10);
+        $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->paginate(10);
 
         foreach($posts as $key => $post) {
             $post->channel_id = Channel::findOrFail($post->channel_id);

@@ -7,7 +7,7 @@
 
         <div class="col-md-12 text-center infinite-scroll px-0">
 
-        @foreach($posts as $post)
+        @forelse($posts as $post)
             <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     @if($post->upvoted == 'Upvote')
@@ -63,7 +63,10 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <img src="{{ URL::asset('/imgs/no_res_2.png') }}" alt="" class="rounded my-4" width="350px">
+            <h2 class="text-primary">no results ...</h2>
+        @endforelse
         {{ $posts->links() }}
         </div>
     </div>

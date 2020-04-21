@@ -14,11 +14,12 @@ class ImageController extends Controller
      */
     public function index()
     {
-        $images = Image::all();
+        // $images = Image::all();
 
-        return view('rest.image.index', compact(
-            'images'
-        ));
+        // return view('rest.image.index', compact(
+        //     'images'
+        // ));
+        abort(404);
     }
 
     /**
@@ -28,7 +29,8 @@ class ImageController extends Controller
      */
     public function create()
     {
-        return view('rest.image.create');
+        // return view('rest.image.create');
+        abort(404);
     }
 
     /**
@@ -39,11 +41,12 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $image = Image::create($data);
+        // $image = Image::create($data);
 
-        return redirect('/images/' . $image->id);
+        // return redirect('/images/' . $image->id);
+        abort(404);
     }
 
     /**
@@ -54,9 +57,10 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
-        return view('rest.image.show', compact(
-            'image'
-        ));
+        // return view('rest.image.show', compact(
+        //     'image'
+        // ));
+        abort(404);
     }
 
     /**
@@ -67,9 +71,10 @@ class ImageController extends Controller
      */
     public function edit(Image $image)
     {
-        return view('rest.image.edit', compact(
-            'image'
-        ));
+        // return view('rest.image.edit', compact(
+        //     'image'
+        // ));
+        abort(404);
     }
 
     /**
@@ -81,11 +86,12 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $image->update($data);
+        // $image->update($data);
 
-        return redirect('/images/' . $image->id);
+        // return redirect('/images/' . $image->id);
+        abort(404);
     }
 
     /**
@@ -96,8 +102,9 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        $image->delete();
-        return redirect('/images');
+        // $image->delete();
+        // return redirect('/images');
+        abort(404);
     }
 
 

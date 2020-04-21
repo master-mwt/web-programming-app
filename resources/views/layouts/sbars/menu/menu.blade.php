@@ -23,7 +23,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.tags') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Tags</p>
                     </a>
                 </li>
@@ -41,19 +41,19 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.comments') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="fas fa-check nav-icon"></i>
                         <p>Comments</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.users') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Users</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.logs') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Logs</p>
                     </a>
                 </li>

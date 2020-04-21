@@ -7,7 +7,7 @@
 
         <a role="button" href="{{ route('discover.channel', $channel->id) }}" class="btn btn-dark mb-4"><i class="fas fa-arrow-left mr-2"></i> back to channel {{$channel->name}}</a>
 
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <h5 class="mx-auto mt-3 mb-5 bg-dark text-center p-3 rounded" style="width:600px">
                 <span class="text-warning">!!! DEBUG !!!</span>
                 <br><br>
@@ -21,7 +21,7 @@
                 <br><br>
                 <span class="text-warning">!!! DEBUG !!!</span>
             </h5>
-        </div>
+        </div> -->
 
         <div class="col-md-12 text-center infinite-scroll px-0">
 

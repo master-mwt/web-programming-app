@@ -19,7 +19,7 @@
                 <div class="card-footer">
                     <div class="float-right">
                         <a role="button" href="{{ route('discover.user.posts', $user->id) }}" class="btn btn-dark mr-1"><i class="fas fa-eye mr-2"></i>See Posts</a>
-                        @if(Auth::User()->group_id == 1)
+                        @if(Auth::check() && Auth::User()->group_id == 1)
                             @if($user->hardBanned === true)
                                 <a href="{{route('backend.user.unhardban', $user)}}" class="btn btn-danger float-right mr-2" role="button">Remove hardban</a>
                             @else

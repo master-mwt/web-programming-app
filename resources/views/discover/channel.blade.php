@@ -8,21 +8,19 @@
             <div class="card bg-dark col-lg-10 mx-auto d-flex flex-column px-0" style="max-width: 800px">
                 <div class="col card-header border-0 px-3 d-flex flex-row" style="align-items: center">
                     <img src="@if(is_null($channel->image)) {{ URL::asset('/imgs/no_channel_img.jpg') }} @else {{$channel->image->location}} @endif" alt="" width="50px" height="50px" class="rounded">
-                    <div class="d-flex flex-column">
-                        @if(!is_null($channel->member) && Auth::check() && $channel->member->role_id->name == 'creator')
-                            <a href="{{ route('home.channel.image.upload', $channel->id) }}" class="text-decoration-none ml-2">change image</a>
-                        @endif
-                        <h2 class="m-0 ml-3">{{ $channel->name }}</h2>
-                    </div>
+                    <h2 class="m-0 ml-3">{{ $channel->name }}</h2>
                     @if(!is_null($channel->member))
                         <h5 class="m-0 ml-3 text-muted">Subscribed as <span class="text-uppercase text-warning">{{$channel->member->role_id->name}}</span></h5>
                     @endif
                     @if($channel->joined == 'Join' && !(Auth::User()->group_id == 1))
-                        <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto"><strong>JOIN</strong></button>
+                        <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto">JOIN</button>
                     @elseif($channel->joined == 'Leave' && $channel->member->role_id->name == 'creator')
-                        <button class="btn btn btn-outline-danger ml-auto" data-toggle="modal" data-target="#delete-modal"><strong>DELETE CHANNEL</strong></button>
+                    <div class="d-flex flex-column ml-auto">
+                        <button class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#delete-modal">DELETE CHANNEL</button>
+                        <a role="button" href="{{ route('home.channel.image.upload', $channel->id) }}" class="btn btn-outline-success">CHANGE IMAGE</a>
+                    </div>
                     @elseif($channel->joined == 'Leave')
-                        <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning ml-auto"><strong>LEAVE</strong></button>
+                        <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning ml-auto">LEAVE</button>
                     @else
                     @endif
                 </div>

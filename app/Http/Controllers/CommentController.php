@@ -15,11 +15,12 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::all();
+        // $comments = Comment::all();
 
-        return view('rest.comment.index', compact(
-            'comments'
-        ));
+        // return view('rest.comment.index', compact(
+        //     'comments'
+        // ));
+        abort(404);
     }
 
     /**
@@ -29,7 +30,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        return view('rest.comment.create');
+        // return view('rest.comment.create');
+        abort(404);
     }
 
     /**
@@ -77,9 +79,10 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        return view('rest.comment.edit', compact(
-            'comment'
-        ));
+        // return view('rest.comment.edit', compact(
+        //     'comment'
+        // ));
+        abort(404);
     }
 
     /**
@@ -91,11 +94,12 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $comment->update($data);
+        // $comment->update($data);
 
-        return redirect('/comments/' . $comment->id);
+        // return redirect('/comments/' . $comment->id);
+        abort(404);
     }
 
     /**

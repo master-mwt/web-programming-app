@@ -14,11 +14,12 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::all();
+        // $groups = Group::all();
 
-        return view('rest.group.index', compact(
-            'groups'
-        ));
+        // return view('rest.group.index', compact(
+        //     'groups'
+        // ));
+        abort(404);
     }
 
     /**
@@ -28,7 +29,8 @@ class GroupController extends Controller
      */
     public function create()
     {
-        return view('rest.group.create');
+        // return view('rest.group.create');
+        abort(404);
     }
 
     /**
@@ -39,11 +41,12 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $group = Group::create($data);
+        // $group = Group::create($data);
 
-        return redirect('/groups/' . $group->id);
+        // return redirect('/groups/' . $group->id);
+        abort(404);
     }
 
     /**
@@ -54,9 +57,10 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        return view('rest.group.show', compact(
-            'group'
-        ));
+        // return view('rest.group.show', compact(
+        //     'group'
+        // ));
+        abort(404);
     }
 
     /**
@@ -67,9 +71,10 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        return view('rest.group.edit', compact(
-            'group'
-        ));
+        // return view('rest.group.edit', compact(
+        //     'group'
+        // ));
+        abort(404);
     }
 
     /**
@@ -81,11 +86,12 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $group->update($data);
+        // $group->update($data);
 
-        return redirect('/groups/' . $group->id);
+        // return redirect('/groups/' . $group->id);
+        abort(404);
     }
 
     /**
@@ -96,8 +102,9 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        $group->delete();
-        return redirect('/groups');
+        // $group->delete();
+        // return redirect('/groups');
+        abort(404);
     }
 
 
