@@ -237,10 +237,10 @@
             element: document.getElementById('easymde-area-reply'),
             initialValue: '',
             //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
-            //<img src="" width="" heigth=""> instead of ![](https://)
-            uploadImage: true,
-            imageMaxSize: "4000x4000x2",
-            imageAccept: "image/png, image/jpg",
+            insertTexts: {
+                image: ["<img src=\"","\" width=\"\" heigth=\"\">"],
+            },
+            uploadImage: false,
         });
 
     </script>
