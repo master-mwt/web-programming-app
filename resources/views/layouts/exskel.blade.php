@@ -71,6 +71,10 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            @if(\Illuminate\Support\Facades\Auth::check())
+                window.userIsLogged = true;
+            @endif
         </script>
         @stack('scripts')
     </body>

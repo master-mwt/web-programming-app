@@ -28,6 +28,53 @@ function makeToast(title, body, delay){
     toastId++;
 }
 
+
+/**
+ * Notifications handling
+ */
+let notifications = [];
+let postpath = window.location.protocol + "//" + window.location.host + "/discover/post/";
+
+$(document).ready(function() {
+    if(window.userIsLogged){
+        notification();
+        setInterval(notification, 10000);
+    }
+});
+
+function notification(){
+    $.get('/notifications', function (data) {
+        addNotifications(data);
+    });
+}
+
+function addNotifications(newNotifications) {
+
+    if(newNotifications.length === notifications.length){
+        return;
+    }
+
+    notifications = newNotifications;
+    $('#notification-area').empty();
+    $('#notification-count').text(notifications.length + ' Notifications');
+
+    if(notifications.length){
+        $('#notification-button').addClass('text-danger');
+    } else {
+        $('#notification-button').removeClass('text-danger');
+    }
+
+    notifications.forEach(function(entry) {
+        let notification = `<a href="${postpath + entry.data.post_id}" class="my-2">
+                                <i class="fas fa-users mr-2"></i> ${entry.data.data}
+                                <span class="float-right text-muted text-sm">${entry.created_at}</span>
+                            </a>`;
+        $('#notification-area').append(notification);
+    });
+
+    makeToast('Notification', 'You have new notifications', 4000);
+}
+
 export {
     makeToast,
 };

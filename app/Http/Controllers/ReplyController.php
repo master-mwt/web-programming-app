@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\NewReply;
 use Auth;
 use App\Reply;
 use Illuminate\Http\Request;
@@ -49,6 +50,21 @@ class ReplyController extends Controller
         $this->authorize('create', [Reply::class, $data['channel_id']]);
 
         $reply = Reply::create($data);
+
+        /* NOTIFICATION */
+        $replies_list = Reply::where('post_id', $data['post_id'])->get();
+        $channel = \App\Channel::find($data['channel_id']);
+        $post = \App\Post::find($data['post_id']);
+        foreach ($replies_list as $single_reply){
+            if($single_reply->user_id === $data['user_id']){
+                continue;
+            }
+            $user = \App\User::find($single_reply->user_id);
+            $user->notify(new NewReply('New reply on post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id']));
+        }
+        $author = \App\User::find($post->user_id);
+        $author->notify(new NewReply('New reply on your post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id']));
+        /* END NOTIFICATION */
 
         //return redirect('/replies/' . $reply->id);
         return redirect('/discover/post/' . $reply->post_id);

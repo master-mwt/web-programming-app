@@ -123,4 +123,9 @@ class UserController extends Controller
             'group_id' => 'required',
         ]);
     }
+
+    public function notifications()
+    {
+        return auth()->user()->unreadNotifications()->get()->toArray();
+    }
 }

@@ -203,6 +203,12 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/channels/create', 'ChannelController@create')->name('channels.create');
     Route::post('/channels', 'ChannelController@store');
+
+    //************************************************************
+    // AUTH:NOTIFICATIONS ROUTES
+    //************************************************************
+    Route::get('/notifications', 'UserController@notifications');
+
 });
 
 

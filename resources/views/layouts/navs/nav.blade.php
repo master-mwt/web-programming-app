@@ -44,7 +44,7 @@
             <button type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#messages_modal"><i class="far fa-comments"></i></button>
 
             <!-- Notification modal trigger -->
-            <button type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#notification_modal"><i class="far fa-bell"></i></button>
+            <button id="notification-button" type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#notification_modal"><i class="far fa-bell"></i></button>
         @endguest
 
         <!-- Authentication Links -->
@@ -125,21 +125,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header p-2 justify-content-center">
-            <h5 class="m-0">15 Notifications</h5>
+            <h5 id="notification-count" class="m-0">No notifications</h5>
         </div>
-        <div class="d-flex flex-column modal-body px-3">
-            <a href="#" class="my-2">
-                <i class="fas fa-envelope mr-2"></i> 4 new messages
-                <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <a href="#" class="my-2">
-                <i class="fas fa-users mr-2"></i> 8 friend requests
-                <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <a href="#" class="my-2">
-                <i class="fas fa-file mr-2"></i> 3 new reports
-                <span class="float-right text-muted text-sm">2 days</span>
-            </a>
+        <div id="notification-area" class="d-flex flex-column modal-body px-3">
         </div>
         <div class="modal-footer p-2">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>

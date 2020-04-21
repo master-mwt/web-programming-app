@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\NewComment;
 use Auth;
 use App\Comment;
 use Illuminate\Http\Request;
@@ -53,6 +54,23 @@ class CommentController extends Controller
         $comment = Comment::create($data);
 
         $comment->post_id = $request->input('post_id');
+
+        /* NOTIFICATION */
+        $comment_list = Comment::where('reply_id', $data['reply_id'])->get();
+        $channel = \App\Channel::find($data['channel_id']);
+        $reply = \App\Reply::find($data['reply_id']);
+        $post = \App\Post::find($reply->post_id);
+        foreach ($comment_list as $single_comment){
+            if($single_comment->user_id === $data['user_id']){
+                continue;
+            }
+            $user = \App\User::find($single_comment->user_id);
+            $user->notify(new NewComment('New comment on reply in ' . $post->title . ' in ' . $channel->name . "!", $post->id));
+        }
+
+        $author = \App\User::find($reply->user_id);
+        $author->notify(new NewComment('New comment on your reply in post ' . $post->title . ' in ' . $channel->name . "!", $post->id));
+        /* END NOTIFICATION */
 
         //return redirect('/comments/' . $comment->id);
         return redirect('/discover/post/' . $comment->post_id);

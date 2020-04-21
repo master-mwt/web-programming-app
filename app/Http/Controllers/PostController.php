@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\NewPostOnChannel;
 use App\Post;
 use App\PostTag;
 use App\Tag;
 use App\Image;
+use App\UserChannelRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -67,7 +69,7 @@ class PostController extends Controller
             }
             //remove duplicate tags
             $tags = array_unique($tags_nu);
-        }   
+        }
 
         if(!is_null($request->images))
         {
@@ -80,19 +82,19 @@ class PostController extends Controller
             $images = $request->images;
             //cycle counter (for unique naming, multiple upload)
             $i = 0;
-            
+
             foreach($images as $image) {
                 $imagename = time().$i.'.'.$image->extension();
-                
+
                 $image->move(public_path('imgs_cstm/posts'), $imagename);
-                
+
                 $imagegetsize = getimagesize('imgs_cstm/posts/'.$imagename);
-                
+
                 $data2['type'] = $imagegetsize['mime'];
                 $data2['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
                 $data2['location'] = '/imgs_cstm/posts/'.$imagename;
                 $data2['caption'] = $faker->sentence;
-                
+
                 $i++;
             }
         }
@@ -100,6 +102,18 @@ class PostController extends Controller
         $this->authorize('create', [Post::class, $data['channel_id']]);
 
         $post = Post::create($data);
+
+        /* NOTIFICATION */
+        $users_in_channel = UserChannelRole::where('channel_id', $data['channel_id'])->get();
+        $channel = \App\Channel::find($data['channel_id']);
+        foreach ($users_in_channel as $user_in_channel){
+            if($user_in_channel->user_id === $data['user_id']){
+                continue;
+            }
+            $user = \App\User::find($user_in_channel->user_id);
+            $user->notify(new NewPostOnChannel('New post on channel ' . $channel->name . "!", $post->id));
+        }
+        /* END NOTIFICATION */
 
         if(!is_null($request->tags))
         {
@@ -115,11 +129,11 @@ class PostController extends Controller
                         Tag::create(['name' => $tag]);
                         $tag = Tag::where('name', $tag)->first();
                         PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
-    
+
                         DB::commit();
                     } catch(\Exception $e) {
                         DB::rollBack();
-    
+
                         abort(500);
                     }
                 //if tag is NOT new
@@ -130,11 +144,11 @@ class PostController extends Controller
                         //INSERT RELATION post-tag
                         $tag = Tag::where('name', $tag)->first();
                         PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
-    
+
                         DB::commit();
                     } catch(\Exception $e) {
                         DB::rollBack();
-    
+
                         abort(500);
                     }
                 }
