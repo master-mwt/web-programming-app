@@ -56857,6 +56857,47 @@ function makeToast(title, body, delay) {
   $(document).find('#toast' + toastId).toast('show');
   toastId++;
 }
+/**
+ * Notifications handling
+ */
+
+
+var notifications = [];
+var postpath = window.location.protocol + "//" + window.location.host + "/discover/post/";
+$(document).ready(function () {
+  if (window.userIsLogged) {
+    notification();
+    setInterval(notification, 10000);
+  }
+});
+
+function notification() {
+  $.get('/notifications', function (data) {
+    addNotifications(data);
+  });
+}
+
+function addNotifications(newNotifications) {
+  if (newNotifications.length === notifications.length) {
+    return;
+  }
+
+  notifications = newNotifications;
+  $('#notification-area').empty();
+  $('#notification-count').text(notifications.length + ' Notifications');
+
+  if (notifications.length) {
+    $('#notification-button').addClass('text-danger');
+  } else {
+    $('#notification-button').removeClass('text-danger');
+  }
+
+  notifications.forEach(function (entry) {
+    var notification = "<a href=\"".concat(postpath + entry.data.post_id, "\" class=\"my-2\">\n                                <i class=\"fas fa-users mr-2\"></i> ").concat(entry.data.data, "\n                                <span class=\"float-right text-muted text-sm\">").concat(entry.created_at, "</span>\n                            </a>");
+    $('#notification-area').append(notification);
+  });
+  makeToast('Notification', 'You have new notifications', 4000);
+}
 
 
 

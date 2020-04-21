@@ -30,6 +30,18 @@
                     @endif
                 </div>
                 <div class="col p-0 d-flex flex-column overflow-auto">
+
+                    <div class="carousel slide overflow-hidden" data-ride="carousel" style="max-width:800px;height:300px;">
+                        <div class="carousel-inner bg-secondary rounded-right">
+                            <div class="carousel-item active">
+                                <img src="{{ URL::asset('/imgs/main_logo.png') }}" class="d-block mx-auto w-100 h-auto">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ URL::asset('/imgs/no_res.png') }}" class="d-block mx-auto w-100 h-auto">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>
