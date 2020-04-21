@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\PostTag;
 use App\Tag;
+use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Faker\Generator as Faker;
 
 class PostController extends Controller
 {
@@ -42,59 +43,111 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Faker $faker)
     {
         $data = $this->validateData();
 
         $data['user_id'] = Auth::User()->id;
         $data['channel_id'] = $request->input('channel_id');
-        //retrieve tags from request
-        $tags_array = $request->input('tags');
-        //string->array_of_strings tags explosion
-        $tags_exploded = explode(" ", $tags_array);
-        //add # to tags that doesn't start with #
-        $tags_nu = [];
-        foreach ($tags_exploded as $tag_exploded) {
-            if($tag_exploded[0] != '#') {
-                array_push($tags_nu, '#'.$tag_exploded);
-            } else {
-                array_push($tags_nu, $tag_exploded);
+
+        if(!is_null($request->tags))
+        {
+            //retrieve tags from request
+            $tags_array = $request->input('tags');
+            //string->array_of_strings tags explosion
+            $tags_exploded = explode(" ", $tags_array);
+            //add # to tags that doesn't start with #
+            $tags_nu = [];
+            foreach ($tags_exploded as $tag_exploded) {
+                if($tag_exploded[0] != '#') {
+                    array_push($tags_nu, '#'.$tag_exploded);
+                } else {
+                    array_push($tags_nu, $tag_exploded);
+                }
+            }
+            //remove duplicate tags
+            $tags = array_unique($tags_nu);
+        }   
+
+        if(!is_null($request->images))
+        {
+            //images validation
+            $request->validate([
+                'images' => 'required',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:1024',
+            ]);
+            //retrieve images from request
+            $images = $request->images;
+            //cycle counter (for unique naming, multiple upload)
+            $i = 0;
+            
+            foreach($images as $image) {
+                $imagename = time().$i.'.'.$image->extension();
+                
+                $image->move(public_path('imgs_cstm/posts'), $imagename);
+                
+                $imagegetsize = getimagesize('imgs_cstm/posts/'.$imagename);
+                
+                $data2['type'] = $imagegetsize['mime'];
+                $data2['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
+                $data2['location'] = '/imgs_cstm/posts/'.$imagename;
+                $data2['caption'] = $faker->sentence;
+                
+                $i++;
             }
         }
-        //remove duplicate tags
-        $tags = array_unique($tags_nu);
 
         $this->authorize('create', [Post::class, $data['channel_id']]);
 
         $post = Post::create($data);
 
-        foreach ($tags as $tag) {
-            //if tag is new
-            if(is_null(Tag::where('name', $tag)->first()))
-            {
-                DB::beginTransaction();
-                try {
-                    //INSERT new tag
-                    //RETRIEVE new tag object from db (for id)
-                    //INSERT RELATION post-tag
-                    Tag::create(['name' => $tag]);
-                    $tag = Tag::where('name', $tag)->first();
-                    PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
-
-                    DB::commit();
-                } catch(\Exception $e) {
-                    DB::rollBack();
-
-                    abort(500);
+        if(!is_null($request->tags))
+        {
+            foreach ($tags as $tag) {
+                //if tag is new
+                if(is_null(Tag::where('name', $tag)->first()))
+                {
+                    DB::beginTransaction();
+                    try {
+                        //INSERT new tag
+                        //RETRIEVE new tag object from db (for id)
+                        //INSERT RELATION post-tag
+                        Tag::create(['name' => $tag]);
+                        $tag = Tag::where('name', $tag)->first();
+                        PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
+    
+                        DB::commit();
+                    } catch(\Exception $e) {
+                        DB::rollBack();
+    
+                        abort(500);
+                    }
+                //if tag is NOT new
+                } else {
+                    DB::beginTransaction();
+                    try {
+                        //RETRIEVE new tag object from db (for id)
+                        //INSERT RELATION post-tag
+                        $tag = Tag::where('name', $tag)->first();
+                        PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
+    
+                        DB::commit();
+                    } catch(\Exception $e) {
+                        DB::rollBack();
+    
+                        abort(500);
+                    }
                 }
-            //if tag is NOT new
-            } else {
+            }
+        }
+
+        if(!is_null($request->images))
+        {
+            foreach($images as $image){
                 DB::beginTransaction();
                 try {
-                    //RETRIEVE new tag object from db (for id)
-                    //INSERT RELATION post-tag
-                    $tag = Tag::where('name', $tag)->first();
-                    PostTag::create(['post_id' => $post->id, 'tag_id' => $tag->id]);
+                    $image = Image::create($data2);
+                    //PostImage::create(['post_id' => $post->id, 'image_id' => $image->id]);
 
                     DB::commit();
                 } catch(\Exception $e) {

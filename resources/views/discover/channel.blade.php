@@ -46,6 +46,17 @@
             </div>
         </div>
 
+        @if(count($errors) > 0)
+            <div class="alert alert-danger col-md-12 text-center" style="max-width: 800px">
+                <strong>server error</strong>
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>    
+            </div>
+        @endif
+
         @auth
             <div class="col-md-12 text-center px-0 mb-3" style="max-width: 800px">
                 <button class="btn btn-success btn-block" data-toggle="modal" data-target="#easymde-modal">Make a Post</button>
@@ -158,7 +169,7 @@
 </script>
 
 @auth
-    <form action="/posts" method="post">
+    <form action="/posts" method="post" enctype="multipart/form-data">
         @csrf
 
         <div class="modal fade" id="easymde-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="easymde-modal-label" aria-hidden="true">
@@ -173,6 +184,7 @@
                     <div class="modal-body">
                         <!-- MODAL CONTENT -->
                         <!-- TODO: VALIDATION AND ERROR CONTROL -->
+                        <input name="images[]" type="file" class="form-control-file mb-3" id="images" multiple>
                         <input name="title" type="text" class="form-control mb-3" id="title" placeholder="Title">
                         {{ Form::hidden('channel_id', $channel->id) }}
                         <textarea name="content" id="easymde-area" cols="" rows=""></textarea>
@@ -241,10 +253,10 @@
             element: document.getElementById('easymde-area'),
             initialValue: '',
             //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
-            //<img src="" width="" heigth=""> instead of ![](https://)
-            uploadImage: true,
-            imageMaxSize: "4000x4000x2",
-            imageAccept: "image/png, image/jpg",
+            insertTexts: {
+                image: ["<img src=\"","\" width=\"\" heigth=\"\">"],
+            },
+            uploadImage: false,
         });
     </script>
 
