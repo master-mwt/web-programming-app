@@ -23,6 +23,10 @@ class PageUserController extends Controller
     public function user($id)
     {
         $user = User::where('id', $id)->first();
+
+        if(is_null($user))
+            abort(404);
+
         $user->image = Image::where('id', $user->image_id)->first();
 
         if(UserHardBanned::where('user_id', $user->id)->first()){

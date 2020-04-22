@@ -29,6 +29,41 @@
                     @endif
                 </div>
                 <div class="col p-0 d-flex flex-column overflow-auto">
+
+                    <style>
+                        .carousel-control-prev:hover,
+                        .carousel-control-next:hover
+                        {
+                            background-color: rgba(200,200,200,0.2);
+                            transition: 0.3s;
+                        }
+                    </style>
+
+                    @if($post->has_images == 'yes')
+                    <div id="postcarousel-{{$post->id}}" class="carousel slide overflow-hidden" data-ride="carousel" style="max-width:800px;">
+                        <div class="carousel-inner bg-secondary rounded-right">
+                            @foreach($post->images as $image)
+                            @if($loop->first)
+                            <div class="carousel-item active">
+                                <img src="{{ $image->location }}" class="d-block mx-auto w-100 h-auto">
+                            </div>
+                            @else
+                            <div class="carousel-item">
+                                <img src="{{ $image->location }}" class="d-block mx-auto w-100 h-auto">
+                            </div>
+                            @endif
+                            @endforeach
+                        </div>
+                        <a href="#postcarousel-{{$post->id}}" class="carousel-control-prev" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">prev</span>
+                        </a>
+                        <a href="#postcarousel-{{$post->id}}" class="carousel-control-next" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">next</span>
+                        </a>
+                    </div>
+                    @endif
                     <div class="card-header text-left border-0 px-3">
                         <p class="m-0 mb-1">
                             <a href="{{ route('discover.channel', $post->channel_id->id) }}" class="text-decoration-none"><b>{{ $post->channel_id->name }} &#183</b></a> <span class="text-muted">Posted by </span>

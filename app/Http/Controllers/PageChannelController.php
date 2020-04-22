@@ -28,6 +28,10 @@ class PageChannelController extends Controller
     public function channel($id)
     {
         $channel = Channel::where('id', $id)->first();
+
+        if(is_null($channel))
+            abort(404);
+
         $channel->image = Image::where('id', $channel->image_id)->first();
         $posts = Post::where('channel_id', $id)->orderByDesc('created_at')->paginate(5);
         $user = Auth::User();

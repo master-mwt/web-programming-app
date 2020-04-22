@@ -7,6 +7,7 @@ use App\Channel;
 use App\Post;
 use App\PostTag;
 use App\Reply;
+use App\Image;
 use App\Tag;
 use App\Comment;
 use App\UserPostDownvoted;
@@ -26,6 +27,9 @@ class PagePostController extends Controller
     {
         $post = Post::where('id', $id)->first();
 
+        if(is_null($post))
+            abort(404);
+
         $post->channel_id = Channel::findOrFail($post->channel_id);
         $post->user_id = User::findOrFail($post->user_id);
 
@@ -33,6 +37,12 @@ class PagePostController extends Controller
         foreach($post->tags as $tag) {
             $tag->tag_id = Tag::findOrFail($tag->tag_id);
         }
+
+        $post->images = Image::where('post_id', $post->id)->get();
+
+        !is_null(Image::where('post_id', $post->id)->first())
+        ? $post->has_images = 'yes'
+        : $post->has_images = 'no';
 
         if(Auth::check())
         {

@@ -48,10 +48,11 @@
                             <div class="carousel-item active">
                                 <img src="{{ $image->location }}" class="d-block mx-auto w-100 h-auto">
                             </div>
-                            @endif
+                            @else
                             <div class="carousel-item">
                                 <img src="{{ $image->location }}" class="d-block mx-auto w-100 h-auto">
                             </div>
+                            @endif
                             @endforeach
                         </div>
                         <a href="#postcarousel-{{$post->id}}" class="carousel-control-prev" role="button" data-slide="prev">
