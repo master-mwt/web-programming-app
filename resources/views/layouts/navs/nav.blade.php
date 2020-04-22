@@ -42,9 +42,6 @@
         @else
             <!-- Messages modal trigger -->
             <button id="notification-button" type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#messages_modal"><i class="far fa-bell"></i></button>
-
-            <!-- Notification modal trigger -->
-{{--            <button id="notification-button" type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#notification_modal"><i class="far fa-bell"></i></button>--}}
         @endguest
 
         <!-- Authentication Links -->
@@ -86,35 +83,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <!-- aggiunta -->
-            <div class="modal-header p-2 justify-content-center">
+            <div class="modal-header p-2 justify-content-center border-0">
                 <h5 id="notification-count" class="m-0">No Notifications</h5>
             </div>
             <!-- /aggiunta -->
             <div id="notification-area" class="modal-body pb-0 px-3 pt-3">
             </div>
-            <div class="modal-footer p-2">
+            <div class="modal-footer border-0 p-2">
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                 <button onclick="location.href='{{ route('notification.clear') }}'" type="button" class="btn btn-outline-secondary">Dismiss All Messages</button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Notification modal -->
-<!--
-<div class="modal fade" id="notification_modal" tabindex="-1" role="dialog" aria-labelledby="notification_modal_label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header p-2 justify-content-center">
-            <h5 id="notification-count" class="m-0">No Notifications</h5>
-        </div>
-        <div id="notification-area" class="d-flex flex-column modal-body px-3">
-        </div>
-        <div class="modal-footer p-2">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-            <button onclick="location.href='{{ route('notification.clear') }}'" type="button" class="btn btn-outline-secondary">Dismiss All Messages</button>
-        </div>
-        </div>
-    </div>
-</div>
--->

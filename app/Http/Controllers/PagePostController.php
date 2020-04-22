@@ -67,12 +67,12 @@ class PagePostController extends Controller
             : $post->reported = 'Unreport';
         }
 
-        $replies = Reply::where('post_id', $id)->paginate(5);
+        $replies = Reply::where('post_id', $id)->orderBy('created_at', 'desc')->paginate(5);
 
         foreach($replies as $reply) {
             //$post->channel_id = Channel::findOrFail($post->channel_id);
             $reply->user_id = User::findOrFail($reply->user_id);
-            $reply->comments = Comment::where('reply_id', $reply->id)->get();
+            $reply->comments = Comment::where('reply_id', $reply->id)->orderBy('created_at', 'desc')->get();
             foreach($reply->comments as $comment) {
                 $comment->user_id = User::findOrFail($comment->user_id);
             }

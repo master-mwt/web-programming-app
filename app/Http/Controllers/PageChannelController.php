@@ -63,11 +63,19 @@ class PageChannelController extends Controller
 
         foreach($posts as $key => $post) {
             $post->user_id = User::findOrFail($post->user_id);
+            $post->user_id->role = UserChannelRole::where(['user_id' => $post->user_id->id, 'channel_id' => $channel->id])->first();
+            $post->user_id->role->role_id = Role::where('id', $post->user_id->role->role_id)->first();
 
             $post->tags = PostTag::where('post_id',$post->id)->get();
             foreach($post->tags as $tag) {
                 $tag->tag_id = Tag::findOrFail($tag->tag_id);
             }
+
+            $post->images = Image::where('post_id', $post->id)->get();
+
+            !is_null(Image::where('post_id', $post->id)->first())
+            ? $post->has_images = 'yes'
+            : $post->has_images = 'no';
 
             if(Auth::check())
             {

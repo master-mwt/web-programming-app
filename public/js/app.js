@@ -56864,31 +56864,6 @@ function makeToast(title, body, delay) {
 
 var notifications = [];
 var postpath = window.location.protocol + "//" + window.location.host + "/discover/post/";
-
-function getUser(user_id) {
-  $.ajax({
-    method: "GET",
-    url: window.location.protocol + "//" + window.location.host + "/users/" + user_id,
-    success: function success(data, textStatus, XMLHTTPRequest) {
-      return data;
-    }
-  });
-}
-
-function getImageLocation(image_id) {
-  if (!image_id) {
-    return '/imgs/no_profile_img.jpg';
-  }
-
-  $.ajax({
-    method: "GET",
-    url: window.location.protocol + "//" + window.location.host + "/images/" + image_id,
-    success: function success(data, textStatus, XMLHTTPRequest) {
-      return data.location;
-    }
-  });
-}
-
 $(document).ready(function () {
   if (window.userIsLogged) {
     notification();
@@ -56918,11 +56893,37 @@ function addNotifications(newNotifications) {
   }
 
   notifications.forEach(function (entry) {
-    var user = getUser(entry.data.user_id);
-    var imageLocation = getImageLocation(user.image_id);
-    var notification = "<div class=\"media\">\n                                <img src=\"".concat(imageLocation, "\" alt=\"User Avatar\" class=\"img-size-50 mr-3 img-circle\">\n                                <div class=\"media-body\">\n                                    <h3 class=\"dropdown-item-title\">\n                                    ").concat(user.username, "\n                                    </h3>\n                                    <a href=\"").concat(postpath + entry.data.post_id, "?readnotification=").concat(entry.id, "\" class=\"text-sm\">").concat(entry.data.data, "</a>\n                                    <p class=\"text-sm text-muted\"><i class=\"far fa-clock mr-1\"></i> ").concat(entry.created_at, "</p>\n                                </div>\n                            </div>");
-    $('#notification-area').append(notification);
+    getUser(entry.data.user_id, entry);
   });
+}
+
+function getUser(user_id, entry) {
+  $.ajax({
+    method: "GET",
+    url: window.location.protocol + "//" + window.location.host + "/discover/user/" + user_id,
+    success: function success(data, textStatus, XMLHTTPRequest) {
+      getImageLocation(data, entry);
+    }
+  });
+}
+
+function getImageLocation(user, entry) {
+  if (!user.image_id) {
+    notify(user, '/imgs/no_profile_img.jpg', entry);
+  }
+
+  $.ajax({
+    method: "GET",
+    url: window.location.protocol + "//" + window.location.host + "/images/" + user.image_id,
+    success: function success(data, textStatus, XMLHTTPRequest) {
+      notify(user, data.location, entry);
+    }
+  });
+}
+
+function notify(user, imageLocation, entry) {
+  var notification = "<div class=\"media\">\n                                <img src=\"".concat(imageLocation, "\" alt=\"User Avatar\" class=\"img-size-50 mr-3 img-circle\">\n                                <div class=\"media-body\">\n                                    <h3 class=\"dropdown-item-title\">\n                                    ").concat(user.username, "\n                                    </h3>\n                                    <a href=\"").concat(postpath + entry.data.post_id, "?readnotification=").concat(entry.id, "\" class=\"text-sm\">").concat(entry.data.data, "</a>\n                                    <p class=\"text-sm text-muted\"><i class=\"far fa-clock mr-1\"></i> ").concat(entry.created_at, "</p>\n                                </div>\n                            </div>");
+  $('#notification-area').append(notification);
   makeToast('Notification', 'You have new notifications', 4000);
 }
 
