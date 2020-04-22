@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\NewComment;
+use App\Notifications\NewNotification;
 use Auth;
 use App\Comment;
 use Illuminate\Http\Request;
@@ -65,11 +65,11 @@ class CommentController extends Controller
                 continue;
             }
             $user = \App\User::find($single_comment->user_id);
-            $user->notify(new NewComment('New comment on reply in ' . $post->title . ' in ' . $channel->name . "!", $post->id));
+            $user->notify(new NewNotification('New comment on reply in ' . $post->title . ' in ' . $channel->name . "!", $post->id, $data['user_id']));
         }
 
         $author = \App\User::find($reply->user_id);
-        $author->notify(new NewComment('New comment on your reply in post ' . $post->title . ' in ' . $channel->name . "!", $post->id));
+        $author->notify(new NewNotification('New comment on your reply in post ' . $post->title . ' in ' . $channel->name . "!", $post->id, $data['user_id']));
         /* END NOTIFICATION */
 
         //return redirect('/comments/' . $comment->id);

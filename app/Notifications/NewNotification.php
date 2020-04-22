@@ -4,26 +4,28 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewPostOnChannel extends Notification implements ShouldQueue
+class NewNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $body;
     private $post_id;
+    private $user_id;
 
     /**
      * Create a new notification instance.
      *
      * @param $body
      * @param $post_id
+     * @param $user_id
      */
-    public function __construct($body, $post_id)
+    public function __construct($body, $post_id, $user_id)
     {
         $this->body = $body;
         $this->post_id = $post_id;
+        $this->user_id = $user_id;
     }
 
     /**
@@ -42,6 +44,7 @@ class NewPostOnChannel extends Notification implements ShouldQueue
         return [
             'data' => $this->body,
             'post_id' => $this->post_id,
+            'user_id' => $this->user_id,
         ];
     }
 }

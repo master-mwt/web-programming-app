@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\NewPostOnChannel;
+use App\Notifications\NewNotification;
 use App\Post;
 use App\PostTag;
 use App\Tag;
@@ -86,7 +86,7 @@ class PostController extends Controller
                 'images' => 'required',
                 'images.*' => 'required|image|mimes:jpeg,png,jpg|max:1024',
             ]);
-            
+
             //create the post if there are images
             $post = Post::create($data);
 
@@ -122,7 +122,7 @@ class PostController extends Controller
                 continue;
             }
             $user = \App\User::find($user_in_channel->user_id);
-            $user->notify(new NewPostOnChannel('New post on channel ' . $channel->name . "!", $post->id));
+            $user->notify(new NewNotification('New post on channel ' . $channel->name . "!", $post->id, $data['user_id']));
         }
         /* END NOTIFICATION */
 

@@ -41,10 +41,10 @@
         @guest
         @else
             <!-- Messages modal trigger -->
-            <button type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#messages_modal"><i class="far fa-comments"></i></button>
+            <button id="notification-button" type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#messages_modal"><i class="far fa-bell"></i></button>
 
             <!-- Notification modal trigger -->
-            <button id="notification-button" type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#notification_modal"><i class="far fa-bell"></i></button>
+{{--            <button id="notification-button" type="button" class="btn btn-outline-none" data-toggle="modal" data-target="#notification_modal"><i class="far fa-bell"></i></button>--}}
         @endguest
 
         <!-- Authentication Links -->
@@ -85,42 +85,23 @@
 <div class="modal fade" id="messages_modal" tabindex="-1" role="dialog" aria-labelledby="messages_modal_label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-body pb-0 px-3 pt-3">
-
-        <div class="media">
-            <img src="{{ URL::asset('/imgs/no_profile_img.jpg') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-            <div class="media-body">
-                <h3 class="dropdown-item-title">
-                User 1
-                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+            <!-- aggiunta -->
+            <div class="modal-header p-2 justify-content-center">
+                <h5 id="notification-count" class="m-0">No Notifications</h5>
             </div>
-        </div>
-
-        <div class="media">
-            <img src="{{ URL::asset('/imgs/no_profile_img.jpg') }}" alt="User Avatar" class="img-size-50 img-circle mr-3">
-            <div class="media-body">
-                <h3 class="dropdown-item-title">
-                User 3
-                <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 5 Hours Ago</p>
+            <!-- /aggiunta -->
+            <div id="notification-area" class="modal-body pb-0 px-3 pt-3">
             </div>
+            <div class="modal-footer p-2">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button onclick="location.href='{{ route('notification.clear') }}'" type="button" class="btn btn-outline-secondary">Dismiss All Messages</button>
             </div>
-        </div>
-
-        <div class="modal-footer p-2">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-outline-secondary">See All Messages</button>
-        </div>
         </div>
     </div>
 </div>
 
 <!-- Notification modal -->
+<!--
 <div class="modal fade" id="notification_modal" tabindex="-1" role="dialog" aria-labelledby="notification_modal_label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -136,3 +117,4 @@
         </div>
     </div>
 </div>
+-->

@@ -60,6 +60,10 @@ class ImageController extends Controller
         // return view('rest.image.show', compact(
         //     'image'
         // ));
+
+        if(request()->ajax()){
+            return response()->json($image, 200);
+        }
         abort(404);
     }
 

@@ -64,7 +64,11 @@ class UserController extends Controller
             $user->hardBanned = true;
         }
 
-        return view('rest.user.show', compact('user'));
+        if(request()->ajax()){
+            return response()->json($user, 200);
+        } else {
+            return view('rest.user.show', compact('user'));
+        }
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\NewReply;
+use App\Notifications\NewNotification;
 use Auth;
 use App\Reply;
 use Illuminate\Http\Request;
@@ -60,10 +60,10 @@ class ReplyController extends Controller
                 continue;
             }
             $user = \App\User::find($single_reply->user_id);
-            $user->notify(new NewReply('New reply on post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id']));
+            $user->notify(new NewNotification('New reply on post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id'], $data['user_id']));
         }
         $author = \App\User::find($post->user_id);
-        $author->notify(new NewReply('New reply on your post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id']));
+        $author->notify(new NewNotification('New reply on your post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id'], $data['user_id']));
         /* END NOTIFICATION */
 
         //return redirect('/replies/' . $reply->id);
