@@ -128,4 +128,10 @@ class UserController extends Controller
     {
         return auth()->user()->unreadNotifications()->get()->toArray();
     }
+
+    public function clearNotifications(){
+        auth()->user()->unreadNotifications()->delete();
+
+        return back();
+    }
 }

@@ -208,6 +208,7 @@ Route::group(['middleware' => ['auth']], function() {
     // AUTH:NOTIFICATIONS ROUTES
     //************************************************************
     Route::get('/notifications', 'UserController@notifications');
+    Route::get('/clearnotifications', 'UserController@clearNotifications')->name('notification.clear');
 
 });
 

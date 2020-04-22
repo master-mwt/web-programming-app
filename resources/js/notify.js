@@ -65,7 +65,7 @@ function addNotifications(newNotifications) {
     }
 
     notifications.forEach(function(entry) {
-        let notification = `<a href="${postpath + entry.data.post_id}" class="my-2">
+        let notification = `<a href="${postpath + entry.data.post_id}?readnotification=${entry.id}" class="my-2">
                                 <i class="fas fa-users mr-2"></i> ${entry.data.data}
                                 <span class="float-right text-muted text-sm">${entry.created_at}</span>
                             </a>`;

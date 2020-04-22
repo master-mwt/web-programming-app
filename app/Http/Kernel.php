@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
 
             // custom middlewares
             \App\Http\Middleware\CheckHardBanned::class,
+            \App\Http\Middleware\ReadNotification::class,
         ],
 
         'api' => [
