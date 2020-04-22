@@ -52,6 +52,14 @@ class PostController extends Controller
         $data['user_id'] = Auth::User()->id;
         $data['channel_id'] = $request->input('channel_id');
 
+        $this->authorize('create', [Post::class, $data['channel_id']]);
+
+        if(is_null($request->images))
+        {
+            //create the post if there are no images
+            $post = Post::create($data);
+        }
+
         if(!is_null($request->tags))
         {
             //retrieve tags from request
@@ -74,10 +82,14 @@ class PostController extends Controller
         if(!is_null($request->images))
         {
             //images validation
-            $request->validate([
+            $validator = $request->validate([
                 'images' => 'required',
                 'images.*' => 'required|image|mimes:jpeg,png,jpg|max:1024',
             ]);
+            
+            //create the post if there are images
+            $post = Post::create($data);
+
             //retrieve images from request
             $images = $request->images;
             //cycle counter (for unique naming, multiple upload)
@@ -94,14 +106,13 @@ class PostController extends Controller
                 $data2['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
                 $data2['location'] = '/imgs_cstm/posts/'.$imagename;
                 $data2['caption'] = $faker->sentence;
+                $data2['post_id'] = $post->id;
+
+                Image::create($data2);
 
                 $i++;
             }
         }
-
-        $this->authorize('create', [Post::class, $data['channel_id']]);
-
-        $post = Post::create($data);
 
         /* NOTIFICATION */
         $users_in_channel = UserChannelRole::where('channel_id', $data['channel_id'])->get();
@@ -151,23 +162,6 @@ class PostController extends Controller
 
                         abort(500);
                     }
-                }
-            }
-        }
-
-        if(!is_null($request->images))
-        {
-            foreach($images as $image){
-                DB::beginTransaction();
-                try {
-                    $image = Image::create($data2);
-                    //PostImage::create(['post_id' => $post->id, 'image_id' => $image->id]);
-
-                    DB::commit();
-                } catch(\Exception $e) {
-                    DB::rollBack();
-
-                    abort(500);
                 }
             }
         }

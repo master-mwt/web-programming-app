@@ -19,8 +19,14 @@ class CreateImagesTable extends Migration
             $table->string('size');
             $table->string('location');
             $table->string('caption')->nullable();
+            $table->bigInteger('post_id')->unsigned()->nullable();
             $table->timestamps();
         });
+
+        // Schema::table('images', function (Blueprint $table) {
+        //     $table->foreign('post_id')
+        //         ->references('id')->on('posts')->onDelete('cascade');
+        // });
     }
 
     /**

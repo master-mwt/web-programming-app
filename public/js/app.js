@@ -56893,7 +56893,7 @@ function addNotifications(newNotifications) {
   }
 
   notifications.forEach(function (entry) {
-    var notification = "<a href=\"".concat(postpath + entry.data.post_id, "\" class=\"my-2\">\n                                <i class=\"fas fa-users mr-2\"></i> ").concat(entry.data.data, "\n                                <span class=\"float-right text-muted text-sm\">").concat(entry.created_at, "</span>\n                            </a>");
+    var notification = "<a href=\"".concat(postpath + entry.data.post_id, "?readnotification=").concat(entry.id, "\" class=\"my-2\">\n                                <i class=\"fas fa-users mr-2\"></i> ").concat(entry.data.data, "\n                                <span class=\"float-right text-muted text-sm\">").concat(entry.created_at, "</span>\n                            </a>");
     $('#notification-area').append(notification);
   });
   makeToast('Notification', 'You have new notifications', 4000);

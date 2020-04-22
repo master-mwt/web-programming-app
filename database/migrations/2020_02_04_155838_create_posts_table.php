@@ -30,6 +30,11 @@ class CreatePostsTable extends Migration
             $table->foreign('channel_id')
                 ->references('id')->on('channels')->onDelete('cascade');
         });
+
+        Schema::table('images', function (Blueprint $table) {
+            $table->foreign('post_id')
+                ->references('id')->on('posts')->onDelete('cascade');
+        });
     }
 
     /**

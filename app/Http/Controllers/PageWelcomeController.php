@@ -44,6 +44,12 @@ class PageWelcomeController extends Controller
                 $tag->tag_id = Tag::findOrFail($tag->tag_id);
             }
 
+            $post->images = Image::where('post_id', $post->id)->get();
+
+            !is_null(Image::where('post_id', $post->id)->first())
+            ? $post->has_images = 'yes'
+            : $post->has_images = 'no';
+
             if(Auth::check())
             {
                 if(UserPostHidden::where(['user_id' => Auth::User()->id, 'post_id' => $post->id])->first()){
