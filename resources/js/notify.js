@@ -35,29 +35,6 @@ function makeToast(title, body, delay){
 let notifications = [];
 let postpath = window.location.protocol + "//" + window.location.host + "/discover/post/";
 
-function getUser(user_id){
-    $.ajax({
-        method: "GET",
-        url: window.location.protocol + "//" + window.location.host + "/discover/user/" + user_id,
-        success: function(data, textStatus, XMLHTTPRequest){
-            return data;
-        },
-    });
-}
-
-function getImageLocation(image_id){
-    if(!image_id){
-        return '/imgs/no_profile_img.jpg';
-    }
-    $.ajax({
-        method: "GET",
-        url: window.location.protocol + "//" + window.location.host + "/images/" + image_id,
-        success: function(data, textStatus, XMLHTTPRequest){
-            return data.location;
-        },
-    });
-}
-
 $(document).ready(function() {
     if(window.userIsLogged){
         notification();
@@ -88,10 +65,36 @@ function addNotifications(newNotifications) {
     }
 
     notifications.forEach(function(entry) {
-        let user = getUser(entry.data.user_id);
-        let imageLocation = getImageLocation(user.image_id);
+        getUser(entry.data.user_id, entry);
+    });
+}
 
-        let notification = `<div class="media">
+function getUser(user_id, entry){
+    $.ajax({
+        method: "GET",
+        url: window.location.protocol + "//" + window.location.host + "/discover/user/" + user_id,
+        success: function(data, textStatus, XMLHTTPRequest){
+            getImageLocation(data, entry);
+        },
+    });
+}
+
+function getImageLocation(user, entry){
+    if(!user.image_id){
+        notify(user, '/imgs/no_profile_img.jpg', entry);
+    }
+    $.ajax({
+        method: "GET",
+        url: window.location.protocol + "//" + window.location.host + "/images/" + user.image_id,
+        success: function(data, textStatus, XMLHTTPRequest){
+            notify(user, data.location, entry);
+        },
+    });
+}
+
+function notify(user, imageLocation, entry){
+
+    let notification = `<div class="media">
                                 <img src="${imageLocation}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -102,8 +105,7 @@ function addNotifications(newNotifications) {
                                 </div>
                             </div>`;
 
-        $('#notification-area').append(notification);
-    });
+    $('#notification-area').append(notification);
 
     makeToast('Notification', 'You have new notifications', 4000);
 }
