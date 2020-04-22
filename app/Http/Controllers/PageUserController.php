@@ -27,6 +27,10 @@ class PageUserController extends Controller
         if(is_null($user))
             abort(404);
 
+        if(request()->ajax()){
+            return response()->json($user, 200);
+        }
+
         $user->image = Image::where('id', $user->image_id)->first();
 
         if(UserHardBanned::where('user_id', $user->id)->first()){

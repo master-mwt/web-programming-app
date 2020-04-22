@@ -38,7 +38,7 @@ let postpath = window.location.protocol + "//" + window.location.host + "/discov
 function getUser(user_id){
     $.ajax({
         method: "GET",
-        url: window.location.protocol + "//" + window.location.host + "/users/" + user_id,
+        url: window.location.protocol + "//" + window.location.host + "/discover/user/" + user_id,
         success: function(data, textStatus, XMLHTTPRequest){
             return data;
         },
@@ -90,7 +90,7 @@ function addNotifications(newNotifications) {
     notifications.forEach(function(entry) {
         let user = getUser(entry.data.user_id);
         let imageLocation = getImageLocation(user.image_id);
-        
+
         let notification = `<div class="media">
                                 <img src="${imageLocation}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
