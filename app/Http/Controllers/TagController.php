@@ -43,9 +43,16 @@ class TagController extends Controller
     {
         $data = $this->validateData();
 
-        $tag = Tag::create($data);
-
-        return redirect('/tags/' . $tag->id);
+        if($data['name'][0] != '#')
+            $data['name'] = '#'.$data['name'];
+        
+        $tag_check = Tag::where('name', $data['name'])->first();
+        if(is_null($tag_check)){
+            $tag = Tag::create($data);
+            return redirect('/tags/' . $tag->id);
+        } else {
+            abort(500);
+        }
     }
 
     /**
@@ -84,10 +91,17 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         $data = $this->validateData();
+        
+        if($data['name'][0] != '#')
+            $data['name'] = '#'.$data['name'];
 
-        $tag->update($data);
-
-        return redirect('/tags/' . $tag->id);
+        $tag_check = Tag::where('name', $data['name'])->first();
+        if(is_null($tag_check)){
+            $tag->update($data);
+            return redirect('/tags/' . $tag->id);
+        } else {
+            abort(500);
+        }
     }
 
     /**

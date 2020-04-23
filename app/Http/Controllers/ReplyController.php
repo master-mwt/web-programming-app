@@ -16,11 +16,12 @@ class ReplyController extends Controller
      */
     public function index()
     {
-        $replies = Reply::all();
+        // $replies = Reply::all();
 
-        return view('rest.reply.index', compact(
-            'replies'
-        ));
+        // return view('rest.reply.index', compact(
+        //     'replies'
+        // ));
+        abort(404);
     }
 
     /**
@@ -30,7 +31,8 @@ class ReplyController extends Controller
      */
     public function create()
     {
-        return view('rest.reply.create');
+        // return view('rest.reply.create');
+        abort(404);
     }
 
     /**
@@ -91,9 +93,10 @@ class ReplyController extends Controller
      */
     public function edit(Reply $reply)
     {
-        return view('rest.reply.edit', compact(
-            'reply'
-        ));
+        // return view('rest.reply.edit', compact(
+        //     'reply'
+        // ));
+        abort(404);
     }
 
     /**
@@ -105,11 +108,12 @@ class ReplyController extends Controller
      */
     public function update(Request $request, Reply $reply)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $reply->update($data);
+        // $reply->update($data);
 
-        return redirect('/replies/' . $reply->id);
+        // return redirect('/replies/' . $reply->id);
+        abort(404);
     }
 
     /**

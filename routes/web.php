@@ -95,12 +95,12 @@ Route::group(['middleware' => ['admin']], function() {
     Route::resource('/users', 'UserController');
     Route::resource('/channels', 'ChannelController');
     Route::resource('/comments', 'CommentController');
-    Route::resource('/groups', 'GroupController');
+    //Route::resource('/groups', 'GroupController');
     Route::resource('/images', 'ImageController');
     Route::resource('/posts', 'PostController');
     Route::resource('/replies', 'ReplyController');
-    Route::resource('/roles', 'RoleController');
-    Route::resource('/services', 'ServiceController');
+    //Route::resource('/roles', 'RoleController');
+    //Route::resource('/services', 'ServiceController');
     Route::resource('/tags', 'TagController');
 
     //************************************************************

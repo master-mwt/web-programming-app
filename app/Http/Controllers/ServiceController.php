@@ -14,11 +14,12 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::all();
+        // $services = Service::all();
 
-        return view('rest.service.index', compact(
-            'services'
-        ));
+        // return view('rest.service.index', compact(
+        //     'services'
+        // ));
+        abort(404);
     }
 
     /**
@@ -28,7 +29,8 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view('rest.service.create');
+        // return view('rest.service.create');
+        abort(404);
     }
 
     /**
@@ -39,11 +41,12 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $service = Service::create($data);
+        // $service = Service::create($data);
 
-        return redirect('/services/' . $service->id);
+        // return redirect('/services/' . $service->id);
+        abort(404);
     }
 
     /**
@@ -54,9 +57,10 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        return view('rest.service.show', compact(
-            'service'
-        ));
+        // return view('rest.service.show', compact(
+        //     'service'
+        // ));
+        abort(404);
     }
 
     /**
@@ -67,9 +71,10 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        return view('rest.service.edit', compact(
-            'service'
-        ));
+        // return view('rest.service.edit', compact(
+        //     'service'
+        // ));
+        abort(404);
     }
 
     /**
@@ -81,11 +86,12 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $service->update($data);
+        // $service->update($data);
 
-        return redirect('/services/' . $service->id);
+        // return redirect('/services/' . $service->id);
+        abort(404);
     }
 
     /**
@@ -96,8 +102,9 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        $service->delete();
-        return redirect('/services');
+        // $service->delete();
+        // return redirect('/services');
+        abort(404);
     }
 
 

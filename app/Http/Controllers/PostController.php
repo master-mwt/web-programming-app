@@ -22,11 +22,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        // $posts = Post::all();
 
-        return view('rest.post.index', compact(
-            'posts'
-        ));
+        // return view('rest.post.index', compact(
+        //     'posts'
+        // ));
+        abort(404);
     }
 
     /**
@@ -36,7 +37,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('rest.post.create');
+        // return view('rest.post.create');
+        abort(404);
     }
 
     /**
@@ -190,9 +192,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('rest.post.edit', compact(
-            'post'
-        ));
+        // return view('rest.post.edit', compact(
+        //     'post'
+        // ));
+        abort(404);
     }
 
     /**
@@ -204,11 +207,12 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $post->update($data);
+        // $post->update($data);
 
-        return redirect('/posts/' . $post->id);
+        // return redirect('/posts/' . $post->id);
+        abort(404);
     }
 
     /**

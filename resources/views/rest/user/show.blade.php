@@ -70,19 +70,12 @@
                         @endif
                     </div>
                     <div class="card-footer">
-                        @if(Auth::User()->group_id == 1)
-                            <form class="d-inline" action="/users/{{ $user->id }}" method="post">
-                                @method('delete')
-                                @csrf
-                                <button class="btn btn-dark float-right">delete</button>
-                            </form>
-                        @endif
-                        <a href="/users/{{ $user->id }}/edit" class="btn btn-success float-right mr-2" role="button">edit</a>
-                        @if(Auth::User()->group_id == 1)
+                        <a href="/users/{{ $user->id }}/edit" class="btn btn-success float-right" role="button">edit</a>
+                        @if(Auth::User()->group_id == 1 && Auth::check() && Auth::User()->id != $user->id)
                             @if($user->hardBanned === true)
-                                <a href="{{route('backend.user.unhardban', $user)}}" class="btn btn-danger float-right mr-2" role="button">remove hardban</a>
+                                <a href="{{route('backend.user.unhardban', $user)}}" class="btn btn-danger float-left" role="button">remove hardban</a>
                             @else
-                                <a href="{{route('backend.user.hardban', $user)}}" class="btn btn-danger float-right mr-2" role="button">hardban</a>
+                                <a href="{{route('backend.user.hardban', $user)}}" class="btn btn-danger float-left" role="button">hardban</a>
                             @endif
                         @endif
                     </div>

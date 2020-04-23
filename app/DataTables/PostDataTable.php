@@ -25,7 +25,6 @@ class PostDataTable extends DataTable
                 return 
                 '<div class="d-flex flex-column">
                     <a href="/posts/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
-                    <a href="/posts/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
                 </div>';
             })
             ->rawColumns(['action']);
@@ -57,7 +56,7 @@ class PostDataTable extends DataTable
                     ->orderBy(1, 'asc')
                     ->buttons(
                         Button::make('pageLength'),
-                        Button::make('create')->action("window.location='".route('posts.create')."';"),
+                        // Button::make('create')->action("window.location='".route('posts.create')."';"),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),

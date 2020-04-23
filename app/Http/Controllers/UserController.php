@@ -106,7 +106,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // TODO: is it okay to delete users ?
         abort(404);
     }
 

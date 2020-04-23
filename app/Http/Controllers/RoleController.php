@@ -14,11 +14,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        // $roles = Role::all();
 
-        return view('rest.role.index', compact(
-            'roles'
-        ));
+        // return view('rest.role.index', compact(
+        //     'roles'
+        // ));
+        abort(404);
     }
 
     /**
@@ -28,7 +29,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('rest.role.create');
+        // return view('rest.role.create');
+        abort(404);
     }
 
     /**
@@ -39,11 +41,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $role = Role::create($data);
+        // $role = Role::create($data);
 
-        return redirect('/roles/' . $role->id);
+        // return redirect('/roles/' . $role->id);
+        abort(404);
     }
 
     /**
@@ -54,9 +57,10 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        return view('rest.role.show', compact(
-            'role'
-        ));
+        // return view('rest.role.show', compact(
+        //     'role'
+        // ));
+        abort(404);
     }
 
     /**
@@ -67,9 +71,10 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('rest.role.edit', compact(
-            'role'
-        ));
+        // return view('rest.role.edit', compact(
+        //     'role'
+        // ));
+        abort(404);
     }
 
     /**
@@ -81,11 +86,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $data = $this->validateData();
+        // $data = $this->validateData();
 
-        $role->update($data);
+        // $role->update($data);
 
-        return redirect('/roles/' . $role->id);
+        // return redirect('/roles/' . $role->id);
+        abort(404);
     }
 
     /**
@@ -96,8 +102,9 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $role->delete();
-        return redirect('/roles');
+        // $role->delete();
+        // return redirect('/roles');
+        abort(404);
     }
 
 
