@@ -114,16 +114,8 @@ class TagController extends Controller
     {
         $tag->delete();
         
-        if(auth()->user()->group_id == 1)
-        {
-            return redirect('/backend/tags');
-        }
-        else 
-        {
-            return redirect('/tags');
-        }
+        return redirect('/backend/tags');
     }
-
 
     private function validateData()
     {

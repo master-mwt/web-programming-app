@@ -17,16 +17,14 @@
                     <h5 class="m-0"><b>birth date</b><span class="ml-4 text-muted">{{ $user->birth_date }}</span></h5>
                 </div>
                 <div class="card-footer">
-                    <div class="float-right">
-                        <a role="button" href="{{ route('discover.user.posts', $user->id) }}" class="btn btn-dark mr-1"><i class="fas fa-eye mr-2"></i>See Posts</a>
-                        @if(Auth::check() && Auth::User()->group_id == 1)
-                            @if($user->hardBanned === true)
-                                <a href="{{route('backend.user.unhardban', $user)}}" class="btn btn-danger float-right mr-2" role="button">Remove hardban</a>
-                            @else
-                                <a href="{{route('backend.user.hardban', $user)}}" class="btn btn-danger float-right mr-2" role="button">Hardban</a>
-                            @endif
+                    <a role="button" href="{{ route('discover.user.posts', $user->id) }}" class="btn btn-dark float-right"><i class="fas fa-eye mr-2"></i>See Posts</a>
+                    @if(Auth::check() && Auth::User()->group_id == 1 && Auth::User()->id != $user->id)
+                        @if($user->hardBanned === true)
+                            <a href="{{route('backend.user.unhardban', $user)}}" class="btn btn-danger float-left" role="button">Remove hardban</a>
+                        @else
+                            <a href="{{route('backend.user.hardban', $user)}}" class="btn btn-danger float-left" role="button">Hardban</a>
                         @endif
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
