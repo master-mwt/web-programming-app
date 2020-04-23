@@ -64,8 +64,10 @@ class ReplyController extends Controller
             $user = \App\User::find($single_reply->user_id);
             $user->notify(new NewNotification('New reply on post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id'], $data['user_id']));
         }
-        $author = \App\User::find($post->user_id);
-        $author->notify(new NewNotification('New reply on your post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id'], $data['user_id']));
+        if($data['user_id'] !== $post->user_id){
+            $author = \App\User::find($post->user_id);
+            $author->notify(new NewNotification('New reply on your post ' . $post->title . ' in ' . $channel->name . "!", $data['post_id'], $data['user_id']));
+        }
         /* END NOTIFICATION */
 
         //return redirect('/replies/' . $reply->id);

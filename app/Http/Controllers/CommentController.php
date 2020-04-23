@@ -68,8 +68,10 @@ class CommentController extends Controller
             $user->notify(new NewNotification('New comment on reply in ' . $post->title . ' in ' . $channel->name . "!", $post->id, $data['user_id']));
         }
 
-        $author = \App\User::find($reply->user_id);
-        $author->notify(new NewNotification('New comment on your reply in post ' . $post->title . ' in ' . $channel->name . "!", $post->id, $data['user_id']));
+        if($data['user_id'] !== $reply->user_id){
+            $author = \App\User::find($reply->user_id);
+            $author->notify(new NewNotification('New comment on your reply in post ' . $post->title . ' in ' . $channel->name . "!", $post->id, $data['user_id']));
+        }
         /* END NOTIFICATION */
 
         //return redirect('/comments/' . $comment->id);

@@ -90,10 +90,24 @@ class ReplyPolicy
         $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $reply->channel_id])->first();
 
         if(!$user_channel_role){
-            return Response::deny();
+            if($reply->user_id === $user->id){
+                return Response::allow();
+            } else {
+                return Response::deny();
+            }
         } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
-                ? Response::deny() : Response::allow();
+            $role_creator = \App\Role::where('name', 'creator')->first()->id;
+            $role_admin = \App\Role::where('name', 'admin')->first()->id;
+
+            if(is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())){
+                return Response::deny();
+            } else {
+                if($user_channel_role->role_id === $role_creator || $user_channel_role->role_id === $role_admin || $reply->user_id === $user->id){
+                    return Response::allow();
+                } else {
+                    return Response::deny();
+                }
+            }
         }
     }
 

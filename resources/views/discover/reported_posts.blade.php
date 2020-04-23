@@ -9,7 +9,7 @@
 
         <div class="col-md-12 text-center infinite-scroll px-0">
         @forelse($posts as $post)
-            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+            <div id="post-{{$post->post_id->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #222">
                     @if($post->upvoted == 'Upvote')
                         <a id="post-{{ $post->post_id->id }}-upvote" href="{{ route('post.upvote', $post->post_id) }}" class="upvote"><i class="fas fa-arrow-up mb-1"></i></a>
@@ -65,6 +65,7 @@
                             <a href="{{route('login')}}" class="text-decoration-none mr-2"><i class="far fa-eye-slash mr-1"></i>Hide</a>
                         @endif
                         <a href="{{route('post.globalunreport', $post->post_id)}}" class="float-right text-decoration-none text-danger mr-2"><i class="fas fa-flag-checkered mr-1"></i>Globally Unreport</a>
+                        <a href="{{route('post.delete', $post->post_id)}}" class="float-right text-decoration-none text-danger mr-2 delete"><i class="fas fa-exclamation-triangle mr-1"></i>Delete</a>
                     </div>
                 </div>
             </div>

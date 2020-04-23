@@ -117,7 +117,7 @@
 
         <div class="col-md-12 text-center infinite-scroll px-0">
         @foreach($replies as $reply)
-            <div class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
+            <div id="reply-{{$reply->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
                     @if($reply->upvoted == 'Upvote')
                         <a id="reply-{{ $reply->id }}-upvote" href="{{ route('reply.upvote', $reply) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
@@ -168,13 +168,16 @@
                         @else
                         <a href="#comment-collapse-{{$reply->id}}" class="text-decoration-none float-right" data-toggle="collapse"><i class="fas fa-eye mr-2"></i>See Comments</a>
                         @endif
+
+                        <a href="@guest {{route('login')}} @else {{ route('reply.delete', $reply) }} @endguest" class="text-decoration-none mr-2 text-danger replydelete"><i class="fa fa-exclamation-triangle"></i> Delete Reply</a>
+
                     </div>
 
                     @if(count($reply->comments) == 0)
                     @else
                     <div class="pl-2 pr-2 pt-2 collapse" id="comment-collapse-{{$reply->id}}">
                         @forelse($reply->comments as $comment)
-                            <div class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0 mb-2" style="max-width: 800px">
+                            <div id="comment-{{$comment->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0 m-0 border-0 mb-2" style="max-width: 800px">
                                 <div class="w-100">
                                     <div class="card-header text-left border-0 px-3">
                                         <p class="m-0 mb-1">
@@ -184,6 +187,9 @@
                                     </div>
                                     <div class="card-body text-left px-3 py-1">
                                         <div class="markdown-content" data-markdown-content="{{ $comment->content }}"></div>
+                                    </div>
+                                    <div class="card-footer border-0 p-1 px-3 text-left" style="border-bottom-left-radius: 0px">
+                                        <a href="@guest {{route('login')}} @else {{ route('comment.delete', $comment) }} @endguest" class="text-decoration-none mr-2 text-danger commentdelete"><i class="fa fa-exclamation-triangle"></i> Delete Comment</a>
                                     </div>
                                 </div>
                             </div>
