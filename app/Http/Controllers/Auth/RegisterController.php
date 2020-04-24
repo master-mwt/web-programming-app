@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Image;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -76,6 +77,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'group_id' => Group::where('name', 'logged')->first()->id,
+            'image_id' => Image::where('location', '/imgs/no_profile_img.jpg')->first()->id,
         ]);
     }
 }

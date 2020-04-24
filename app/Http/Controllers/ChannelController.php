@@ -48,6 +48,9 @@ class ChannelController extends Controller
 
         $this->authorize('create', Channel::class);
 
+        $image_channel_default = \App\Image::where('location', '/imgs/no_channel_img.jpg')->first();
+        $data['image_id'] = $image_channel_default->id;
+
         DB::beginTransaction();
         try {
             $channel = Channel::create($data);

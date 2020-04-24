@@ -23,6 +23,7 @@ use App\UserReplyUpvoted;
 use Illuminate\Http\Request;
 use Faker\Generator as Faker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class PageHomeController extends Controller
 {
@@ -514,20 +515,26 @@ class PageHomeController extends Controller
         $imagename = time().'.'.$request->image->extension();
 
         $request->image->move(public_path('imgs_cstm/users'), $imagename);
-        
+
         $imagegetsize = getimagesize('imgs_cstm/users/'.$imagename);
 
         $data['type'] = $imagegetsize['mime'];
         $data['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
         $data['location'] = '/imgs_cstm/users/'.$imagename;
         $data['caption'] = $faker->sentence;
-        
+
         $user = Auth::User();
-        
+
         DB::beginTransaction();
         try {
             $image = Image::create($data);
             User::where('id', $user->id)->update(['image_id' => $image->id]);
+
+            $oldImagePath = Image::where('id', $user->image_id)->first();
+            if($oldImagePath->location !== '/imgs/no_profile_img.jpg'){
+                File::delete(public_path($oldImagePath->location));
+                $oldImagePath->delete();
+            }
 
             DB::commit();
         } catch(\Exception $e) {

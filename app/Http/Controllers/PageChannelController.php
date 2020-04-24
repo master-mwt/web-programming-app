@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\File;
 
 class PageChannelController extends Controller
 {
@@ -550,7 +551,7 @@ class PageChannelController extends Controller
     }
 
     public function imageUpload($id)
-    {   
+    {
         $channel = Channel::findOrFail($id);
 
         return view('dashboard.channel_image_upload', [
@@ -563,25 +564,33 @@ class PageChannelController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
         ]);
-        
+
         //get current channel
         $channel_id = $request->input('channel_id');
 
         $imagename = time().'.'.$request->image->extension();
 
         $request->image->move(public_path('imgs_cstm/channels'), $imagename);
-        
+
         $imagegetsize = getimagesize('imgs_cstm/channels/'.$imagename);
 
         $data['type'] = $imagegetsize['mime'];
         $data['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
         $data['location'] = '/imgs_cstm/channels/'.$imagename;
         $data['caption'] = $faker->sentence;
-        
+
+        $channel = Channel::where('id', $channel_id)->first();
+
         DB::beginTransaction();
         try {
             $image = Image::create($data);
             Channel::where('id', $channel_id)->update(['image_id' => $image->id]);
+
+            $oldImagePath = Image::where('id', $channel->image_id)->first();
+            if($oldImagePath->location !== '/imgs/no_channel_img.jpg'){
+                File::delete(public_path($oldImagePath->location));
+                $oldImagePath->delete();
+            }
 
             DB::commit();
         } catch(\Exception $e) {
