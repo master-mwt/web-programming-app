@@ -211,6 +211,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/notifications', 'UserController@notifications');
     Route::get('/clearnotifications', 'UserController@clearNotifications')->name('notification.clear');
 
+    //************************************************************
+    // AUTH:ACTIONS ROUTES
+    //************************************************************
+    Route::get('/channels/{channel}/removeimage', 'PageChannelController@removeImage')->name('channel.removeimage');
+    Route::get('/users/{user}/removeimage', 'PageHomeController@removeImage')->name('user.removeimage');
+
 });
 
 

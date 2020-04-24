@@ -603,4 +603,28 @@ class PageChannelController extends Controller
         ->with('success', 'you have successfully upload image')
         ->with('image', $imagename);
     }
+
+    public function removeImage(Channel $channel)
+    {
+        $image_channel_default = \App\Image::where('location', '/imgs/no_channel_img.jpg')->first();
+        $oldImagePath = Image::where('id', $channel->image_id)->first();
+
+        if($oldImagePath->location !== '/imgs/no_channel_img.jpg'){
+            DB::beginTransaction();
+            try {
+                File::delete(public_path($oldImagePath->location));
+                $channel->image_id = $image_channel_default->id;
+                $channel->save();
+                $oldImagePath->delete();
+
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollBack();
+
+                abort(500);
+            }
+        }
+
+        return back();
+    }
 }

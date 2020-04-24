@@ -547,4 +547,28 @@ class PageHomeController extends Controller
         ->with('success', 'you have successfully upload image')
         ->with('image', $imagename);
     }
+
+    public function removeImage(User $user)
+    {
+        $image_user_default = \App\Image::where('location', '/imgs/no_profile_img.jpg')->first();
+        $oldImagePath = Image::where('id', $user->image_id)->first();
+
+        if($oldImagePath->location !== '/imgs/no_profile_img.jpg'){
+            DB::beginTransaction();
+            try {
+                File::delete(public_path($oldImagePath->location));
+                $user->image_id = $image_user_default->id;
+                $user->save();
+                $oldImagePath->delete();
+
+                DB::commit();
+            } catch(\Exception $e){
+                DB::rollBack();
+
+                abort(500);
+            }
+        }
+
+        return back();
+    }
 }

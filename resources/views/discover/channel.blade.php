@@ -17,7 +17,8 @@
                     @elseif($channel->joined == 'Leave' && $channel->member->role_id->name == 'creator')
                     <div class="d-flex flex-column ml-auto">
                         <button class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#delete-modal">DELETE CHANNEL</button>
-                        <a role="button" href="{{ route('home.channel.image.upload', $channel->id) }}" class="btn btn-outline-success">CHANGE IMAGE</a>
+                        <a role="button" href="{{ route('home.channel.image.upload', $channel->id) }}" class="btn btn-outline-success mb-2">CHANGE IMAGE</a>
+                        <a role="button" href="{{ route('channel.removeimage', $channel) }}" class="btn btn-outline-success">REMOVE IMAGE</a>
                     </div>
                     @elseif($channel->joined == 'Leave')
                         <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning ml-auto">LEAVE</button>
@@ -53,7 +54,7 @@
                     @foreach($errors->all() as $error)
                         <li>{{$error}}</li>
                     @endforeach
-                </ul>    
+                </ul>
             </div>
         @endif
 
@@ -92,7 +93,7 @@
                     @endif
                 </div>
                 <div class="col p-0 d-flex flex-column overflow-auto">
-                    
+
                     <style>
                         .carousel-control-prev:hover,
                         .carousel-control-next:hover
@@ -225,7 +226,7 @@
                         <input name="title" type="text" class="form-control mb-3" id="title" placeholder="Title">
                         {{ Form::hidden('channel_id', $channel->id) }}
                         <textarea name="content" id="easymde-area" cols="" rows=""></textarea>
-                        
+
                         <!-- temp style block -->
                         <style>
                             .ui-autocomplete {
@@ -235,7 +236,7 @@
                             }
                         </style>
                         <!-- end temp style block -->
-                        
+
                         <div id="tags-area-container">
                             <textarea name="tags" id="tags-area" cols="" rows="" class="col p-2 rounded" placeholder="Tags"></textarea>
                         </div>
@@ -306,7 +307,7 @@
             function extractLast( term ) {
             return split( term ).pop();
             }
-        
+
             $( "#tags-area" )
             // don't navigate away from the field on tab when selecting an item
             .on( "keydown", function( event ) {
