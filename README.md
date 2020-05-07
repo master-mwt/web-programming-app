@@ -2,7 +2,7 @@
 
 ## Application
 
-description
+Reddit/Stack-Overflow clone Laravel social application
 
 ## Manual Installation
 
