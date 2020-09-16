@@ -277,7 +277,6 @@
             showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'clean-block', 'horizontal-rule'],
             element: document.getElementById('easymde-area-reply'),
             initialValue: '',
-            //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
             insertTexts: {
                 image: ["<img src=\"","\" width=\"\" heigth=\"\">"],
             },

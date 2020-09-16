@@ -221,7 +221,6 @@
                     </div>
                     <div class="modal-body">
                         <!-- MODAL CONTENT -->
-                        <!-- TODO: VALIDATION AND ERROR CONTROL -->
                         <input name="images[]" type="file" class="form-control-file mb-3" id="images" multiple>
                         <input name="title" type="text" class="form-control mb-3" id="title" placeholder="Title">
                         {{ Form::hidden('channel_id', $channel->id) }}
@@ -290,7 +289,6 @@
             showIcons: ['strikethrough', 'code', 'table', 'redo', 'heading', 'undo', 'heading-bigger', 'heading-smaller', 'clean-block', 'horizontal-rule'],
             element: document.getElementById('easymde-area'),
             initialValue: '',
-            //TODO: insertTexts (horizontalRule, link, IMAGE, table) customize how buttons that insert text behave
             insertTexts: {
                 image: ["<img src=\"","\" width=\"\" heigth=\"\">"],
             },
