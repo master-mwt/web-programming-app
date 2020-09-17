@@ -200,12 +200,12 @@
 
         <li class="nav-header px-0 px-3">INFO</li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a href="{{ route('help') }}" class="nav-link">
             <i class="nav-icon fas fa-question-circle"></i>
             <p>Help</p>
             </a>
-        </li>
+        </li> -->
 
         <li class="nav-item">
             <a href="{{ route('about') }}" class="nav-link">
@@ -217,7 +217,7 @@
         <li class="nav-item">
             <a href="{{ route('contact') }}" class="nav-link">
             <i class="nav-icon fas fa-address-book"></i>
-            <p>Contact Us</p>
+            <p>Contact</p>
             </a>
         </li>
     </ul>

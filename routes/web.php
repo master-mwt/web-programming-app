@@ -21,7 +21,7 @@
 //************************************************************
 Route::get('/', 'PageWelcomeController@index')->name('welcome');
 Route::get('/search', 'PageWelcomeController@search')->name('search');
-Route::get('/help', 'PageWelcomeController@help')->name('help');
+// Route::get('/help', 'PageWelcomeController@help')->name('help');
 Route::get('/about', 'PageWelcomeController@about')->name('about');
 Route::get('/contact', 'PageWelcomeController@contact')->name('contact');
 
