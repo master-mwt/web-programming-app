@@ -17,7 +17,7 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="{{ route('backend.channels') }}" class="nav-link">
-                    <i class="fas fa-check nav-icon"></i>
+                    <i class="far fa-circle nav-icon"></i>
                     <p>Channels</p>
                     </a>
                 </li>
@@ -29,31 +29,31 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.posts') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Posts</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.replies') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Replies</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.comments') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Comments</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.users') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Users</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('backend.logs') }}" class="nav-link">
-                        <i class="fas fa-check nav-icon"></i>
+                        <i class="far fa-circle nav-icon"></i>
                         <p>Logs</p>
                     </a>
                 </li>

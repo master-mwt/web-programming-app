@@ -230,7 +230,7 @@ class PostController extends Controller
         if(request()->ajax()){
             return response()->json(null, 204);
         } else {
-            return redirect('/posts');
+            return redirect('/backend/posts');
         }
     }
 

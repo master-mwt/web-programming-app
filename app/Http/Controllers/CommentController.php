@@ -137,7 +137,7 @@ class CommentController extends Controller
         if(request()->ajax()){
             return response()->json(null, 204);
         } else {
-            return redirect('/comments');
+            return redirect('/backend/comments');
         }
     }
 

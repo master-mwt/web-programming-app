@@ -133,7 +133,7 @@ class ReplyController extends Controller
         if(request()->ajax()){
             return response()->json(null, 204);
         } else {
-            return redirect('/replies');
+            return redirect('/backend/replies');
         }
     }
 

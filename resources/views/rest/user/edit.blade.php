@@ -62,6 +62,7 @@
                                         @error('email') <span class="text-primary">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
+                                @if(Auth::check() && Auth::User()->group_id == 1)
                                 <div class="row">
                                     <div class="form-group col">
                                         <label for="group_id">group_id</label>
@@ -69,6 +70,10 @@
                                         @error('group_id') <span class="text-primary">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
+                                @endif
+                                @if(Auth::check() && Auth::User()->group_id == 2)
+                                    {{ Form::hidden('group_id', $user->group_id) }}
+                                @endif
                             </div>
                         <div class="card-footer">
                             <button class="btn btn-success float-right" type="submit">save</button>

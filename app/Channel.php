@@ -35,10 +35,10 @@ class Channel extends Model
     }
 
     public function image() {
-        return $this->hasOne('\App\Image', 'image_id');
+        return $this->hasOne('\App\Image', 'id');
     }
 
     public function creator() {
-        return $this->hasOne('\App\User', 'creator_id');
+        return $this->hasOne('\App\User', 'id');
     }
 }
