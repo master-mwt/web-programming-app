@@ -330,6 +330,7 @@ class PagePostController extends Controller
         UserPostReported::where('post_id', $post->id)->delete();
 
         // TODO: refresh on return missing (redirect() ?)
-        return response()->json(null, 204);
+        return redirect()->route('discover.channel.reported_posts', ['id' => $post->channel->id]);
+        // return response()->json(null, 204);
     }
 }
