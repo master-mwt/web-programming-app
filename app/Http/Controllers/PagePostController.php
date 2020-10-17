@@ -329,6 +329,7 @@ class PagePostController extends Controller
 
         UserPostReported::where('post_id', $post->id)->delete();
 
+        // TODO: refresh on return missing (redirect() ?)
         return response()->json(null, 204);
     }
 }

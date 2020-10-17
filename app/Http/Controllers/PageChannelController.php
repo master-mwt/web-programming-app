@@ -65,7 +65,22 @@ class PageChannelController extends Controller
         foreach($posts as $key => $post) {
             $post->user_id = User::findOrFail($post->user_id);
             $post->user_id->role = UserChannelRole::where(['user_id' => $post->user_id->id, 'channel_id' => $channel->id])->first();
-            $post->user_id->role->role_id = Role::where('id', $post->user_id->role->role_id)->first();
+            if(!$post->user_id->role) {
+                // user is administrator or has leaved channel
+                if($post->user_id->group_id == 1) {
+                    // user is administrator
+                    $administrator = new \App\Role();
+                    $administrator->name = 'administrator';
+                    $post->user_id->role = (object)['role_id' => $administrator];
+                } else {
+                    // user has leaved
+                    $leaved = new \App\Role();
+                    $leaved->name = 'no more member';
+                    $post->user_id->role = (object)['role_id' => $leaved];
+                }
+            } else {
+                $post->user_id->role->role_id = Role::where('id', $post->user_id->role->role_id)->first();
+            }
 
             $post->tags = PostTag::where('post_id',$post->id)->get();
             foreach($post->tags as $tag) {
