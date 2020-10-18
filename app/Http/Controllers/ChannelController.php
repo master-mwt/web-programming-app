@@ -7,6 +7,7 @@ use App\UserChannelRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ChannelController extends Controller
 {
@@ -65,6 +66,8 @@ class ChannelController extends Controller
 
             abort(500);
         }
+
+        Log::info('User ' . auth()->user()->id . ' (' . auth()->user()->username .  ')' . ' has created channel ' . $channel->id . ' (' . $channel->name .  ')');
 
         if(auth()->user()->group_id == 1)
         {
@@ -129,6 +132,8 @@ class ChannelController extends Controller
         $this->authorize('delete', $channel);
 
         $channel->delete();
+
+        Log::info('User ' . auth()->user()->id . ' (' . auth()->user()->username .  ')' . ' has deleted channel ' . $channel->id . ' (' . $channel->name .  ')');
 
         if(auth()->user()->group_id == 1)
         {

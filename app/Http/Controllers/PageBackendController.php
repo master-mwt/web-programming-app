@@ -11,6 +11,7 @@ use App\DataTables\UserDataTable;
 use App\User;
 use App\UserHardBanned;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PageBackendController extends Controller
 {
@@ -56,6 +57,8 @@ class PageBackendController extends Controller
 
         UserHardBanned::create(['user_id' => $user->id]);
 
+        Log::info('User ' . auth()->user()->id . ' (' . auth()->user()->username .  ')' . ' has hardbanned user ' . $user->id . ' (' . $user->username .  ')');
+
         return back();
     }
 
@@ -70,6 +73,8 @@ class PageBackendController extends Controller
         }
 
         $hardBannedAlready->delete();
+
+        Log::info('User ' . auth()->user()->id . ' (' . auth()->user()->username .  ')' . ' has unhardbanned user ' . $user->id . ' (' . $user->username .  ')');
 
         return back();
     }
