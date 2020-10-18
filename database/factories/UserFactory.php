@@ -23,7 +23,7 @@ $factory->define(User::class, function (Faker $faker) {
     $image = \App\Image::where('location', '/imgs/no_profile_img.jpg')->first();
 
     return [
-        'name' => $faker->name,
+        'name' => $faker->firstName,
         'surname' => $faker->lastName,
         'username' => $faker->userName,
         'birth_date' => $faker->date(),
