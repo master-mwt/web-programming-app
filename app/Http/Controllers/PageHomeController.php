@@ -454,6 +454,16 @@ class PageHomeController extends Controller
             //destructuring
             $comment->reply_id->post_id = Post::findOrFail($comment->reply_id->post_id);
             $comment->channel_id = Channel::findOrFail($comment->reply_id->channel_id);
+
+            if(Auth::check()){
+                is_null(UserReplyUpvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $comment->reply_id->id])->first())
+                    ? $comment->reply_id->upvoted = 'Upvote'
+                    : $comment->reply_id->upvoted = 'Unupvote';
+
+                is_null(UserReplyDownvoted::where(['user_id' => Auth::User()->id, 'reply_id' => $comment->reply_id->id])->first())
+                    ? $comment->reply_id->downvoted = 'Downvote'
+                    : $comment->reply_id->downvoted = 'Undownvote';
+            }
         }
 
         return view('dashboard.comment.list', compact(

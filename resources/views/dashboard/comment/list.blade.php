@@ -8,9 +8,25 @@
         @forelse($mycomments as $comment)
             <div id="comment-{{$comment->id}}" class="card col-lg-10 mx-auto d-flex flex-row px-0" style="max-width: 800px">
                 <div class="rounded-left py-3 d-flex flex-column" style="flex: 0 0 50px; background-color: #ddd">
-                    <a href="" class=""><i class="fas fa-arrow-up mb-1"></i></a>
-                    <span class="my-1 text-dark text-bold">{{ $comment->reply_id->upvote - $comment->reply_id->downvote }}</span>
-                    <a href="" class=""><i class="fas fa-arrow-down"></i></a>
+                    @if($comment->reply_id->upvoted == 'Upvote')
+                        <a id="reply-{{ $comment->reply_id->id }}-upvote" href="{{ route('reply.upvote', $comment->reply_id) }}" class="replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                    @elseif($comment->reply_id->upvoted == 'Unupvote')
+                        <a id="reply-{{ $comment->reply_id->id }}-upvote" href="{{ route('reply.upvote', $comment->reply_id) }}" class="text-danger replyupvote"><i class="fas fa-arrow-up mb-1"></i></a>
+                    @else
+                        <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
+                    @endif
+                    @if($comment->reply_id->upvoted == 'Unupvote' or $comment->reply_id->downvoted == 'Undownvote')
+                        <span id="reply-{{ $comment->reply_id->id }}-votenumber" class="my-1 text-danger text-bold votenumber">{{ $comment->reply_id->upvote - $comment->reply_id->downvote }}</span>
+                    @else
+                        <span id="reply-{{ $comment->reply_id->id }}-votenumber" class="my-1 text-dark text-bold votenumber">{{ $comment->reply_id->upvote - $comment->reply_id->downvote }}</span>
+                    @endif
+                    @if($comment->reply_id->downvoted == 'Downvote')
+                        <a id="reply-{{ $comment->reply_id->id }}-downvote" href="{{ route('reply.downvote', $comment->reply_id) }}" class="replydownvote"><i class="fas fa-arrow-down"></i></a>
+                    @elseif($comment->reply_id->downvoted == 'Undownvote')
+                        <a id="reply-{{ $comment->reply_id->id }}-downvote" href="{{ route('reply.downvote', $comment->reply_id) }}" class="text-danger replydownvote"><i class="fas fa-arrow-down"></i></a>
+                    @else
+                        <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-down"></i></a>
+                    @endif
                 </div>
                 <div class="col p-0 d-flex flex-column overflow-auto">
                     <div class="card-header text-left border-0 px-3">

@@ -184,8 +184,8 @@ class PageChannelController extends Controller
         $posts = UserPostReported::where('channel_id', $id)->paginate(10);
 
         foreach ($posts as $post) {
-            $post->user_id = User::where('id', $post->user_id)->first();
             $post->post_id = Post::where('id', $post->post_id)->first();
+            $post->user_id = User::where('id', $post->post_id->user_id)->first();
             $post->channel_id = Channel::where('id', $post->channel_id)->first();
             $post->counter = UserPostReported::where('post_id', $post->post_id->id)->count();
 
