@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\UserHardBanned;
 use Auth;
 use App\User;
 use App\Post;
@@ -10,7 +9,6 @@ use App\PostTag;
 use App\Tag;
 use App\Channel;
 use App\Image;
-use App\UserPost;
 use App\UserPostUpvoted;
 use App\UserPostDownvoted;
 use App\UserPostSaved;
@@ -33,7 +31,7 @@ class PageUserController extends Controller
 
         $user->image = Image::where('id', $user->image_id)->first();
 
-        if(UserHardBanned::where('user_id', $user->id)->first()){
+        if($user->hard_banned){
             $user->hardBanned = true;
         }
 

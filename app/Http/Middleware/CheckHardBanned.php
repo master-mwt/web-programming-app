@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\UserHardBanned;
 use Closure;
 
 class CheckHardBanned
@@ -17,8 +16,7 @@ class CheckHardBanned
     public function handle($request, Closure $next)
     {
         if(auth()->check()){
-            $user_id = auth()->user()->id;
-            if(UserHardBanned::where('user_id', $user_id)->first()){
+            if(auth()->user()->hard_banned){
                 auth()->logout();
 
                 return redirect()->route('login')->withMessage('Your account has been banned from this site');

@@ -172,6 +172,7 @@
                         </li>
                     </ul>
                 </li>
+                @if(!Auth::check() || Auth::User()->group_id == 2)
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -195,6 +196,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
             </ul>
         </li>
 

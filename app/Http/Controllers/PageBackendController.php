@@ -9,7 +9,6 @@ use App\DataTables\ReplyDataTable;
 use App\DataTables\TagDataTable;
 use App\DataTables\UserDataTable;
 use App\User;
-use App\UserHardBanned;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -49,13 +48,14 @@ class PageBackendController extends Controller
     {
         $this->authorize('banUserFromPlatform', User::class);
 
-        $hardBannedAlready = UserHardBanned::where('user_id', $user->id)->first();
+        $hardBannedAlready = $user->hard_banned;
 
         if($hardBannedAlready){
             return back();
         }
 
-        UserHardBanned::create(['user_id' => $user->id]);
+        $user->hard_banned = true;
+        $user->save();
 
         Log::info('User ' . auth()->user()->id . ' (' . auth()->user()->username .  ')' . ' has hardbanned user ' . $user->id . ' (' . $user->username .  ')');
 
@@ -66,13 +66,14 @@ class PageBackendController extends Controller
     {
         $this->authorize('banUserFromPlatform', User::class);
 
-        $hardBannedAlready = UserHardBanned::where('user_id', $user->id)->first();
+        $hardBannedAlready = $user->hard_banned;
 
         if(!$hardBannedAlready){
             return back();
         }
 
-        $hardBannedAlready->delete();
+        $user->hard_banned = false;
+        $user->save();
 
         Log::info('User ' . auth()->user()->id . ' (' . auth()->user()->username .  ')' . ' has unhardbanned user ' . $user->id . ' (' . $user->username .  ')');
 

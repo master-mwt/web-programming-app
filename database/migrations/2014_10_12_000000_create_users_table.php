@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->bigInteger('group_id')->unsigned();
             $table->bigInteger('image_id')->unsigned()->nullable();
+            $table->boolean('hard_banned')->default(false);
             $table->timestamps();
         });
 
