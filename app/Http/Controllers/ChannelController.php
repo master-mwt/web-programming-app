@@ -55,10 +55,7 @@ class ChannelController extends Controller
         DB::beginTransaction();
         try {
             $channel = Channel::create($data);
-
-            if(Auth::user()->group_id != 1){
-                UserChannelRole::create(['user_id' => $channel->creator_id, 'channel_id' => $channel->id, 'role_id' => 1]);
-            }
+            UserChannelRole::create(['user_id' => $channel->creator_id, 'channel_id' => $channel->id, 'role_id' => 1]);
 
             DB::commit();
         } catch(\Exception $e) {
@@ -114,6 +111,8 @@ class ChannelController extends Controller
      */
     public function update(Request $request, Channel $channel)
     {
+        $this->authorize('update', $channel);
+
         $data = $this->validateData();
 
         $channel->update($data);

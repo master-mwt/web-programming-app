@@ -22,7 +22,7 @@ class ChannelDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function($query){
-                return 
+                return
                 '<div class="d-flex flex-column">
                     <a href="/channels/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
                     <a href="/channels/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
@@ -83,7 +83,7 @@ class ChannelDataTable extends DataTable
                                 });
                             });
                         }",
-                        
+
                     ]);
     }
 

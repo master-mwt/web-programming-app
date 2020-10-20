@@ -63,12 +63,14 @@
 
         <li class="nav-header px-0 px-3">USER</li>
 
+        <!--
         <li class="nav-item">
             <a href="{{ route('home') }}" class="nav-link">
             <i class="nav-icon fas fa-user-circle"></i>
             <p>Home</p>
             </a>
         </li>
+        -->
 
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -172,7 +174,6 @@
                         </li>
                     </ul>
                 </li>
-                @if(!Auth::check() || Auth::User()->group_id == 2)
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -188,15 +189,16 @@
                             <p>My Channels</p>
                             </a>
                         </li>
+                        @if(!Auth::check() || Auth::User()->group_id == 2)
                         <li class="nav-item">
                             <a href="{{ route('home.channel.joined') }}" class="nav-link">
                             <i class="far fa-dot-circle nav-icon"></i>
                             <p>Joined Channels</p>
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </li>
-                @endif
             </ul>
         </li>
 

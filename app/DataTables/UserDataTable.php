@@ -22,7 +22,7 @@ class UserDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function($query){
-                return 
+                return
                 '<div class="d-flex flex-column">
                     <a href="/users/'.$query->id.'" class="btn btn-sm btn-primary mb-2">show</a>
                     <a href="/users/'.$query->id.'/edit" class="btn btn-sm btn-success">edit</a>
@@ -76,7 +76,7 @@ class UserDataTable extends DataTable
                                 });
                             });
                         }",
-                        
+
                     ]);
     }
 
@@ -112,6 +112,8 @@ class UserDataTable extends DataTable
             Column::make('group_id')
                 ->addClass('filterable'),
             Column::make('image_id')
+                ->addClass('filterable'),
+            Column::make('hard_banned')
                 ->addClass('filterable'),
             Column::computed('created_at')
                 ->addClass('filterable'),
