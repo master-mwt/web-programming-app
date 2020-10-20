@@ -14,7 +14,7 @@
                     @endif
                     @if($channel->joined == 'Join' && !(Auth::User()->group_id == 1))
                         <button onclick="location.href='{{ route('channel.join', $channel) }}'" class="btn btn btn-outline-light ml-auto">JOIN</button>
-                    @elseif(($channel->joined == 'Leave' && $channel->member->role_id->name == 'creator') || (Auth::User()->group_id == 1))
+                    @elseif(($channel->joined == 'Leave' && $channel->member->role_id->name == 'creator') || (Auth::check() && Auth::User()->group_id == 1))
                     <div class="d-flex flex-column ml-auto">
                         <button class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#delete-modal">DELETE CHANNEL</button>
                         <a role="button" href="{{ route('home.channel.image.upload', $channel->id) }}" class="btn btn-outline-success mb-2">CHANGE IMAGE</a>
