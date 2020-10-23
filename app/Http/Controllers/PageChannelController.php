@@ -181,7 +181,8 @@ class PageChannelController extends Controller
     {
         $channel = Channel::where('id', $id)->first();
 
-        $posts = UserPostReported::where('channel_id', $id)->paginate(10);
+        //$posts = UserPostReported::where('channel_id', $id)->paginate(10);
+        $posts = UserPostReported::where('channel_id', $id)->get()->unique('post_id')->values()->all();
 
         foreach ($posts as $post) {
             $post->post_id = Post::where('id', $post->post_id)->first();
@@ -218,14 +219,19 @@ class PageChannelController extends Controller
             }
         }
 
-        $posts_sorted = $posts->sortByDesc(function($post){
+        /*$posts_sorted = $posts->sortByDesc(function($post){
             return $post->counter;
         });
-        $posts_sorted_paginated = new LengthAwarePaginator($posts_sorted, $posts->total(), $posts->perPage());
+        $posts_sorted_paginated = new LengthAwarePaginator($posts_sorted, $posts->total(), $posts->perPage());*/
+
+        $posts = collect($posts)->sortBy(function($post){
+            return $post->counter;
+        }, SORT_REGULAR, true);
 
         return view('discover.reported_posts', [
             'channel' => $channel,
-            'posts' => $posts_sorted_paginated,
+            'posts' => $posts,
+            //'posts' => $posts_sorted_paginated,
         ]);
     }
 
@@ -290,7 +296,7 @@ class PageChannelController extends Controller
         $creator_role = \App\Role::where('name', 'creator')->first()->id;
 
         if($joinedAlready->role_id === $creator_role){
-            abort(500, 'You are the creator of this channel');
+            abort(403, 'You are the creator of this channel');
         }
 
         $reported_posts = UserPostReported::where('user_id', $joinedAlready->user_id)->where('channel_id', $joinedAlready->channel_id)->get();
@@ -325,20 +331,22 @@ class PageChannelController extends Controller
         $bannedAlready = UserSoftBanned::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if($bannedAlready || (!$memberExist)){
-            abort(500, "Ban not permitted for this member");
+            abort(403, "Ban not permitted for this member");
         }
 
         $memberRole = \App\Role::where('id', $memberExist->role_id)->first()->id;
 
         if($memberRole === $role_creator){
-            abort(500, "Ban not permitted for the channel's creator");
+            abort(403, "Ban not permitted for the channel's creator");
         }
 
-        $userChannelRole = UserChannelRole::where('user_id', Auth::id())->where('channel_id', $channel->id)->first();
-        $userRole = \App\Role::where('id', $userChannelRole->role_id)->first()->id;
+        if(Auth()->user()->group_id === 2) {
+            $userChannelRole = UserChannelRole::where('user_id', Auth::id())->where('channel_id', $channel->id)->first();
+            $userRole = \App\Role::where('id', $userChannelRole->role_id)->first()->id;
 
-        if($memberRole <= $userRole){
-            abort(500, "Ban not permitted for a member whose role is higher or equals than yours");
+            if($memberRole <= $userRole){
+                abort(403, "Ban not permitted for a member whose role is higher or equals than yours");
+            }
         }
 
         DB::beginTransaction();
@@ -370,7 +378,7 @@ class PageChannelController extends Controller
         $bannedAlready = UserSoftBanned::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if(!$bannedAlready){
-            abort(500, "This member is not banned");
+            abort(403, "This member is not banned");
         }
 
         $bannedAlready->delete();
@@ -387,7 +395,7 @@ class PageChannelController extends Controller
         $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $moderator_role->id)){
-            abort(500, "Upgrade not permitted for this member");
+            abort(403, "Upgrade not permitted for this member");
         }
 
         $userIsJoined->role_id = $moderator_role->id;
@@ -404,7 +412,7 @@ class PageChannelController extends Controller
         $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $admin_role->id)){
-            abort(500, "Upgrade not permitted for this user");
+            abort(403, "Upgrade not permitted for this user");
         }
 
         $userIsJoined->role_id = $admin_role->id;
@@ -422,11 +430,11 @@ class PageChannelController extends Controller
         $userIsJoined = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if((!$userIsJoined) || ($userIsJoined->role_id === $creator_role->id)){
-            abort(500, "Upgrade not permitted for this user");
+            abort(403, "Upgrade not permitted for this user");
         }
 
         if(UserChannelRole::where('channel_id', $channel->id)->where('role_id', $creator_role->id)->first()){
-            abort(500, "Remove the creator first");
+            abort(403, "Remove the creator first");
         }
 
         DB::beginTransaction();
@@ -456,7 +464,7 @@ class PageChannelController extends Controller
         $userIsModerator = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $moderator_role->id)->first();
 
         if(!$userIsModerator){
-            abort(500, "Downgrade not permitted for this user");
+            abort(403, "Downgrade not permitted for this user");
         }
 
         $member_role = Role::where('name', 'member')->first();
@@ -476,7 +484,7 @@ class PageChannelController extends Controller
         $userIsAdmin = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $admin_role->id)->first();
 
         if(!$userIsAdmin){
-            abort(500, "Downgrade not permitted for this user");
+            abort(403, "Downgrade not permitted for this user");
         }
 
         $moderator_role = Role::where('name', 'moderator')->first();
@@ -496,7 +504,7 @@ class PageChannelController extends Controller
         $userIsCreator = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->where('role_id', $creator_role->id)->first();
 
         if(!$userIsCreator){
-            abort(500, "Downgrade not permitted for this user");
+            abort(403, "Downgrade not permitted for this user");
         }
 
         $admin_role = Role::where('name', 'admin')->first();
@@ -528,20 +536,22 @@ class PageChannelController extends Controller
         $reportedAlready = UserReported::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if($reportedAlready || (!$memberExist)){
-            abort(500, "Report not permitted for this member");
+            abort(403, "Report not permitted for this member");
         }
 
         $memberRole = \App\Role::where('id', $memberExist->role_id)->first()->id;
 
         if($memberRole === $role_creator){
-            abort(500, "Report not permitted for the channel's creator");
+            abort(403, "Report not permitted for the channel's creator");
         }
 
-        $userChannelRole = UserChannelRole::where('user_id', Auth::id())->where('channel_id', $channel->id)->first();
-        $userRole = \App\Role::where('id', $userChannelRole->role_id)->first()->id;
+        if(Auth()->user()->group_id === 2) {
+            $userChannelRole = UserChannelRole::where('user_id', Auth::id())->where('channel_id', $channel->id)->first();
+            $userRole = \App\Role::where('id', $userChannelRole->role_id)->first()->id;
 
-        if($memberRole <= $userRole){
-            abort(500, "Report not permitted for a member whose role is higher than yours");
+            if($memberRole <= $userRole){
+                abort(403, "Report not permitted for a member whose role is higher or equals than yours");
+            }
         }
 
         UserReported::create(['user_id' => $member->id, 'channel_id' => $channel->id]);
@@ -554,10 +564,22 @@ class PageChannelController extends Controller
 
         $this->authorize('reportUserInChannel', [User::class, $channel->id]);
 
+        $memberExist = UserChannelRole::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
         $reportedAlready = UserReported::where('user_id', $member->id)->where('channel_id', $channel->id)->first();
 
         if(!$reportedAlready){
-            abort(500, "This member is not reported");
+            abort(403, "This member is not reported");
+        }
+
+        $memberRole = \App\Role::where('id', $memberExist->role_id)->first()->id;
+
+        if(Auth()->user()->group_id === 2) {
+            $userChannelRole = UserChannelRole::where('user_id', Auth::id())->where('channel_id', $channel->id)->first();
+            $userRole = \App\Role::where('id', $userChannelRole->role_id)->first()->id;
+
+            if($memberRole <= $userRole){
+                abort(403, "Unreport not permitted for a member whose role is higher or equals than yours");
+            }
         }
 
         $reportedAlready->delete();
@@ -568,6 +590,8 @@ class PageChannelController extends Controller
     public function imageUpload($id)
     {
         $channel = Channel::findOrFail($id);
+
+        $this->authorize('update', $channel);
 
         return view('dashboard.channel_image_upload', [
             'channel' => $channel,
@@ -583,6 +607,10 @@ class PageChannelController extends Controller
         //get current channel
         $channel_id = $request->input('channel_id');
 
+        $channel = Channel::where('id', $channel_id)->first();
+
+        $this->authorize('update', $channel);
+
         $imagename = time().'.'.$request->image->extension();
 
         $request->image->move(public_path('imgs_cstm/channels'), $imagename);
@@ -593,8 +621,6 @@ class PageChannelController extends Controller
         $data['size'] = $imagegetsize[0].'x'.$imagegetsize[1];
         $data['location'] = '/imgs_cstm/channels/'.$imagename;
         $data['caption'] = $faker->sentence;
-
-        $channel = Channel::where('id', $channel_id)->first();
 
         DB::beginTransaction();
         try {
@@ -621,6 +647,8 @@ class PageChannelController extends Controller
 
     public function removeImage(Channel $channel)
     {
+        $this->authorize('update', $channel);
+
         $image_channel_default = \App\Image::where('location', '/imgs/no_channel_img.jpg')->first();
         $oldImagePath = Image::where('id', $channel->image_id)->first();
 

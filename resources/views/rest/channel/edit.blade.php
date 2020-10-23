@@ -11,6 +11,13 @@
                             return to backend
                         </a>
                     </div>
+                @elseif(Auth::check() && Auth::User()->group_id == 2)
+                    <div class="text-center">
+                        <a role="button" href="{{ route('discover.channel', $channel->id) }}" class="btn btn-dark mb-4">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            return to channel
+                        </a>
+                    </div>
                 @endif
                 <div class="card">
                     <div class="card-header">
@@ -48,6 +55,7 @@
                                         @error('rules') <span class="text-primary">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
+                                @if(Auth::check() && Auth::User()->group_id == 1)
                                 <div class="row">
                                     <div class="form-group col">
                                         <label for="creator_id">creator_id</label>
@@ -55,6 +63,10 @@
                                         @error('creator_id') <span class="text-primary">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
+                                @endif
+                                @if(Auth::check() && Auth::User()->group_id == 2)
+                                    {{ Form::hidden('creator_id', $channel->creator_id) }}
+                                @endif
                             </div>
                         <div class="card-footer">
                             <button class="btn btn-success float-right" type="submit">save</button>

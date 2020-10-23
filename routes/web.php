@@ -163,6 +163,8 @@ Route::group(['middleware' => ['auth']], function() {
     //************************************************************
     Route::get('/channels/{channel}/join', 'PageChannelController@joinChannel')->name('channel.join');
     Route::get('/channels/{channel}/leave', 'PageChannelController@leaveChannel')->name('channel.leave');
+    Route::get('/channels/{channel}/edit', 'ChannelController@edit')->name('channel.edit');
+    Route::patch('/channels/{channel}', 'ChannelController@update')->name('channel.update');
     Route::delete('/channels/{channel}', 'ChannelController@destroy')->name('channel.delete');
 
     //************************************************************

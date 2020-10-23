@@ -19,6 +19,14 @@
                         <button class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#delete-modal">DELETE CHANNEL</button>
                         <a role="button" href="{{ route('home.channel.image.upload', $channel->id) }}" class="btn btn-outline-success mb-2">CHANGE IMAGE</a>
                         <a role="button" href="{{ route('channel.removeimage', $channel) }}" class="btn btn-outline-success">REMOVE IMAGE</a>
+                        <a role="button" href="{{ route('channel.edit', $channel) }}" class="btn btn-outline-success mt-2">EDIT CHANNEL DATA</a>
+                    </div>
+                    @elseif(($channel->joined == 'Leave' && $channel->member->role_id->name == 'admin'))
+                    <div class="d-flex flex-column ml-auto">
+                        <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning mb-2">LEAVE</button>
+                        <a role="button" href="{{ route('home.channel.image.upload', $channel->id) }}" class="btn btn-outline-success mb-2">CHANGE IMAGE</a>
+                        <a role="button" href="{{ route('channel.removeimage', $channel) }}" class="btn btn-outline-success">REMOVE IMAGE</a>
+                        <a role="button" href="{{ route('channel.edit', $channel) }}" class="btn btn-outline-success mt-2">EDIT CHANNEL DATA</a>
                     </div>
                     @elseif($channel->joined == 'Leave')
                         <button onclick="location.href='{{ route('channel.leave', $channel) }}'" class="btn btn btn-outline-warning ml-auto">LEAVE</button>
@@ -26,6 +34,8 @@
                     @endif
                 </div>
                 <div class="card-body text-left px-3 py-2">
+                    <h5 class="text-muted">Title</h5>
+                    <p class="">{{ $channel->title }}</p>
                     <h5 class="text-muted">Description</h5>
                     <p class="">{{ $channel->description }}</p>
                     <h5 class="text-muted">Rules</h5>

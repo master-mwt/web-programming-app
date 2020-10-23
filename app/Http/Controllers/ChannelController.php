@@ -97,6 +97,8 @@ class ChannelController extends Controller
      */
     public function edit(Channel $channel)
     {
+        $this->authorize('update', $channel);
+
         return view('rest.channel.edit', compact(
             'channel'
         ));
@@ -117,7 +119,14 @@ class ChannelController extends Controller
 
         $channel->update($data);
 
-        return redirect('/channels/' . $channel->id);
+        if(auth()->user()->group_id == 1)
+        {
+            return redirect('/channels/' . $channel->id);
+        }
+        else
+        {
+            return redirect('/discover/channel/' . $channel->id);
+        }
     }
 
     /**

@@ -76,7 +76,7 @@
                 @if($member->role_id->name != 'creator')
                 <div class="card-body p-0 px-3 border-0 d-flex flex-column">
 
-                    @if($user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin')
+                    @if($user->role->role_id->name == 'administrator' || $user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin')
 
                         @if($member->isBanned === false)
                             <a href="{{route('channel.member.ban', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: orange">BAN USER</a>
@@ -85,7 +85,7 @@
 
                     @endif
 
-                    @if($user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin' || $user->role->role_id->name == 'moderator')
+                    @if($user->role->role_id->name == 'administrator' || $user->role->role_id->name == 'creator' || $user->role->role_id->name == 'admin' || $user->role->role_id->name == 'moderator')
 
                         @if($member->isReported === false)
                             <a href="{{route('channel.member.report', ['channel' => $channel, 'member' => $member->user_id])}}" class="ml-auto" style="color: violet">REPORT USER</a>

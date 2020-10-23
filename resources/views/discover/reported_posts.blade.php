@@ -19,9 +19,9 @@
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     @endif
                     @if($post->upvoted == 'Unupvote' or $post->downvoted == 'Undownvote')
-                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->upvote - $post->downvote }}</span>
+                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->post_id->upvote - $post->post_id->downvote }}</span>
                     @else
-                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->upvote - $post->downvote }}</span>
+                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->post_id->upvote - $post->post_id->downvote }}</span>
                     @endif
                     @if($post->downvoted == 'Downvote')
                         <a id="post-{{ $post->post_id->id }}-downvote" href="{{ route('post.downvote', $post->post_id) }}" class="downvote"><i class="fas fa-arrow-down"></i></a>
@@ -73,14 +73,23 @@
             <img src="{{ URL::asset('/imgs/no_res_2.png') }}" alt="" class="rounded my-4" width="350px">
             <h2 class="text-primary">no results ...</h2>
         @endforelse
-        {{ $posts->links() }}
+        {{--{{ $posts->links() }}--}}
         </div>
 
     </div>
 </div>
 
-<!-- JScroll func -->
 <script type="text/javascript">
+    $(document).ready(function(){
+        $('.markdown-content').each(function(){
+            let markdown_content = $(this).data('markdown-content');
+            $(this).html(marked(markdown_content));
+        });
+    });
+</script>
+
+<!-- JScroll func -->
+{{--<script type="text/javascript">
     $('ul.pagination').hide();
     $(function() {
         $('document').ready(function() {
@@ -109,6 +118,5 @@
             });
         });
     });
-</script>
-
+</script>--}}
 @endsection
