@@ -1,5 +1,6 @@
 <?php
 
+use App\UserChannelRole;
 use Illuminate\Database\Seeder;
 
 class UserSoftBannedSeeder extends Seeder
@@ -44,6 +45,7 @@ class UserSoftBannedSeeder extends Seeder
 
         foreach($results as $result) {
             App\UserSoftBanned::create($result);
+            UserChannelRole::where('user_id', $result['user_id'])->where('channel_id', $result['channel_id'])->first()->delete();
         }
     }
 }
