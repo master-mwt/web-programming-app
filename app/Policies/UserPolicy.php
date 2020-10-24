@@ -132,19 +132,6 @@ class UserPolicy
 
 
     /* Custom functions */
-    public function silenceUserInCommentSection(User $user, int $channel_id)
-    {
-        $service = Service::where('name', 'silence_user_in_comment_section')->first();
-        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
-
-        if(!$user_channel_role){
-            return Response::deny();
-        } else {
-            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
-                ? Response::deny() : Response::allow();
-        }
-    }
-
     public function reportUserInChannel(User $user, int $channel_id)
     {
         $service = Service::where('name', 'report_user_in_channel')->first();

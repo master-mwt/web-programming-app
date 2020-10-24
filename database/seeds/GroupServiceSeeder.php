@@ -33,7 +33,6 @@ class GroupServiceSeeder extends Seeder
         $view_user_data = \App\Service::where('name', 'view_user_data')->first()->id;
         $access_to_log = \App\Service::where('name', 'access_to_log')->first()->id;
         $access_to_backend = \App\Service::where('name', 'access_to_backend')->first()->id;
-        $silence_user_in_comment_section = \App\Service::where('name', 'silence_user_in_comment_section')->first()->id;
         $report_user_in_channel = \App\Service::where('name', 'report_user_in_channel')->first()->id;
         $upgrade_to_moderator = \App\Service::where('name', 'upgrade_to_moderator')->first()->id;
         $upgrade_to_admin = \App\Service::where('name', 'upgrade_to_admin')->first()->id;
@@ -72,7 +71,6 @@ class GroupServiceSeeder extends Seeder
             ['group_id' => $administrator, 'service_id' => $access_to_log],  //access_to_log
             ['group_id' => $administrator, 'service_id' => $access_to_backend],  //access_to_backend
 
-            ['group_id' => $administrator, 'service_id' => $silence_user_in_comment_section],  //silence_user_in_comment_section
             ['group_id' => $administrator, 'service_id' => $report_user_in_channel],  //report_user_in_channel
 
             ['group_id' => $administrator, 'service_id' => $upgrade_to_moderator],  //upgrade_to_moderator

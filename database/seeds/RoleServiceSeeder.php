@@ -27,7 +27,6 @@ class RoleServiceSeeder extends Seeder
         $delete_channel = \App\Service::where('name', 'delete_channel')->first()->id;
         $mod_channel_data = \App\Service::where('name', 'mod_channel_data')->first()->id;
         $ban_user_from_channel = \App\Service::where('name', 'ban_user_from_channel')->first()->id;
-        $silence_user_in_comment_section = \App\Service::where('name', 'silence_user_in_comment_section')->first()->id;
         $report_user_in_channel = \App\Service::where('name', 'report_user_in_channel')->first()->id;
         $upgrade_to_moderator = \App\Service::where('name', 'upgrade_to_moderator')->first()->id;
         $upgrade_to_admin = \App\Service::where('name', 'upgrade_to_admin')->first()->id;
@@ -54,7 +53,6 @@ class RoleServiceSeeder extends Seeder
 
             ['role_id' => $creator, 'service_id' => $ban_user_from_channel],   //ban_user_from_channel
 
-            ['role_id' => $creator, 'service_id' => $silence_user_in_comment_section],  //silence_user_in_comment_section
             ['role_id' => $creator, 'service_id' => $report_user_in_channel],  //report_user_in_channel
 
             ['role_id' => $creator, 'service_id' => $upgrade_to_moderator],  //upgrade_to_moderator
@@ -79,7 +77,6 @@ class RoleServiceSeeder extends Seeder
 
             ['role_id' => $admin, 'service_id' => $ban_user_from_channel],   //ban_user_from_channel
 
-            ['role_id' => $admin, 'service_id' => $silence_user_in_comment_section],  //silence_user_in_comment_section
             ['role_id' => $admin, 'service_id' => $report_user_in_channel],  //report_user_in_channel
 
             ['role_id' => $admin, 'service_id' => $upgrade_to_moderator],  //upgrade_to_moderator
@@ -98,7 +95,6 @@ class RoleServiceSeeder extends Seeder
             ['role_id' => $moderator, 'service_id' => $create_comment],   //create_comment
             ['role_id' => $moderator, 'service_id' => $delete_comment],   //delete_comment
 
-            ['role_id' => $moderator, 'service_id' => $silence_user_in_comment_section],  //silence_user_in_comment_section
             ['role_id' => $moderator, 'service_id' => $report_user_in_channel],  //report_user_in_channel
 
             ['role_id' => $moderator, 'service_id' => $report_post],  //report_post
