@@ -139,4 +139,30 @@ class ChannelPolicy
                 ? Response::deny() : Response::allow();
         }
     }
+
+    public function viewReportedPostList(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'report_user_in_channel')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
+                ? Response::deny() : Response::allow();
+        }
+    }
+
+    public function viewBannedUsersList(User $user, int $channel_id)
+    {
+        $service = Service::where('name', 'ban_user_from_channel')->first();
+        $user_channel_role = UserChannelRole::where(['user_id' => $user->id, 'channel_id' => $channel_id])->first();
+
+        if(!$user_channel_role){
+            return Response::deny();
+        } else {
+            return is_null(RoleService::where(['role_id' => $user_channel_role->role_id, 'service_id' => $service->id])->first())
+                ? Response::deny() : Response::allow();
+        }
+    }
 }

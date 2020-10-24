@@ -181,6 +181,8 @@ class PageChannelController extends Controller
     {
         $channel = Channel::where('id', $id)->first();
 
+        $this->authorize('viewReportedPostList', [Channel::class, $channel->id]);
+
         //$posts = UserPostReported::where('channel_id', $id)->paginate(10);
         $posts = UserPostReported::where('channel_id', $id)->get()->unique('post_id')->values()->all();
 
@@ -239,6 +241,8 @@ class PageChannelController extends Controller
     {
         $channel = Channel::where('id', $id)->first();
         $user = Auth::User();
+
+        $this->authorize('viewBannedUsersList', [Channel::class, $channel->id]);
 
         if($user->group_id == 1){
             $administrator = new \App\Role();
