@@ -17,7 +17,7 @@
                         <a href="{{ route('login') }}" class=""><i class="fas fa-arrow-up mb-1"></i></a>
                     @endif
                     @if($post->upvoted == 'Unupvote' or $post->downvoted == 'Undownvote')
-                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->upvote - $post->downvote }}</span>
+                        <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-warning votenumber">{{ $post->post_id->upvote - $post->post_id->downvote }}</span>
                     @else
                         <span id="post-{{ $post->post_id->id }}-votenumber" class="my-1 text-light votenumber">{{ $post->post_id->upvote - $post->post_id->downvote }}</span>
                     @endif
